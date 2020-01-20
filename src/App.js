@@ -14,18 +14,31 @@ import Container from "@material-ui/core/Container";
 import SimpleBackdrop from "./components/SimpleBackdrop";
 import Demand from "./page/demand/DemandDetail";
 import Switch from "@material-ui/core/Switch";
+import PrimarySearchAppBar from "./components/PrimarySearchAppBar";
+import Typography from "@material-ui/core/Typography";
 
 export default function App() {
     const classes = useStyles();
     const [loading, setLoading] = useState(false);
-    const [dark, setDark] = useState(false);
+    const [dark, setDark] = useState(true);
     const [theme, setTheme] = useState(LightTheme);
     const [msg, setMsg] = useState("全局消息");
 
     useEffect(() => {
-        if (dark) {
+        let darkMode = localStorage.getItem("dark");
+        if (darkMode != null) {
+            if (darkMode === "true") {
+                setDark(true);
+                setTheme(DarkTheme);
+            } else {
+                setDark(false);
+                setTheme(LightTheme);
+            }
+        } else if (dark) {
+            localStorage.setItem("dark", true);
             setTheme(DarkTheme);
         } else {
+            localStorage.setItem("dark", false);
             setTheme(LightTheme);
         }
     }, [dark]);
@@ -33,54 +46,71 @@ export default function App() {
     return (
         <ThemeProvider theme={theme}>
             <BrowserRouter>
-                <Container className={dark ? classes.backgroundDark : classes.backgroundLight}>
-                    <SimpleBackdrop loading={loading}/>
-                    <SwitchRoute>
-                        <Route path="/" exact>
-                            <Home setMsg={setMsg} setLoading={setLoading}/>
-                        </Route>
-                        <Route path="/demand">
-                            <Demand/>
-                        </Route>
-                    </SwitchRoute>
-                    <Footer/>
-                    <Grid
-                        container
-                        justify="center"
-                        alignItems="center"
-                        className={classes.marginBottom}
-                    >
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    onChange={() => setDark(!dark)}
-                                    color="primary"
-                                    checked={dark}
+                <div className={dark ? classes.backgroundDark : classes.backgroundLight}>
+                    <PrimarySearchAppBar/>
+                    <Container className={classes.paddingTop}>
+                        <SwitchRoute>
+                            <Route path="/" exact>
+                                <Home setMsg={setMsg} setLoading={setLoading}/>
+                            </Route>
+                            <Route path="/demand">
+                                <Demand setMsg={setMsg} setLoading={setLoading}/>
+                            </Route>
+                        </SwitchRoute>
+                        <Footer/>
+                        <Grid
+                            container
+                            justify="center"
+                            alignItems="center"
+                            className={classes.paddingBottom}
+                        >
+                            <Typography variant="body2" color="textSecondary">
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            onChange={() => {
+                                                setDark(!dark);
+                                                localStorage.setItem("dark", !dark);
+                                            }}
+                                            color="primary"
+                                            checked={dark}
+                                        />
+                                    }
+                                    label="暗黑模式"
+                                    labelPlacement="bottom"
                                 />
-                            }
-                            label="暗黑模式"
-                            labelPlacement="bottom"
-                        />
-                    </Grid>
-                    <div className={classes.bottom}/>
-                    <GlobalBottomNavigation/>
-                </Container>
+                            </Typography>
+                        </Grid>
+                        <SimpleBackdrop loading={loading}/>
+                        {/*<div className={classes.bottom}/>*/}
+                        {/*<GlobalBottomNavigation/>*/}
+                    </Container>
+                </div>
             </BrowserRouter>
         </ThemeProvider>
     );
 }
 const useStyles = makeStyles({
     backgroundDark: {
+        width: "100%",
+        height: "100%",
+        minHeight: "100vh",
         backgroundColor: "#333333",
     },
     backgroundLight: {
+        width: "100%",
+        height: "100%",
+        minHeight: "100vh",
         backgroundColor: "#f5f5f5",
     },
     bottom: {
         height: 56,
     },
-    marginBottom: {
-        marginBottom: 20,
+    paddingTop: {
+        paddingTop: 10,
+    },
+    paddingBottom: {
+        paddingBottom: 10,
     },
 });
 
@@ -92,6 +122,11 @@ const DarkTheme = createMuiTheme({
         },
     },
     overrides: {
+        MuiTypography: {
+            root: {
+                color: '#c6c6c6',
+            },
+        },
         MuiPaper: {
             root: {
                 color: '#c6c6c6',
@@ -114,6 +149,11 @@ const DarkTheme = createMuiTheme({
                 right: 0,
             },
         },
+        MuiAppBar: {
+            colorPrimary: {
+                backgroundColor: '#3a3a3a'
+            }
+        }
     },
 });
 
@@ -132,5 +172,10 @@ const LightTheme = createMuiTheme({
                 right: 0,
             },
         },
+        MuiAppBar: {
+            colorPrimary: {
+                backgroundColor: '#4a5ecc'
+            }
+        }
     },
 });

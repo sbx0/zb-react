@@ -13,7 +13,7 @@ function Home(props) {
 
     return (
         <div className={classes.container}>
-            <Skeleton variant="rect" width="70wh" height="20vh" className={classes.center}/>
+            {/*<Skeleton variant="rect" width="70wh" height="20vh" className={classes.center}/>*/}
             <DemandList setMsg={props.setMsg} setLoading={props.setLoading}/>
         </div>
     );
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
         margin: '0px auto',
     },
     center: {
-        margin: '5px auto',
+        margin: '0px auto',
     }
 }));
 

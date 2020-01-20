@@ -18,7 +18,7 @@ export default function Footer() {
     return (
         <div className={classes.div}>
             <Divider variant="middle"/>
-            <Typography align="center" className={classes.center} onClick={clearLocalStorage}>
+            <Typography align="center" className={classes.center} onClick={clearLocalStorage} color="textSecondary">
                 清除缓存
             </Typography>
             <Grid
@@ -28,7 +28,7 @@ export default function Footer() {
                 align="center"
                 className={classes.divider}
             >
-                <Typography variant="caption" gutterBottom display="block">
+                <Typography variant="caption" gutterBottom display="block" color="textSecondary">
                     智贝 2020 {i18N.version}{i18N.dev_version}<br/>
                     Power By React
                 </Typography>

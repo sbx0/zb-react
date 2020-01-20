@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -10,7 +10,7 @@ import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
+import {red} from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -18,7 +18,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import PropTypes from "prop-types";
 import i18N from "../../i18N/i18N_zh_CN";
 import ReactMarkdown from "react-markdown";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 
 DemandOne.propTypes = {
     demand: PropTypes.object,
@@ -27,6 +27,7 @@ DemandOne.propTypes = {
 export default function DemandOne(props) {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
+    let history = useHistory();
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -36,13 +37,14 @@ export default function DemandOne(props) {
         <Card className={classes.card}>
             <CardHeader
                 avatar={
-                    <Avatar aria-label={props.demand.poster.nickname} className={classes.avatar} src={i18N.server_config + props.demand.poster.avatar}>
+                    <Avatar aria-label={props.demand.poster.nickname} className={classes.avatar}
+                            src={i18N.server_config + props.demand.poster.avatar}>
                         R
                     </Avatar>
                 }
                 action={
                     <IconButton aria-label="settings">
-                        <MoreVertIcon />
+                        <MoreVertIcon/>
                     </IconButton>
                 }
                 title={props.demand.title}
@@ -52,20 +54,24 @@ export default function DemandOne(props) {
                 className={classes.media}
                 image={props.demand.cover}
                 title="Paella dish"
+                onClick={() => {
+                    history.push("/demand/" + props.demand.id);
+                }}
             />
             <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
                     预算 {props.demand.budget}￥
                     截至时间 {props.demand.endTime}￥
                 </Typography>
-                <Link to={'/demand/' + props.demand.id}>查看详情</Link>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
+                <IconButton aria-label="add to favorites" onClick={() => {
+                    history.push("/demand/" + props.demand.id);
+                }}>
+                    <FavoriteIcon/>
                 </IconButton>
                 <IconButton aria-label="share">
-                    <ShareIcon />
+                    <ShareIcon/>
                 </IconButton>
                 <IconButton
                     className={clsx(classes.expand, {
@@ -75,7 +81,7 @@ export default function DemandOne(props) {
                     aria-expanded={expanded}
                     aria-label="show more"
                 >
-                    <ExpandMoreIcon />
+                    <ExpandMoreIcon/>
                 </IconButton>
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
