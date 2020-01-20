@@ -16,6 +16,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import PropTypes from "prop-types";
+import i18N from "../../i18N/i18N_zh_CN";
 
 DemandOne.propTypes = {
     demand: PropTypes.object,
@@ -33,7 +34,7 @@ export default function DemandOne(props) {
         <Card className={classes.card}>
             <CardHeader
                 avatar={
-                    <Avatar aria-label={props.demand.poster.nickname} className={classes.avatar} src={props.demand.poster.avatar}>
+                    <Avatar aria-label={props.demand.poster.nickname} className={classes.avatar} src={i18N.server_config + props.demand.poster.avatar}>
                         R
                     </Avatar>
                 }

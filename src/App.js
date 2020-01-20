@@ -10,12 +10,14 @@ import {ThemeProvider} from '@material-ui/styles';
 import {makeStyles, FormControlLabel} from '@material-ui/core';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import Home from "./page/home/Home";
+import Container from "@material-ui/core/Container";
+import SimpleBackdrop from "./components/SimpleBackdrop";
 
 export default function App() {
     const classes = useStyles();
-    const [dark, setDark] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [dark, setDark] = useState(false);
     const [theme, setTheme] = useState(LightTheme);
     const [msg, setMsg] = useState("全局消息");
 
@@ -30,14 +32,10 @@ export default function App() {
     return (
         <ThemeProvider theme={theme}>
             <BrowserRouter>
-                <Paper
-                    square={true}
-                    elevation={0}
-                    className={classes.paper}
-                >
-                    {/*<h1>{msg}</h1>*/}
+                <Container className={dark ? classes.backgroundDark : classes.backgroundLight}>
+                    <SimpleBackdrop loading={loading}/>
                     <Route path="/" exact>
-                        <Home setMsg={setMsg}/>
+                        <Home setMsg={setMsg} setLoading={setLoading}/>
                     </Route>
                     <Footer/>
                     <Grid
@@ -60,14 +58,17 @@ export default function App() {
                     </Grid>
                     <div className={classes.bottom}/>
                     <GlobalBottomNavigation/>
-                </Paper>
+                </Container>
             </BrowserRouter>
         </ThemeProvider>
     );
 }
 const useStyles = makeStyles({
-    paper: {
-        minHeight: '100vh',
+    backgroundDark: {
+        backgroundColor: "#333333",
+    },
+    backgroundLight: {
+        backgroundColor: "#f5f5f5",
     },
     bottom: {
         height: 56,
@@ -107,11 +108,6 @@ const DarkTheme = createMuiTheme({
                 right: 0,
             },
         },
-        MuiCard: {
-            root: {
-                boxShadow: 'none',
-            },
-        },
     },
 });
 
@@ -128,11 +124,6 @@ const LightTheme = createMuiTheme({
                 position: 'fixed',
                 bottom: 0,
                 right: 0,
-            },
-        },
-        MuiCard: {
-            root: {
-                boxShadow: 'none',
             },
         },
     },

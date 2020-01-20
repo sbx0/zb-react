@@ -1,8 +1,6 @@
 import React from 'react';
 import Skeleton from '@material-ui/lab/Skeleton';
 import {makeStyles} from "@material-ui/core";
-import Container from "@material-ui/core/Container";
-import ScrollableTabsButtonAuto from "./TabPanel";
 import PropTypes from "prop-types";
 import DemandList from "./DemandList";
 
@@ -14,16 +12,15 @@ function Home(props) {
     const classes = useStyles();
 
     return (
-        <Container className={classes.container}>
+        <div className={classes.container}>
             <Skeleton variant="rect" width="70wh" height="20vh" className={classes.center}/>
-            <DemandList setMsg={props.setMsg}/>
-        </Container>
+            <DemandList setMsg={props.setMsg} setLoading={props.setLoading}/>
+        </div>
     );
 }
 
 const useStyles = makeStyles((theme) => ({
     container: {
-        padding: '5px 8px',
         margin: '0px auto',
     },
     center: {
