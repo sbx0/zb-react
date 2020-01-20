@@ -17,6 +17,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import PropTypes from "prop-types";
 import i18N from "../../i18N/i18N_zh_CN";
+import ReactMarkdown from "react-markdown";
+import {Link} from "react-router-dom";
 
 DemandOne.propTypes = {
     demand: PropTypes.object,
@@ -56,6 +58,7 @@ export default function DemandOne(props) {
                     预算 {props.demand.budget}￥
                     截至时间 {props.demand.endTime}￥
                 </Typography>
+                <Link to={'/demand/' + props.demand.id}>查看详情</Link>
             </CardContent>
             <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites">
@@ -78,7 +81,10 @@ export default function DemandOne(props) {
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                     <Typography paragraph>
-                        {props.demand.content}
+                        <ReactMarkdown
+                            source={props.demand.content}
+                            escapeHtml={false}
+                        />
                     </Typography>
                 </CardContent>
             </Collapse>

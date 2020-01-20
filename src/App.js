@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {BrowserRouter, Route, Switch as SwitchRoute} from 'react-router-dom';
 
 import './App.css';
 import Footer from './components/Footer';
@@ -8,11 +8,12 @@ import GlobalBottomNavigation from './components/GlobalBottomNavigation';
 import {createMuiTheme} from '@material-ui/core/styles';
 import {ThemeProvider} from '@material-ui/styles';
 import {makeStyles, FormControlLabel} from '@material-ui/core';
-import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Home from "./page/home/Home";
 import Container from "@material-ui/core/Container";
 import SimpleBackdrop from "./components/SimpleBackdrop";
+import Demand from "./page/demand/DemandDetail";
+import Switch from "@material-ui/core/Switch";
 
 export default function App() {
     const classes = useStyles();
@@ -34,9 +35,14 @@ export default function App() {
             <BrowserRouter>
                 <Container className={dark ? classes.backgroundDark : classes.backgroundLight}>
                     <SimpleBackdrop loading={loading}/>
-                    <Route path="/" exact>
-                        <Home setMsg={setMsg} setLoading={setLoading}/>
-                    </Route>
+                    <SwitchRoute>
+                        <Route path="/" exact>
+                            <Home setMsg={setMsg} setLoading={setLoading}/>
+                        </Route>
+                        <Route path="/demand">
+                            <Demand/>
+                        </Route>
+                    </SwitchRoute>
                     <Footer/>
                     <Grid
                         container

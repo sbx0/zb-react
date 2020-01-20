@@ -1,6 +1,32 @@
 import i18N from '../i18N/i18N_zh_CN';
 
+Date.prototype.format = function format(fmt) {
+    let o = {
+        "M+": this.getMonth() + 1,                 //月份
+        "d+": this.getDate(),                    //日
+        "h+": this.getHours(),                   //小时
+        "m+": this.getMinutes(),                 //分
+        "s+": this.getSeconds(),                 //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        "S": this.getMilliseconds()             //毫秒
+    };
+    if (/(y+)/.test(fmt))
+        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (const k in o)
+        if (new RegExp("(" + k + ")").test(fmt))
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+};
+
 export default {
+    // 创建cache时间标签
+    cacheTimeStamp(minute) {
+        let date = new Date();
+        let timeStamp = date.format("yyyyMMddhh");
+        let timeStampMinute = date.getMinutes() / minute;
+        console.log(timeStamp + timeStampMinute);
+        return timeStamp + timeStampMinute;
+    },
     // 将状态码转换成提示语句
     statusToAlert(status) {
         switch (status) {

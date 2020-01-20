@@ -14,7 +14,7 @@ DemandList.propTypes = {
     setLoading: PropTypes.func,
 };
 
-export default function DemandList({loading,setLoading, setMsg}) {
+export default function DemandList({loading, setLoading, setMsg}) {
     const classes = useStyles();
     const [demands, setDemands] = useState([]);
     const [page, setPage] = useState(i18N.common.fetch.page);
@@ -23,23 +23,29 @@ export default function DemandList({loading,setLoading, setMsg}) {
     const [direction, setDirection] = useState(i18N.common.fetch.direction);
 
     useEffect(() => {
-        setLoading(true);
-        fetchGet(
-            '/demand/normal/list?page=' + (page + 1) +
+        let url = '/demand/normal/list?page=' + (page + 1) +
             '&size=' + size +
             '&attribute=time' +
-            '&direction=' + direction
-        ).then((json) => {
-            const status = json['status'];
-            setTotalPage(json['totalPage']);
-            if (tools.statusToBool(status)) {
-                setDemands(json.objects);
-                setMsg("加载成功");
-            } else {
-                setMsg(tools.statusToAlert(status));
-            }
-            setLoading(false);
-        });
+            '&direction=' + direction;
+        let cache = JSON.parse(localStorage.getItem(url + tools.cacheTimeStamp(1)));
+        if (cache != null && cache.length > 0) setDemands(cache);
+        else {
+            setLoading(true);
+            fetchGet(
+                url
+            ).then((json) => {
+                const status = json['status'];
+                setTotalPage(json['totalPage']);
+                if (tools.statusToBool(status)) {
+                    setDemands(json.objects);
+                    localStorage.setItem(url + tools.cacheTimeStamp(1), JSON.stringify(json.objects));
+                    setMsg("加载成功");
+                } else {
+                    setMsg(tools.statusToAlert(status));
+                }
+                setLoading(false);
+            });
+        }
     }, [page, size, direction, setLoading, setMsg]);
 
     // function load() {

@@ -3,22 +3,23 @@ import React from 'react';
 import i18N from '../i18N/i18N_zh_CN';
 
 import {makeStyles} from '@material-ui/core/styles';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 
 export default function Footer() {
     const classes = useStyles();
+
+    function clearLocalStorage() {
+        console.log('ClearLocalStorageSuccess!');
+        localStorage.clear();
+    }
+
     return (
         <div className={classes.div}>
             <Divider variant="middle"/>
-            <Typography align="center" className={classes.center}>
-                <Link
-                    href={i18N.server_config + 'login.html'}
-                >
-                    登录
-                </Link >
+            <Typography align="center" className={classes.center} onClick={clearLocalStorage}>
+                清除缓存
             </Typography>
             <Grid
                 container
