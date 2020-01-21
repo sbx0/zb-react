@@ -3,7 +3,6 @@ import {BrowserRouter, Route, Switch as SwitchRoute} from 'react-router-dom';
 
 import './App.css';
 import Footer from './components/Footer';
-import GlobalBottomNavigation from './components/GlobalBottomNavigation';
 
 import {createMuiTheme} from '@material-ui/core/styles';
 import {ThemeProvider} from '@material-ui/styles';
@@ -16,6 +15,7 @@ import Demand from "./page/demand/DemandDetail";
 import Switch from "@material-ui/core/Switch";
 import PrimarySearchAppBar from "./components/PrimarySearchAppBar";
 import Typography from "@material-ui/core/Typography";
+import SignUp from "./page/user/SignUp";
 
 export default function App() {
     const classes = useStyles();
@@ -55,6 +55,9 @@ export default function App() {
                             </Route>
                             <Route path="/demand">
                                 <Demand setMsg={setMsg} setLoading={setLoading}/>
+                            </Route>
+                            <Route path="/signUp">
+                                <SignUp/>
                             </Route>
                         </SwitchRoute>
                         <Footer/>
@@ -130,11 +133,6 @@ const DarkTheme = createMuiTheme({
         MuiPaper: {
             root: {
                 color: '#c6c6c6',
-            },
-        },
-        MuiTypography: {
-            colorTextPrimary: {
-                color: '#d4d4d4',
             },
         },
         MuiBottomNavigation: {
