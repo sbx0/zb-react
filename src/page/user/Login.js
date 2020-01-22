@@ -5,13 +5,13 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {fetchPost, fetchStatus, fetchStatusAlert, returnStatus} from "../../tools/Network";
-import {useHistory, Link} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -33,9 +33,8 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function SignUp() {
+export default function Login() {
     const classes = useStyles();
-    let history = useHistory();
     const [values, setValues] = useState({
         name: '',
         email: '',
@@ -47,10 +46,10 @@ export default function SignUp() {
     };
 
     async function submitData() {
-        fetchPost('user/base/register', values).then((json) => {
+        fetchPost('user/base/login', values).then((json) => {
             const status = json['status'];
             if (fetchStatus(status)) {
-                // todo 注册成功后跳转
+                // todo 登录成功后跳转
             }
             alert(fetchStatusAlert(status));
         });
@@ -64,21 +63,10 @@ export default function SignUp() {
                     <LockOutlinedIcon/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    注册
+                    登录
                 </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            <TextField
-                                label="用户名"
-                                value={values.name}
-                                onChange={handleChange('name')}
-                                variant="outlined"
-                                required
-                                fullWidth
-                                autoFocus
-                            />
-                        </Grid>
                         <Grid item xs={12}>
                             <TextField
                                 label="邮箱"
@@ -107,7 +95,7 @@ export default function SignUp() {
                         <Grid item xs={12}>
                             <FormControlLabel
                                 control={<Checkbox value="allowExtraEmails" color="primary"/>}
-                                label="我想收到日后的更新通知"
+                                label="记住我（请勿在公共机器中选中）"
                             />
                         </Grid>
                     </Grid>
@@ -119,15 +107,8 @@ export default function SignUp() {
                         className={classes.submit}
                         onClick={() => submitData()}
                     >
-                        注册
+                        登录
                     </Button>
-                    <Grid container justify="flex-end">
-                        <Grid item>
-                            <Link to="/login">
-                                已有账号？点我登录
-                            </Link>
-                        </Grid>
-                    </Grid>
                 </form>
             </div>
         </Container>
