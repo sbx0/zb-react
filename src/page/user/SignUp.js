@@ -13,27 +13,7 @@ import Container from '@material-ui/core/Container';
 import {fetchPost, fetchStatus, fetchStatusAlert, returnStatus} from "../../tools/Network";
 import {useHistory, Link} from "react-router-dom";
 
-const useStyles = makeStyles(theme => ({
-    paper: {
-        marginTop: theme.spacing(8),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
-    },
-    form: {
-        width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(3),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-    },
-}));
-
-export default function SignUp() {
+export default function SignUp({setLoading, changeActive}) {
     const classes = useStyles();
     let history = useHistory();
     const [values, setValues] = useState({
@@ -47,12 +27,16 @@ export default function SignUp() {
     };
 
     async function submitData() {
+        setLoading(true);
         fetchPost('user/base/register', values).then((json) => {
+            setLoading(false);
             const status = json['status'];
             if (fetchStatus(status)) {
-                // todo 注册成功后跳转
+                changeActive();
+                history.push("/login");
+            } else {
+                alert(fetchStatusAlert(status));
             }
-            alert(fetchStatusAlert(status));
         });
     }
 
@@ -133,3 +117,24 @@ export default function SignUp() {
         </Container>
     );
 }
+
+
+const useStyles = makeStyles(theme => ({
+    paper: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(3),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+}));

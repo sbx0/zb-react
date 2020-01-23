@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,15 +10,33 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {fetchPost, fetchStatus, fetchStatusAlert, returnStatus} from "Network";
+import {fetchGet, fetchPost, fetchStatus, fetchStatusAlert, returnStatus} from "Network";
+import tools from "./Utils";
 
-export function FormTemplate() {
+export function FormTemplate({setLoading, setMsg}) {
     const classes = useStyles();
     const [values, setValues] = useState({
         name: '',
         email: '',
         password: '',
     });
+
+    useEffect(() => {
+        let url = '';
+        setLoading(true);
+        fetchGet(
+            url
+        ).then((json) => {
+            const status = json['status'];
+            if (tools.statusToBool(status)) {
+                localStorage.setItem(url + tools.cacheTimeStamp(1), JSON.stringify(json.objects));
+                setMsg("加载成功");
+            } else {
+                setMsg(tools.statusToAlert(status));
+            }
+            setLoading(false);
+        });
+    }, [size, setLoading, setMsg]);
 
     const handleChange = (name) => (event) => {
         setValues({...values, [name]: event.target.value});

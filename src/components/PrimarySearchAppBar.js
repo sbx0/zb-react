@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {fade, makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -16,12 +16,31 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import {useHistory} from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
+import {fetchGet} from "../tools/Network";
+import tools from "../tools/Utils";
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar({active, changeActive, setLoading, setMsg}) {
     const classes = useStyles();
     let history = useHistory();
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+    const [user, setUser] = useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+
+    useEffect(() => {
+        let url = 'user/base/basic';
+        setLoading(true);
+        fetchGet(
+            url
+        ).then((json) => {
+            const status = json['status'];
+            if (tools.statusToBool(status)) {
+                setUser(json["object"]);
+            } else {
+                setMsg(tools.statusToAlert(status));
+            }
+            setLoading(false);
+        });
+    }, [active, setLoading, setMsg]);
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -32,7 +51,6 @@ export default function PrimarySearchAppBar() {
 
     const handleMobileMenuClose = () => {
         setMobileMoreAnchorEl(null);
-        history.push("/register");
     };
 
     const handleMenuClose = () => {
@@ -71,6 +89,34 @@ export default function PrimarySearchAppBar() {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
+            <MenuItem
+                onClick={
+                    () => {
+                        handleMobileMenuClose();
+                        let url = 'user/base/logout';
+                        setLoading(true);
+                        fetchGet(
+                            url
+                        ).then((json) => {
+                            const status = json['status'];
+                            if (tools.statusToBool(status)) {
+                                changeActive();
+                                history.push("/login");
+                            } else {
+                                setMsg(tools.statusToAlert(status));
+                            }
+                            setLoading(false);
+                        });
+                    }
+                }
+            >
+                <IconButton
+                    color="secondary"
+                >
+                    <AccountCircle/>
+                </IconButton>
+                <p>退出登录</p>
+            </MenuItem>
             <MenuItem>
                 <IconButton aria-label="show 4 new mails" color="inherit">
                     <Badge badgeContent={4} color="secondary">
@@ -117,7 +163,7 @@ export default function PrimarySearchAppBar() {
                         className={classes.title}
                         variant="h6"
                         noWrap
-                        onClick={() => history.push("/register")}
+                        onClick={() => history.push("/login")}
                     >
                         智贝
                     </Typography>
@@ -126,7 +172,7 @@ export default function PrimarySearchAppBar() {
                             <SearchIcon/>
                         </div>
                         <InputBase
-                            placeholder="Search…"
+                            placeholder="搜索"
                             classes={{
                                 root: classes.inputRoot,
                                 input: classes.inputInput,
@@ -136,39 +182,41 @@ export default function PrimarySearchAppBar() {
                     </div>
                     <div className={classes.grow}/>
                     <div className={classes.sectionDesktop}>
-                        <IconButton aria-label="show 4 new mails" color="inherit">
-                            <Badge badgeContent={4} color="secondary">
-                                <MailIcon/>
-                            </Badge>
-                        </IconButton>
-                        <IconButton aria-label="show 17 new notifications" color="inherit">
-                            <Badge badgeContent={17} color="secondary">
-                                <NotificationsIcon/>
-                            </Badge>
-                        </IconButton>
-                        <IconButton
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-                            <AccountCircle/>
-                        </IconButton>
+                        {
+                            user != null ?
+                                <>
+                                    <IconButton aria-label="show 4 new mails" color="inherit">
+                                        <Badge badgeContent={4} color="secondary">
+                                            <MailIcon/>
+                                        </Badge>
+                                    </IconButton>
+                                    <IconButton aria-label="show 17 new notifications" color="inherit">
+                                        <Badge badgeContent={17} color="secondary">
+                                            <NotificationsIcon/>
+                                        </Badge>
+                                    </IconButton>
+                                </>
+                                :
+                                <></>
+                        }
                     </div>
-                    <Avatar onClick={() => history.push("/user")}>登</Avatar>
-                    <div className={classes.sectionMobile}>
-                        <IconButton
-                            aria-label="show more"
-                            aria-controls={mobileMenuId}
-                            aria-haspopup="true"
-                            onClick={handleMobileMenuOpen}
-                            color="inherit"
-                        >
-                            <MoreIcon/>
-                        </IconButton>
-                    </div>
+                    {
+                        user != null ?
+                            <>
+                                <Avatar
+                                    className={classes.avatar}
+                                    src={user.avatar}
+                                    onClick={handleMobileMenuOpen}
+                                />
+                            </>
+                            :
+                            <>
+                                <Avatar
+                                    className={classes.avatar}
+                                    onClick={() => history.push("/login")}
+                                >登</Avatar>
+                            </>
+                    }
                 </Toolbar>
             </AppBar>
             {renderMobileMenu}
@@ -178,6 +226,11 @@ export default function PrimarySearchAppBar() {
 }
 
 const useStyles = makeStyles(theme => ({
+    avatar: {
+        width: 30,
+        height: 30,
+        marginLeft: 10,
+    },
     grow: {
         flexGrow: 1,
     },

@@ -25,6 +25,11 @@ export default function App() {
     const [dark, setDark] = useState(true);
     const [theme, setTheme] = useState(LightTheme);
     const [msg, setMsg] = useState("全局消息");
+    const [active, setActive] = useState(false);
+
+    function changeActive() {
+        setActive(!active);
+    }
 
     useEffect(() => {
         let darkMode = localStorage.getItem("dark");
@@ -49,7 +54,7 @@ export default function App() {
         <ThemeProvider theme={theme}>
             <BrowserRouter>
                 <div className={dark ? classes.backgroundDark : classes.backgroundLight}>
-                    <PrimarySearchAppBar/>
+                    <PrimarySearchAppBar active={active} changeActive={changeActive} setLoading={setLoading}/>
                     <Container className={classes.paddingTop}>
                         <SwitchRoute>
                             <Route path="/" exact>
@@ -59,10 +64,10 @@ export default function App() {
                                 <Demand setMsg={setMsg} setLoading={setLoading}/>
                             </Route>
                             <Route path="/register">
-                                <SignUp/>
+                                <SignUp changeActive={changeActive} setLoading={setLoading}/>
                             </Route>
                             <Route path="/login">
-                                <Login/>
+                                <Login changeActive={changeActive} setLoading={setLoading}/>
                             </Route>
                             <Route path="/user">
                                 <User setMsg={setMsg} setLoading={setLoading}/>
