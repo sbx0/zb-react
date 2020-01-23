@@ -17,6 +17,7 @@ import PrimarySearchAppBar from "./components/PrimarySearchAppBar";
 import Typography from "@material-ui/core/Typography";
 import SignUp from "./page/user/SignUp";
 import Login from "./page/user/Login";
+import User from "./page/user/User";
 
 export default function App() {
     const classes = useStyles();
@@ -62,6 +63,9 @@ export default function App() {
                             </Route>
                             <Route path="/login">
                                 <Login/>
+                            </Route>
+                            <Route path="/user">
+                                <User setMsg={setMsg} setLoading={setLoading}/>
                             </Route>
                         </SwitchRoute>
                         <Footer/>
