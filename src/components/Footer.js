@@ -10,17 +10,9 @@ import Typography from '@material-ui/core/Typography';
 export default function Footer() {
     const classes = useStyles();
 
-    function clearLocalStorage() {
-        console.log('ClearLocalStorageSuccess!');
-        localStorage.clear();
-    }
-
     return (
         <div className={classes.div}>
             <Divider variant="middle"/>
-            <Typography align="center" className={classes.center} onClick={clearLocalStorage} color="textSecondary">
-                清除缓存
-            </Typography>
             <Grid
                 container
                 justify="center"
@@ -29,8 +21,9 @@ export default function Footer() {
                 className={classes.divider}
             >
                 <Typography variant="caption" gutterBottom display="block" color="textSecondary">
-                    智贝 2020 {i18N.version}{i18N.dev_version}<br/>
-                    Power By React
+                    智贝 2019 - 2020<br/>
+                    版本 {i18N.dev_version}<br/>
+                    Power By React<br/>
                 </Typography>
             </Grid>
         </div>

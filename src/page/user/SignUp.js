@@ -13,7 +13,7 @@ import Container from '@material-ui/core/Container';
 import {fetchPost, fetchStatus, fetchStatusAlert, returnStatus} from "../../tools/Network";
 import {useHistory, Link} from "react-router-dom";
 
-export default function SignUp({setLoading, changeActive}) {
+export default function SignUp({setLoading, changeActive, notice}) {
     const classes = useStyles();
     let history = useHistory();
     const [values, setValues] = useState({
@@ -32,10 +32,11 @@ export default function SignUp({setLoading, changeActive}) {
             setLoading(false);
             const status = json['status'];
             if (fetchStatus(status)) {
+                notice("注册成功。", status);
                 changeActive();
                 history.push("/login");
             } else {
-                alert(fetchStatusAlert(status));
+                notice(fetchStatusAlert(status), status);
             }
         });
     }

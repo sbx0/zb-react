@@ -8,13 +8,13 @@ Home.propTypes = {
     setMsg: PropTypes.func,
 };
 
-function Home(props) {
+function Home({notice, setLoading}) {
     const classes = useStyles();
 
     return (
         <div className={classes.container}>
             {/*<Skeleton variant="rect" width="70wh" height="20vh" className={classes.center}/>*/}
-            <DemandList setMsg={props.setMsg} setLoading={props.setLoading}/>
+            <DemandList notice={notice} setLoading={setLoading}/>
         </div>
     );
 }

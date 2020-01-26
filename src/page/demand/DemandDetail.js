@@ -12,13 +12,13 @@ import {fetchGet} from "../../tools/Network";
 import Typography from "@material-ui/core/Typography";
 import ReactMarkdown from "react-markdown";
 
-export default function Demand({setLoading, setMsg}) {
+export default function Demand({setLoading, notice}) {
     let match = useRouteMatch();
 
     return (
         <Switch>
             <Route path={`${match.path}/:demandId`}>
-                <DemandDetail setMsg={setMsg} setLoading={setLoading}/>
+                <DemandDetail notice={notice} setLoading={setLoading}/>
             </Route>
             <Route path={match.path}>
                 <h3>Please select a topic.</h3>
@@ -27,7 +27,7 @@ export default function Demand({setLoading, setMsg}) {
     );
 }
 
-function DemandDetail({setLoading, setMsg}) {
+function DemandDetail({setLoading, notice}) {
     let {demandId} = useParams();
     const [demand, setDemand] = useState({});
 
@@ -40,9 +40,8 @@ function DemandDetail({setLoading, setMsg}) {
             const status = json['status'];
             if (tools.statusToBool(status)) {
                 setDemand(json.object);
-                setMsg("加载成功");
             } else {
-                setMsg(tools.statusToAlert(status));
+                notice(tools.statusToAlert(status), status);
             }
             setLoading(false);
         });

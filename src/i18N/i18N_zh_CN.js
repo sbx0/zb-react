@@ -1,5 +1,5 @@
 const i18N = {
-    dev_version: '0.0.8',
+    dev_version: '0.0.9',
     // server_config: 'https://zb.sbx0.cn/',
     server_config: 'http://localhost:8085/',
     page: {

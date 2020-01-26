@@ -13,18 +13,36 @@ import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
 import {useHistory} from "react-router-dom";
+import InboxIcon from '@material-ui/icons/MoveToInbox';
 import Avatar from "@material-ui/core/Avatar";
-import {fetchGet} from "../tools/Network";
+import {fetchGet, fetchStatusAlert} from "../tools/Network";
 import tools from "../tools/Utils";
+import Drawer from "@material-ui/core/Drawer";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import Divider from "@material-ui/core/Divider";
+import {FormControlLabel} from "@material-ui/core";
+import Switch from "@material-ui/core/Switch";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 
-export default function PrimarySearchAppBar({active, changeActive, setLoading, setMsg}) {
+export default function PrimarySearchAppBar({dark, setDark, active, changeActive, setLoading, notice}) {
     const classes = useStyles();
     let history = useHistory();
     const [user, setUser] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+    const [drawerOpen, setDrawerOpen] = useState(false);
+
+    const toggleDrawer = (open) => event => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+        setDrawerOpen(open);
+    };
 
     useEffect(() => {
         let url = 'user/base/basic';
@@ -36,17 +54,24 @@ export default function PrimarySearchAppBar({active, changeActive, setLoading, s
             if (tools.statusToBool(status)) {
                 setUser(json["object"]);
             } else {
-                setMsg(tools.statusToAlert(status));
+                notice(fetchStatusAlert(status), status);
             }
             setLoading(false);
         });
-    }, [active, setLoading, setMsg]);
+    }, [active]);
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+
+    function clearLocalStorage() {
+        notice("缓存已清空", 0);
+        localStorage.clear();
+    }
+
     const handleProfileMenuOpen = event => {
         setAnchorEl(event.currentTarget);
+        history.push("/user");
     };
 
     const handleMobileMenuClose = () => {
@@ -89,34 +114,6 @@ export default function PrimarySearchAppBar({active, changeActive, setLoading, s
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
-            <MenuItem
-                onClick={
-                    () => {
-                        handleMobileMenuClose();
-                        let url = 'user/base/logout';
-                        setLoading(true);
-                        fetchGet(
-                            url
-                        ).then((json) => {
-                            const status = json['status'];
-                            if (tools.statusToBool(status)) {
-                                changeActive();
-                                history.push("/login");
-                            } else {
-                                setMsg(tools.statusToAlert(status));
-                            }
-                            setLoading(false);
-                        });
-                    }
-                }
-            >
-                <IconButton
-                    color="secondary"
-                >
-                    <AccountCircle/>
-                </IconButton>
-                <p>退出登录</p>
-            </MenuItem>
             <MenuItem>
                 <IconButton aria-label="show 4 new mails" color="inherit">
                     <Badge badgeContent={4} color="secondary">
@@ -133,7 +130,10 @@ export default function PrimarySearchAppBar({active, changeActive, setLoading, s
                 </IconButton>
                 <p>Notifications</p>
             </MenuItem>
-            <MenuItem onClick={handleProfileMenuOpen}>
+            <MenuItem onClick={() => {
+                handleMobileMenuClose();
+                history.push("/");
+            }}>
                 <IconButton
                     aria-label="account of current user"
                     aria-controls="primary-search-account-menu"
@@ -142,7 +142,49 @@ export default function PrimarySearchAppBar({active, changeActive, setLoading, s
                 >
                     <AccountCircle/>
                 </IconButton>
-                <p>Profile</p>
+                <p>首页</p>
+            </MenuItem>
+            <MenuItem onClick={() => {
+                handleMobileMenuClose();
+                history.push("/user");
+            }}>
+                <IconButton
+                    aria-label="account of current user"
+                    aria-controls="primary-search-account-menu"
+                    aria-haspopup="true"
+                    color="inherit"
+                >
+                    <AccountCircle/>
+                </IconButton>
+                <p>个人资料</p>
+            </MenuItem>
+            <MenuItem
+                onClick={
+                    () => {
+                        handleMobileMenuClose();
+                        let url = 'user/base/logout';
+                        setLoading(true);
+                        fetchGet(
+                            url
+                        ).then((json) => {
+                            const status = json['status'];
+                            if (tools.statusToBool(status)) {
+                                changeActive();
+                                history.push("/login");
+                            } else {
+                                notice(fetchStatusAlert(status), status);
+                            }
+                            setLoading(false);
+                        });
+                    }
+                }
+            >
+                <IconButton
+                    color="secondary"
+                >
+                    <AccountCircle/>
+                </IconButton>
+                <p>退出登录</p>
             </MenuItem>
         </Menu>
     );
@@ -150,12 +192,72 @@ export default function PrimarySearchAppBar({active, changeActive, setLoading, s
     return (
         <div className={classes.grow}>
             <AppBar position="static" color="primary">
+                <Drawer open={drawerOpen} onClose={toggleDrawer(false)}>
+                    <div
+                        className={classes.list}
+                        role="presentation"
+                        onClick={toggleDrawer(false)}
+                        onKeyDown={toggleDrawer(false)}
+                    >
+                        <List>
+                            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                                <ListItem button key={text}>
+                                    <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
+                                    <ListItemText primary={text}/>
+                                </ListItem>
+                            ))}
+                        </List>
+                        <Divider/>
+                        <List>
+                            {['All mail', 'Trash', 'Spam'].map((text, index) => (
+                                <ListItem button key={text}>
+                                    <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
+                                    <ListItemText primary={text}/>
+                                </ListItem>
+                            ))}
+                        </List>
+
+                        <Grid
+                            container
+                            justify="center"
+                            alignItems="center"
+                        >
+                            <Button variant="contained" color="secondary" onClick={clearLocalStorage}>
+                                清除缓存
+                            </Button>
+                        </Grid>
+                        <Grid
+                            container
+                            justify="center"
+                            alignItems="center"
+                            className={classes.paddingBottom}
+                        >
+                            <Typography variant="body2" color="textSecondary">
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            onChange={() => {
+                                                setDark(!dark);
+                                                localStorage.setItem("dark", !dark);
+                                            }}
+                                            color="primary"
+                                            checked={dark}
+                                        />
+                                    }
+                                    label="暗黑模式"
+                                    labelPlacement="bottom"
+                                />
+                            </Typography>
+                        </Grid>
+                    </div>
+                </Drawer>
                 <Toolbar>
                     <IconButton
                         edge="start"
                         className={classes.menuButton}
                         color="inherit"
                         aria-label="open drawer"
+                        onClick={toggleDrawer(true)}
                     >
                         <MenuIcon/>
                     </IconButton>
@@ -226,6 +328,12 @@ export default function PrimarySearchAppBar({active, changeActive, setLoading, s
 }
 
 const useStyles = makeStyles(theme => ({
+    list: {
+        width: 250,
+    },
+    fullList: {
+        width: 'auto',
+    },
     avatar: {
         width: 30,
         height: 30,

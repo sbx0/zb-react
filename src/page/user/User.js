@@ -8,30 +8,30 @@ import {
     useParams,
 } from "react-router-dom";
 import tools from "../../tools/Utils";
-import {fetchGet} from "../../tools/Network";
+import {fetchGet, fetchStatusAlert} from "../../tools/Network";
 import Typography from "@material-ui/core/Typography";
 import ReactMarkdown from "react-markdown";
 import Avatar from "@material-ui/core/Avatar";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Grid from "@material-ui/core/Grid";
 
-export default function User({setLoading, setMsg}) {
+export default function User({setLoading, notice}) {
     let match = useRouteMatch();
 
     return (
         <Switch>
             <Route path={`${match.path}/:userId`}>
-                <UserDetail setMsg={setMsg} setLoading={setLoading}/>
+                <UserDetail notice={notice} setLoading={setLoading}/>
             </Route>
             <Route path={match.path}>
-                <MyDetail setMsg={setMsg} setLoading={setLoading}/>
+                <MyDetail notice={notice} setLoading={setLoading}/>
             </Route>
         </Switch>
     );
 }
 
 
-function MyDetail({setLoading, setMsg}) {
+function MyDetail({setLoading, notice}) {
     const classes = useStyles();
     const [user, setUser] = useState({});
     const [userInfo, setUserInfo] = useState({});
@@ -46,9 +46,8 @@ function MyDetail({setLoading, setMsg}) {
             if (tools.statusToBool(status)) {
                 setUserInfo(json.object);
                 setUser(json.user);
-                setMsg("加载成功");
             } else {
-                setMsg(tools.statusToAlert(status));
+                notice(fetchStatusAlert(status), status);
             }
             setLoading(false);
         });
@@ -57,11 +56,11 @@ function MyDetail({setLoading, setMsg}) {
     return (
         <>
             <Grid container spacing={2}>
-                <Grid item xs={6}>
+                <Grid item xs={12}>
                     <Avatar alt={user.name} src={user["avatar"]} className={classes.avatar}/>
                 </Grid>
-                <Grid item xs={6}>
-                    <Typography variant="h4" color="textSecondary" align="left">
+                <Grid item xs={12}>
+                    <Typography variant="h5" color="textSecondary" align="center">
                         {user.name}
                     </Typography>
                 </Grid>
@@ -81,7 +80,7 @@ function MyDetail({setLoading, setMsg}) {
     );
 }
 
-function UserDetail({setLoading, setMsg}) {
+function UserDetail({setLoading, notice}) {
     let {userId} = useParams();
     const [user, setUser] = useState({});
 
@@ -94,9 +93,8 @@ function UserDetail({setLoading, setMsg}) {
             const status = json['status'];
             if (tools.statusToBool(status)) {
                 setUser(json.object);
-                setMsg("加载成功");
             } else {
-                setMsg(tools.statusToAlert(status));
+                notice(fetchStatusAlert(status), status);
             }
             setLoading(false);
         });
@@ -125,7 +123,7 @@ const useStyles = makeStyles((theme) => ({
         margin: '5px auto',
     },
     avatar: {
-        float: "right",
+        margin: '0px auto',
         width: theme.spacing(5),
         height: theme.spacing(5),
     }

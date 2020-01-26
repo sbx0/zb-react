@@ -16,6 +16,10 @@ export function fetchStatusAlert(status) {
             return '无效邮箱';
         case 3:
             return '重复操作';
+        case 4:
+            return '密码错误';
+        case 5:
+            return '暂未登录';
         default:
             return '未知错误';
     }
@@ -41,6 +45,14 @@ export const returnStatus = {
     repeatOperation: {
         code: 3,
         msg: '重复操作'
+    },
+    wrongPassword: {
+        code: 4,
+        msg: '密码错误'
+    },
+    notLogin: {
+        code: 5,
+        msg: '暂未登录'
     },
 };
 

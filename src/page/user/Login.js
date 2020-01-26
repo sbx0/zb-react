@@ -13,7 +13,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {fetchPost, fetchStatus, fetchStatusAlert, returnStatus} from "../../tools/Network";
 
-export default function Login({setLoading, changeActive}) {
+export default function Login({setLoading, changeActive, notice}) {
     const classes = useStyles();
     let history = useHistory();
     const [values, setValues] = useState({
@@ -35,7 +35,7 @@ export default function Login({setLoading, changeActive}) {
                 changeActive();
                 history.push("/");
             } else {
-                alert(fetchStatusAlert(status));
+                notice(fetchStatusAlert(status), status);
             }
         });
     }

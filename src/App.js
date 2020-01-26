@@ -18,13 +18,16 @@ import Typography from "@material-ui/core/Typography";
 import SignUp from "./page/user/SignUp";
 import Login from "./page/user/Login";
 import User from "./page/user/User";
+import CustomizedSnackbars from "./components/CustomizedSnackbars";
 
 export default function App() {
     const classes = useStyles();
     const [loading, setLoading] = useState(false);
     const [dark, setDark] = useState(true);
     const [theme, setTheme] = useState(LightTheme);
+    const [open, setOpen] = useState(false);
     const [msg, setMsg] = useState("全局消息");
+    const [severity, setSeverity] = useState("success");
     const [active, setActive] = useState(false);
 
     function changeActive() {
@@ -42,62 +45,95 @@ export default function App() {
                 setTheme(LightTheme);
             }
         } else if (dark) {
-            localStorage.setItem("dark", true);
+            localStorage.setItem("dark", "true");
             setTheme(DarkTheme);
         } else {
-            localStorage.setItem("dark", false);
+            localStorage.setItem("dark", "false");
             setTheme(LightTheme);
         }
     }, [dark]);
+
+
+    function notice(msg, type) {
+        setOpen(true);
+        setMsg(msg);
+        switch (type) {
+            case -1:
+                setSeverity("error");
+                break;
+            case 0:
+                setSeverity("success");
+                break;
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                setSeverity("warning");
+                break;
+            default:
+                setSeverity("info");
+        }
+    }
 
     return (
         <ThemeProvider theme={theme}>
             <BrowserRouter>
                 <div className={dark ? classes.backgroundDark : classes.backgroundLight}>
-                    <PrimarySearchAppBar active={active} changeActive={changeActive} setLoading={setLoading}/>
+                    <PrimarySearchAppBar
+                        dark={dark}
+                        setDark={setDark}
+                        active={active}
+                        changeActive={changeActive}
+                        setLoading={setLoading}
+                        notice={notice}
+                    />
                     <Container className={classes.paddingTop}>
                         <SwitchRoute>
                             <Route path="/" exact>
-                                <Home setMsg={setMsg} setLoading={setLoading}/>
+                                <Home
+                                    notice={notice}
+                                    setLoading={setLoading}
+                                    setOpen={setOpen}
+                                />
                             </Route>
                             <Route path="/demand">
-                                <Demand setMsg={setMsg} setLoading={setLoading}/>
+                                <Demand
+                                    notice={notice}
+                                    setLoading={setLoading}
+                                    setOpen={setOpen}
+                                />
                             </Route>
                             <Route path="/register">
-                                <SignUp changeActive={changeActive} setLoading={setLoading}/>
+                                <SignUp
+                                    changeActive={changeActive}
+                                    setLoading={setLoading}
+                                    notice={notice}
+                                />
                             </Route>
                             <Route path="/login">
-                                <Login changeActive={changeActive} setLoading={setLoading}/>
+                                <Login
+                                    changeActive={changeActive}
+                                    setLoading={setLoading}
+                                    notice={notice}
+                                />
                             </Route>
                             <Route path="/user">
-                                <User setMsg={setMsg} setLoading={setLoading}/>
+                                <User
+                                    notice={notice}
+                                    setLoading={setLoading}
+                                    setOpen={setOpen}
+                                />
                             </Route>
                         </SwitchRoute>
                         <Footer/>
-                        <Grid
-                            container
-                            justify="center"
-                            alignItems="center"
-                            className={classes.paddingBottom}
-                        >
-                            <Typography variant="body2" color="textSecondary">
-                                <FormControlLabel
-                                    control={
-                                        <Switch
-                                            onChange={() => {
-                                                setDark(!dark);
-                                                localStorage.setItem("dark", !dark);
-                                            }}
-                                            color="primary"
-                                            checked={dark}
-                                        />
-                                    }
-                                    label="暗黑模式"
-                                    labelPlacement="bottom"
-                                />
-                            </Typography>
-                        </Grid>
                         <SimpleBackdrop loading={loading}/>
+                        <CustomizedSnackbars
+                            msg={msg}
+                            severity={severity}
+                            open={open}
+                            setOpen={setOpen}
+                        />
                         {/*<div className={classes.bottom}/>*/}
                         {/*<GlobalBottomNavigation/>*/}
                     </Container>

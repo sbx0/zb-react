@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 
 import i18N from '../../i18N/i18N_zh_CN';
 import tools from '../../tools/Utils';
-import {fetchGet} from '../../tools/Network';
+import {fetchGet, fetchStatusAlert} from '../../tools/Network';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Grid from "@material-ui/core/Grid";
 import DemandOne from "./DemandOne";
 
 DemandList.propTypes = {
-    setMsg: PropTypes.func,
+    notice: PropTypes.func,
     setLoading: PropTypes.func,
 };
 
-export default function DemandList({loading, setLoading, setMsg}) {
+export default function DemandList({loading, setLoading, notice}) {
     const classes = useStyles();
     const [demands, setDemands] = useState([]);
     const [page, setPage] = useState(i18N.common.fetch.page);
@@ -39,14 +39,13 @@ export default function DemandList({loading, setLoading, setMsg}) {
                 if (tools.statusToBool(status)) {
                     setDemands(json.objects);
                     localStorage.setItem(url + tools.cacheTimeStamp(1), JSON.stringify(json.objects));
-                    setMsg("加载成功");
                 } else {
-                    setMsg(tools.statusToAlert(status));
+                    notice(fetchStatusAlert(status), status);
                 }
                 setLoading(false);
             });
         }
-    }, [page, size, direction, setLoading, setMsg]);
+    }, [page, size, direction]);
 
     // function load() {
     //     setPage(page + 1);
