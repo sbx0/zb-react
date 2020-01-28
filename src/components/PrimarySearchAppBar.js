@@ -1,4 +1,7 @@
 import React, {useState, useEffect} from 'react';
+import {useTranslation} from 'react-i18next';
+import "../i18N/i18N"
+
 import {fade, makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -27,9 +30,9 @@ import Divider from "@material-ui/core/Divider";
 import {FormControlLabel} from "@material-ui/core";
 import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
 
 export default function PrimarySearchAppBar({dark, setDark, active, changeActive, setLoading, notice}) {
+    const {t, i18n} = useTranslation();
     const classes = useStyles();
     let history = useHistory();
     const [user, setUser] = useState(null);
@@ -65,7 +68,7 @@ export default function PrimarySearchAppBar({dark, setDark, active, changeActive
 
 
     function clearLocalStorage() {
-        notice("缓存已清空", 0);
+        notice(t("已清空缓存"), 0);
         localStorage.clear();
     }
 
@@ -87,22 +90,6 @@ export default function PrimarySearchAppBar({dark, setDark, active, changeActive
         setMobileMoreAnchorEl(event.currentTarget);
     };
 
-    const menuId = 'primary-search-account-menu';
-    const renderMenu = (
-        <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{vertical: 'top', horizontal: 'right'}}
-            id={menuId}
-            keepMounted
-            transformOrigin={{vertical: 'top', horizontal: 'right'}}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
-        >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-        </Menu>
-    );
-
     const mobileMenuId = 'primary-search-account-menu-mobile';
     const renderMobileMenu = (
         <Menu
@@ -120,7 +107,7 @@ export default function PrimarySearchAppBar({dark, setDark, active, changeActive
                         <MailIcon/>
                     </Badge>
                 </IconButton>
-                <p>Messages</p>
+                <p>{t("消息")}</p>
             </MenuItem>
             <MenuItem>
                 <IconButton aria-label="show 11 new notifications" color="inherit">
@@ -128,21 +115,7 @@ export default function PrimarySearchAppBar({dark, setDark, active, changeActive
                         <NotificationsIcon/>
                     </Badge>
                 </IconButton>
-                <p>Notifications</p>
-            </MenuItem>
-            <MenuItem onClick={() => {
-                handleMobileMenuClose();
-                history.push("/");
-            }}>
-                <IconButton
-                    aria-label="account of current user"
-                    aria-controls="primary-search-account-menu"
-                    aria-haspopup="true"
-                    color="inherit"
-                >
-                    <AccountCircle/>
-                </IconButton>
-                <p>首页</p>
+                <p>{t("通知")}</p>
             </MenuItem>
             <MenuItem onClick={() => {
                 handleMobileMenuClose();
@@ -156,7 +129,7 @@ export default function PrimarySearchAppBar({dark, setDark, active, changeActive
                 >
                     <AccountCircle/>
                 </IconButton>
-                <p>个人资料</p>
+                <p>{t("个人资料")}</p>
             </MenuItem>
             <MenuItem
                 onClick={
@@ -184,7 +157,7 @@ export default function PrimarySearchAppBar({dark, setDark, active, changeActive
                 >
                     <AccountCircle/>
                 </IconButton>
-                <p>退出登录</p>
+                <p>{t("退出登录")}</p>
             </MenuItem>
         </Menu>
     );
@@ -200,32 +173,43 @@ export default function PrimarySearchAppBar({dark, setDark, active, changeActive
                         onKeyDown={toggleDrawer(false)}
                     >
                         <List>
-                            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                                <ListItem button key={text}>
-                                    <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
-                                    <ListItemText primary={text}/>
-                                </ListItem>
-                            ))}
+                            <ListItem
+                                button
+                                onClick={() => {
+                                    history.push("/");
+                                }}
+                            >
+                                <ListItemIcon><InboxIcon/></ListItemIcon>
+                                <ListItemText primary={t("首页")}/>
+                            </ListItem>
+                            <ListItem
+                                button
+                                onClick={() => {
+                                    history.push("/login");
+                                }}
+                            >
+                                <ListItemIcon><InboxIcon/></ListItemIcon>
+                                <ListItemText primary={t("登录")}/>
+                            </ListItem>
+                            <ListItem
+                                button
+                                onClick={() => {
+                                    history.push("/register");
+                                }}
+                            >
+                                <ListItemIcon><InboxIcon/></ListItemIcon>
+                                <ListItemText primary={t("注册")}/>
+                            </ListItem>
                         </List>
                         <Divider/>
-                        <List>
-                            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                                <ListItem button key={text}>
-                                    <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
-                                    <ListItemText primary={text}/>
-                                </ListItem>
-                            ))}
-                        </List>
-
-                        <Grid
-                            container
-                            justify="center"
-                            alignItems="center"
+                        <ListItem
+                            button
+                            onClick={clearLocalStorage}
                         >
-                            <Button variant="contained" color="secondary" onClick={clearLocalStorage}>
-                                清除缓存
-                            </Button>
-                        </Grid>
+                            <ListItemIcon><InboxIcon/></ListItemIcon>
+                            <ListItemText primary={t("清除缓存")}/>
+                        </ListItem>
+                        <Divider/>
                         <Grid
                             container
                             justify="center"
@@ -238,13 +222,13 @@ export default function PrimarySearchAppBar({dark, setDark, active, changeActive
                                         <Switch
                                             onChange={() => {
                                                 setDark(!dark);
-                                                localStorage.setItem("dark", !dark);
+                                                localStorage.setItem("dark", !dark + "");
                                             }}
                                             color="primary"
                                             checked={dark}
                                         />
                                     }
-                                    label="暗黑模式"
+                                    label={t("夜间模式")}
                                     labelPlacement="bottom"
                                 />
                             </Typography>
@@ -267,14 +251,14 @@ export default function PrimarySearchAppBar({dark, setDark, active, changeActive
                         noWrap
                         onClick={() => history.push("/login")}
                     >
-                        智贝
+                        {t('智贝')}
                     </Typography>
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
                             <SearchIcon/>
                         </div>
                         <InputBase
-                            placeholder="搜索"
+                            placeholder={t("搜索")}
                             classes={{
                                 root: classes.inputRoot,
                                 input: classes.inputInput,
@@ -316,13 +300,12 @@ export default function PrimarySearchAppBar({dark, setDark, active, changeActive
                                 <Avatar
                                     className={classes.avatar}
                                     onClick={() => history.push("/login")}
-                                >登</Avatar>
+                                >{t("登")}</Avatar>
                             </>
                     }
                 </Toolbar>
             </AppBar>
             {renderMobileMenu}
-            {renderMenu}
         </div>
     );
 }

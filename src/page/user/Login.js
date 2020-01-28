@@ -1,4 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {useTranslation} from 'react-i18next';
+import "../../i18N/i18N"
+
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,6 +17,7 @@ import Container from '@material-ui/core/Container';
 import {fetchPost, fetchStatus, fetchStatusAlert, returnStatus} from "../../tools/Network";
 
 export default function Login({setLoading, changeActive, notice}) {
+    const {t, i18n} = useTranslation();
     const classes = useStyles();
     let history = useHistory();
     const [values, setValues] = useState({
@@ -35,7 +39,7 @@ export default function Login({setLoading, changeActive, notice}) {
                 changeActive();
                 history.push("/");
             } else {
-                notice(fetchStatusAlert(status), status);
+                notice(t(fetchStatusAlert(status)), status);
             }
         });
     }
@@ -48,13 +52,13 @@ export default function Login({setLoading, changeActive, notice}) {
                     <LockOutlinedIcon/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    登录
+                    {t("登录")}
                 </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
-                                label="邮箱"
+                                label={t("邮箱")}
                                 value={values.email}
                                 onChange={handleChange('email')}
                                 autoComplete="email"
@@ -66,7 +70,7 @@ export default function Login({setLoading, changeActive, notice}) {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                label="密码"
+                                label={t("密码")}
                                 value={values.password}
                                 onChange={handleChange('password')}
                                 autoComplete="current-password"
@@ -74,13 +78,12 @@ export default function Login({setLoading, changeActive, notice}) {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                autoFocus
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <FormControlLabel
                                 control={<Checkbox value="allowExtraEmails" color="primary"/>}
-                                label="记住我（请勿在公共机器中选中）"
+                                label={t("记住我")}
                             />
                         </Grid>
                     </Grid>
@@ -92,12 +95,12 @@ export default function Login({setLoading, changeActive, notice}) {
                         className={classes.submit}
                         onClick={() => submitData()}
                     >
-                        登录
+                        {t("登录")}
                     </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
                             <Link to="/register">
-                                限时开放注册中！！！
+                                {t("限时开放注册中")}
                             </Link>
                         </Grid>
                     </Grid>

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import PropTypes from 'prop-types';
+import {useTranslation} from 'react-i18next';
+import "../../i18N/i18N"
 
 import i18N from '../../i18N/i18N_zh_CN';
 import tools from '../../tools/Utils';
@@ -8,6 +9,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Grid from "@material-ui/core/Grid";
 import DemandOne from "./DemandOne";
+import PropTypes from "prop-types";
 
 DemandList.propTypes = {
     notice: PropTypes.func,
@@ -15,6 +17,7 @@ DemandList.propTypes = {
 };
 
 export default function DemandList({loading, setLoading, notice}) {
+    const {t, i18n} = useTranslation();
     const classes = useStyles();
     const [demands, setDemands] = useState([]);
     const [page, setPage] = useState(i18N.common.fetch.page);
@@ -40,7 +43,7 @@ export default function DemandList({loading, setLoading, notice}) {
                     setDemands(json.objects);
                     localStorage.setItem(url + tools.cacheTimeStamp(1), JSON.stringify(json.objects));
                 } else {
-                    notice(fetchStatusAlert(status), status);
+                    notice(t(fetchStatusAlert(status)), status);
                 }
                 setLoading(false);
             });

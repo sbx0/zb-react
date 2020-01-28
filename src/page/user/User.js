@@ -1,4 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, {useState, useEffect} from 'react';
+import {useTranslation} from 'react-i18next';
+import "../../i18N/i18N"
+
 import {
     BrowserRouter as Router,
     Switch,
@@ -32,6 +35,7 @@ export default function User({setLoading, notice}) {
 
 
 function MyDetail({setLoading, notice}) {
+    const {t, i18n} = useTranslation();
     const classes = useStyles();
     const [user, setUser] = useState({});
     const [userInfo, setUserInfo] = useState({});
@@ -47,7 +51,7 @@ function MyDetail({setLoading, notice}) {
                 setUserInfo(json.object);
                 setUser(json.user);
             } else {
-                notice(fetchStatusAlert(status), status);
+                notice(t(fetchStatusAlert(status)), status);
             }
             setLoading(false);
         });
@@ -81,6 +85,7 @@ function MyDetail({setLoading, notice}) {
 }
 
 function UserDetail({setLoading, notice}) {
+    const {t, i18n} = useTranslation();
     let {userId} = useParams();
     const [user, setUser] = useState({});
 
@@ -94,7 +99,7 @@ function UserDetail({setLoading, notice}) {
             if (tools.statusToBool(status)) {
                 setUser(json.object);
             } else {
-                notice(fetchStatusAlert(status), status);
+                notice(t(fetchStatusAlert(status)), status);
             }
             setLoading(false);
         });

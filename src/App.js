@@ -7,14 +7,11 @@ import Footer from './components/Footer';
 import {createMuiTheme} from '@material-ui/core/styles';
 import {ThemeProvider} from '@material-ui/styles';
 import {makeStyles, FormControlLabel} from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
 import Home from "./page/home/Home";
 import Container from "@material-ui/core/Container";
 import SimpleBackdrop from "./components/SimpleBackdrop";
 import Demand from "./page/demand/DemandDetail";
-import Switch from "@material-ui/core/Switch";
 import PrimarySearchAppBar from "./components/PrimarySearchAppBar";
-import Typography from "@material-ui/core/Typography";
 import SignUp from "./page/user/SignUp";
 import Login from "./page/user/Login";
 import User from "./page/user/User";
@@ -26,7 +23,7 @@ export default function App() {
     const [dark, setDark] = useState(true);
     const [theme, setTheme] = useState(LightTheme);
     const [open, setOpen] = useState(false);
-    const [msg, setMsg] = useState("全局消息");
+    const [msg, setMsg] = useState("");
     const [severity, setSeverity] = useState("success");
     const [active, setActive] = useState(false);
 

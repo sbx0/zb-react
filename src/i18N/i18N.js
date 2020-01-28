@@ -1,12 +1,174 @@
-// 用于加载
-const lib = [
-    {name: 'zh_CN', value: '简体中文'},
-    {name: 'zh_TW', value: '繁體中文'},
-    {name: 'en_US', value: 'English'},
-];
+import i18n from 'i18next';
+import XHR from 'i18next-xhr-backend';
+import LanguageDetector from 'i18next-browser-languagedetector';
+import {initReactI18next} from 'react-i18next';
 
-// 从cookie中读取配置，为空则创建
-const i18N_config = 'zh_CN';
+i18n
+    .use(XHR)
+    .use(LanguageDetector)
+    .use(initReactI18next)
+    .init({
+        debug: false,
+        resources: {
+            "zh-CN": {
+                translation: {
+                    "智贝": "智贝",
+                    "已清空缓存": "已清空缓存",
+                    "消息": "消息",
+                    "通知": "通知",
+                    "首页": "首页",
+                    "个人资料": "个人资料",
+                    "退出登录": "退出登录",
+                    "清除缓存": "清除缓存",
+                    "夜间模式": "夜间模式",
+                    "搜索": "搜索",
+                    "登": "登",
+                    "登录": "登录",
+                    "注册": "注册",
+                    "注册成功": "注册成功",
+                    "操作失败": "操作失败",
+                    "操作成功": "操作成功",
+                    "空字符串": "空字符串",
+                    "无效邮箱": "无效邮箱",
+                    "重复操作": "重复操作",
+                    "密码错误": "密码错误",
+                    "暂未登录": "暂未登录",
+                    "未知错误": "未知错误",
+                    "用户名": "用户名",
+                    "邮箱": "邮箱",
+                    "密码": "密码",
+                    "同意接收邮件通知": "同意接收邮件通知",
+                    "已有账号？点我登录": "已有账号？点我登录",
+                    "记住我": "记住我",
+                    "限时开放注册中": "限时开放注册中",
+                    "预算": "预算",
+                    "截止时间": "截止时间",
+                    "版本": "版本",
+                }
+            },
+            "zh-TW": {
+                translation: {
+                    "智贝": "智貝",
+                    "已清空缓存": "已清空緩存",
+                    "消息": "消息",
+                    "通知": "通知",
+                    "首页": "首頁",
+                    "个人资料": "個人資料",
+                    "退出登录": "退出登錄",
+                    "清除缓存": "清除緩存",
+                    "夜间模式": "夜間模式",
+                    "搜索": "搜索",
+                    "登": "登",
+                    "登录": "登錄",
+                    "注册": "註冊",
+                    "注册成功": "註冊成功",
+                    "操作失败": "操作失敗",
+                    "操作成功": "操作成功",
+                    "空字符串": "空字符串",
+                    "无效邮箱": "無效郵箱",
+                    "重复操作": "重複操作",
+                    "密码错误": "密碼錯誤",
+                    "暂未登录": "暫未登錄",
+                    "未知错误": "未知錯誤",
+                    "用户名": "用戶名",
+                    "邮箱": "郵箱",
+                    "密码": "密碼",
+                    "同意接收邮件通知": "同意接收郵件通知",
+                    "已有账号？点我登录": "已有賬號？點我登錄",
+                    "记住我": "記住我",
+                    "限时开放注册中": "限時開放註冊中",
+                    "预算": "預算",
+                    "截止时间": "截止時間",
+                    "版本": "版本",
+                }
+            },
+            "en": {
+                translation: {
+                    "智贝": "ZhiBei",
+                    "已清空缓存": "Cache Cleared",
+                    "消息": "Messages",
+                    "通知": "Notifications",
+                    "首页": "Home",
+                    "个人资料": "Personal Information",
+                    "退出登录": "Logout",
+                    "清除缓存": "Clear Cache",
+                    "夜间模式": "Night Mode",
+                    "搜索": "Search",
+                    "登": "L",
+                    "登录": "Login",
+                    "注册": "Register",
+                    "注册成功": "Registration Success",
+                    "操作失败": "Operation Failed",
+                    "操作成功": "successful Operation",
+                    "空字符串": "Empty String",
+                    "无效邮箱": "Invalid Mailbox",
+                    "重复操作": "Repeat Operation",
+                    "密码错误": "Wrong Password",
+                    "暂未登录": "Not Logged In",
+                    "未知错误": "Unknown Mistake",
+                    "用户名": "UserName",
+                    "邮箱": "Mail",
+                    "密码": "Password",
+                    "同意接收邮件通知": "Agree To Receive Email Notifications",
+                    "已有账号？点我登录": "Already Have An Account",
+                    "记住我": "Remember Me",
+                    "限时开放注册中": "Registration Is Open For A Limited Time",
+                    "预算": "Budget",
+                    "截止时间": "Deadline",
+                    "版本": "Version",
+                }
+            },
+            "jp": {
+                translation: {
+                    "智贝": "智贝",
+                    "已清空缓存": "キャッシュが空になりました",
+                    "消息": "メッセージ",
+                    "通知": "通知",
+                    "首页": "ホーム",
+                    "个人资料": "個人情報",
+                    "退出登录": "ログアウト",
+                    "清除缓存": "キャッシュをクリア",
+                    "夜间模式": "ナイトモード",
+                    "搜索": "検索",
+                    "登": "サ",
+                    "登录": "ログインする",
+                    "注册": "レジ",
+                    "注册成功": "正常に登録されました",
+                    "操作失败": "操作に失敗しました",
+                    "操作成功": "操作が成功しました",
+                    "空字符串": "空の文字列",
+                    "无效邮箱": "無効なメールボックス",
+                    "重复操作": "繰り返し操作",
+                    "密码错误": "間違ったパスワード",
+                    "暂未登录": "ログインしていません",
+                    "未知错误": "不明なエラー",
+                    "用户名": "ユーザー名",
+                    "邮箱": "メールボックス",
+                    "密码": "パスワード",
+                    "同意接收邮件通知": "メール通知を受け取ることに同意する",
+                    "已有账号？点我登录": "すでにアカウントをお持ちですか？クリックしてログイン",
+                    "记住我": "私を覚えて",
+                    "限时开放注册中": "登録は期間限定です",
+                    "预算": "予算",
+                    "截止时间": "締め切り",
+                    "版本": "バージョン",
+                }
+            },
+        },
+        interpolation: {
+            escapeValue: false,
+        },
+        react: {
+            bindI18n: 'languageChanged',
+            bindI18nStore: '',
+            transEmptyNodeValue: '',
+            transSupportBasicHtmlNodes: true,
+            transKeepBasicHtmlNodesFor: ['br', 'strong', 'i'],
+            useSuspense: false,
+        }
+    }).then();
 
-// 加载i18N文件
-document.write('<script src="/js/i18N/i18N_' + i18N_config + '.js"></script>');
+// i18n.changeLanguage("zh-CN").then();
+// i18n.changeLanguage("zh-TW").then();
+// i18n.changeLanguage("jp").then();
+// i18n.changeLanguage("en").then();

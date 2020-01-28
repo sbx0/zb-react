@@ -1,4 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {useTranslation} from 'react-i18next';
+import "../../i18N/i18N"
+
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,6 +17,7 @@ import {fetchPost, fetchStatus, fetchStatusAlert, returnStatus} from "../../tool
 import {useHistory, Link} from "react-router-dom";
 
 export default function SignUp({setLoading, changeActive, notice}) {
+    const {t, i18n} = useTranslation();
     const classes = useStyles();
     let history = useHistory();
     const [values, setValues] = useState({
@@ -32,11 +36,11 @@ export default function SignUp({setLoading, changeActive, notice}) {
             setLoading(false);
             const status = json['status'];
             if (fetchStatus(status)) {
-                notice("注册成功。", status);
+                notice(t("注册成功"), status);
                 changeActive();
                 history.push("/login");
             } else {
-                notice(fetchStatusAlert(status), status);
+                notice(t(fetchStatusAlert(status)), status);
             }
         });
     }
@@ -49,13 +53,13 @@ export default function SignUp({setLoading, changeActive, notice}) {
                     <LockOutlinedIcon/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    注册
+                    {t("注册")}
                 </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
-                                label="用户名"
+                                label={t("用户名")}
                                 value={values.name}
                                 onChange={handleChange('name')}
                                 variant="outlined"
@@ -66,19 +70,18 @@ export default function SignUp({setLoading, changeActive, notice}) {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                label="邮箱"
+                                label={t("邮箱")}
                                 value={values.email}
                                 onChange={handleChange('email')}
                                 autoComplete="email"
                                 variant="outlined"
                                 required
                                 fullWidth
-                                autoFocus
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                label="密码"
+                                label={t("密码")}
                                 value={values.password}
                                 onChange={handleChange('password')}
                                 autoComplete="current-password"
@@ -86,13 +89,12 @@ export default function SignUp({setLoading, changeActive, notice}) {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                autoFocus
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <FormControlLabel
                                 control={<Checkbox value="allowExtraEmails" color="primary"/>}
-                                label="我想收到日后的更新通知"
+                                label={t("同意接收邮件通知")}
                             />
                         </Grid>
                     </Grid>
@@ -104,12 +106,12 @@ export default function SignUp({setLoading, changeActive, notice}) {
                         className={classes.submit}
                         onClick={() => submitData()}
                     >
-                        注册
+                        {t("注册")}
                     </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
                             <Link to="/login">
-                                已有账号？点我登录
+                                {t("已有账号？点我登录")}
                             </Link>
                         </Grid>
                     </Grid>

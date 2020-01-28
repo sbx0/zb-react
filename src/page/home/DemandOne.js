@@ -1,4 +1,7 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import {useTranslation} from 'react-i18next';
+import "../../i18N/i18N"
+
 import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -25,6 +28,7 @@ DemandOne.propTypes = {
 };
 
 export default function DemandOne(props) {
+    const {t, i18n} = useTranslation();
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
     let history = useHistory();
@@ -53,15 +57,14 @@ export default function DemandOne(props) {
             <CardMedia
                 className={classes.media}
                 image={props.demand.cover}
-                title="Paella dish"
                 onClick={() => {
                     history.push("/demand/" + props.demand.id);
                 }}
             />
             <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
-                    预算 {props.demand.budget}￥
-                    截至时间 {props.demand.endTime}￥
+                    {t("预算")} {props.demand.budget}￥
+                    {t("截止时间")} {props.demand.endTime}￥
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>

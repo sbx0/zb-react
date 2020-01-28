@@ -1,4 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, {useState, useEffect} from 'react';
+import {useTranslation} from 'react-i18next';
+import "../../i18N/i18N"
+
 import {
     BrowserRouter as Router,
     Switch,
@@ -13,6 +16,7 @@ import Typography from "@material-ui/core/Typography";
 import ReactMarkdown from "react-markdown";
 
 export default function Demand({setLoading, notice}) {
+    const {t, i18n} = useTranslation();
     let match = useRouteMatch();
 
     return (
@@ -21,13 +25,14 @@ export default function Demand({setLoading, notice}) {
                 <DemandDetail notice={notice} setLoading={setLoading}/>
             </Route>
             <Route path={match.path}>
-                <h3>Please select a topic.</h3>
+                <h1>404</h1>
             </Route>
         </Switch>
     );
 }
 
 function DemandDetail({setLoading, notice}) {
+    const {t, i18n} = useTranslation();
     let {demandId} = useParams();
     const [demand, setDemand] = useState({});
 
@@ -41,7 +46,7 @@ function DemandDetail({setLoading, notice}) {
             if (tools.statusToBool(status)) {
                 setDemand(json.object);
             } else {
-                notice(tools.statusToAlert(status), status);
+                notice(t(tools.statusToAlert(status)), status);
             }
             setLoading(false);
         });
