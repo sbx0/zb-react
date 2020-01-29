@@ -1,12 +1,7 @@
 import React from 'react';
-import Skeleton from '@material-ui/lab/Skeleton';
-import {makeStyles} from "@material-ui/core";
-import PropTypes from "prop-types";
-import DemandList from "./DemandList";
 
-Home.propTypes = {
-    setMsg: PropTypes.func,
-};
+import {makeStyles} from "@material-ui/core";
+import DemandList from "./DemandList";
 
 function Home({notice, setLoading}) {
     const classes = useStyles();

@@ -1,26 +1,35 @@
 import React, {useState, useEffect} from 'react';
+
 import {useTranslation} from 'react-i18next';
-import "../i18N/i18N"
+import "../i18N"
+
+import {useHistory, useLocation} from "react-router-dom";
+
+import tools from "../tools/Utils";
+import {fetchGet, fetchStatusAlert} from "../tools/Network";
 
 import {fade, makeStyles} from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import {useHistory} from "react-router-dom";
 import InboxIcon from '@material-ui/icons/MoveToInbox';
+import AppBar from '@material-ui/core/AppBar';
+import Badge from '@material-ui/core/Badge';
+import FingerprintIcon from '@material-ui/icons/Fingerprint';
+import HomeIcon from '@material-ui/icons/Home';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import InputIcon from '@material-ui/icons/Input';
+import AdbIcon from '@material-ui/icons/Adb';
+import ClearIcon from '@material-ui/icons/Clear';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import InputBase from '@material-ui/core/InputBase';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 import Avatar from "@material-ui/core/Avatar";
-import {fetchGet, fetchStatusAlert} from "../tools/Network";
-import tools from "../tools/Utils";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -32,13 +41,16 @@ import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
 
 export default function PrimarySearchAppBar({dark, setDark, active, changeActive, setLoading, notice}) {
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
+    let location = useLocation();
     const classes = useStyles();
     let history = useHistory();
     const [user, setUser] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
+
+    const isAdmin = location.pathname.substr(0, 6) === "/admin";
 
     const toggleDrawer = (open) => event => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -59,6 +71,9 @@ export default function PrimarySearchAppBar({dark, setDark, active, changeActive
             } else {
                 notice(fetchStatusAlert(status), status);
             }
+            setLoading(false);
+        }).catch((error) => {
+            notice(error.toString(), -1);
             setLoading(false);
         });
     }, [active]);
@@ -173,22 +188,57 @@ export default function PrimarySearchAppBar({dark, setDark, active, changeActive
                         onKeyDown={toggleDrawer(false)}
                     >
                         <List>
-                            <ListItem
-                                button
-                                onClick={() => {
-                                    history.push("/");
-                                }}
-                            >
-                                <ListItemIcon><InboxIcon/></ListItemIcon>
-                                <ListItemText primary={t("首页")}/>
-                            </ListItem>
+                            {
+                                isAdmin ?
+                                    <>
+                                        <ListItem
+                                            button
+                                            onClick={() => {
+                                                history.push("/");
+                                            }}
+                                        >
+                                            <ListItemIcon><InboxIcon/></ListItemIcon>
+                                            <ListItemText primary={t("前台")}/>
+                                        </ListItem>
+                                        <ListItem
+                                            button
+                                            onClick={() => {
+                                                history.push("/admin");
+                                            }}
+                                        >
+                                            <ListItemIcon><HomeIcon/></ListItemIcon>
+                                            <ListItemText primary={t("首页")}/>
+                                        </ListItem>
+                                    </>
+                                    :
+                                    <>
+                                        <ListItem
+                                            button
+                                            onClick={() => {
+                                                history.push("/admin");
+                                            }}
+                                        >
+                                            <ListItemIcon><FingerprintIcon/></ListItemIcon>
+                                            <ListItemText primary={t("后台")}/>
+                                        </ListItem>
+                                        <ListItem
+                                            button
+                                            onClick={() => {
+                                                history.push("/");
+                                            }}
+                                        >
+                                            <ListItemIcon><HomeIcon/></ListItemIcon>
+                                            <ListItemText primary={t("首页")}/>
+                                        </ListItem>
+                                    </>
+                            }
                             <ListItem
                                 button
                                 onClick={() => {
                                     history.push("/login");
                                 }}
                             >
-                                <ListItemIcon><InboxIcon/></ListItemIcon>
+                                <ListItemIcon><VpnKeyIcon/></ListItemIcon>
                                 <ListItemText primary={t("登录")}/>
                             </ListItem>
                             <ListItem
@@ -197,16 +247,25 @@ export default function PrimarySearchAppBar({dark, setDark, active, changeActive
                                     history.push("/register");
                                 }}
                             >
-                                <ListItemIcon><InboxIcon/></ListItemIcon>
+                                <ListItemIcon><InputIcon/></ListItemIcon>
                                 <ListItemText primary={t("注册")}/>
                             </ListItem>
                         </List>
                         <Divider/>
                         <ListItem
                             button
+                            onClick={() => {
+                                history.push("/template");
+                            }}
+                        >
+                            <ListItemIcon><AdbIcon/></ListItemIcon>
+                            <ListItemText primary={t("测试页面")}/>
+                        </ListItem>
+                        <ListItem
+                            button
                             onClick={clearLocalStorage}
                         >
-                            <ListItemIcon><InboxIcon/></ListItemIcon>
+                            <ListItemIcon><ClearIcon/></ListItemIcon>
                             <ListItemText primary={t("清除缓存")}/>
                         </ListItem>
                         <Divider/>

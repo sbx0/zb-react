@@ -1,4 +1,4 @@
-import i18N from '../i18N/i18N_zh_CN';
+import global from '../tools/Global';
 
 export function fetchStatus(status) {
     return status === returnStatus.success.code;
@@ -62,7 +62,7 @@ const headers = {
 };
 
 export async function fetchPost(url, params) {
-    url = i18N.server_config + url;
+    url = global.server_config + url;
     const formData = new FormData();
     if (params) {
         Object.keys(params).forEach(
@@ -82,7 +82,7 @@ export async function fetchPost(url, params) {
 }
 
 export async function fetchGet(url, params) {
-    url = i18N.server_config + url;
+    url = global.server_config + url;
     if (params) {
         const paramsArray = [];
         Object.keys(params).forEach((key) =>

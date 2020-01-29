@@ -1,8 +1,18 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
+
 import {useTranslation} from 'react-i18next';
-import "../../i18N/i18N"
+import "../../i18N"
+
+import {useHistory} from "react-router-dom";
+
+import global from "../../tools/Global";
 
 import {makeStyles} from '@material-ui/core/styles';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import ShareIcon from '@material-ui/icons/Share';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import ReactMarkdown from "react-markdown";
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -14,21 +24,9 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import {red} from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import PropTypes from "prop-types";
-import i18N from "../../i18N/i18N_zh_CN";
-import ReactMarkdown from "react-markdown";
-import {Link, useHistory} from "react-router-dom";
 
-DemandOne.propTypes = {
-    demand: PropTypes.object,
-};
-
-export default function DemandOne(props) {
-    const {t, i18n} = useTranslation();
+export default function DemandOne({demand}) {
+    const {t} = useTranslation();
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
     let history = useHistory();
@@ -41,8 +39,8 @@ export default function DemandOne(props) {
         <Card className={classes.card}>
             <CardHeader
                 avatar={
-                    <Avatar aria-label={props.demand.poster.nickname} className={classes.avatar}
-                            src={i18N.server_config + props.demand.poster.avatar}>
+                    <Avatar aria-label={demand.poster.nickname} className={classes.avatar}
+                            src={global.server_config + demand.poster.avatar}>
                         R
                     </Avatar>
                 }
@@ -51,25 +49,25 @@ export default function DemandOne(props) {
                         <MoreVertIcon/>
                     </IconButton>
                 }
-                title={props.demand.title}
-                subheader={props.demand.time}
+                title={demand.title}
+                subheader={demand.time}
             />
             <CardMedia
                 className={classes.media}
-                image={props.demand.cover}
+                image={demand.cover}
                 onClick={() => {
-                    history.push("/demand/" + props.demand.id);
+                    history.push("/demand/" + demand.id);
                 }}
             />
             <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
-                    {t("预算")} {props.demand.budget}￥
-                    {t("截止时间")} {props.demand.endTime}￥
+                    {t("预算")} {demand.budget}￥
+                    {t("截止时间")} {demand.endTime}￥
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites" onClick={() => {
-                    history.push("/demand/" + props.demand.id);
+                    history.push("/demand/" + demand.id);
                 }}>
                     <FavoriteIcon/>
                 </IconButton>
@@ -91,7 +89,7 @@ export default function DemandOne(props) {
                 <CardContent>
                     <Typography paragraph>
                         <ReactMarkdown
-                            source={props.demand.content}
+                            source={demand.content}
                             escapeHtml={false}
                         />
                     </Typography>

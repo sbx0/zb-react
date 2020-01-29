@@ -41,6 +41,9 @@ export default function Login({setLoading, changeActive, notice}) {
             } else {
                 notice(t(fetchStatusAlert(status)), status);
             }
+        }).catch((error) => {
+            notice(error.toString(), -1);
+            setLoading(false);
         });
     }
 

@@ -1,21 +1,28 @@
 import React, {useState, useEffect} from 'react';
-import {BrowserRouter, Route, Switch as SwitchRoute} from 'react-router-dom';
+
+import {
+    Switch as SwitchRoute,
+    Route,
+    BrowserRouter
+} from 'react-router-dom';
 
 import './App.css';
+import Template from "./tools/Template";
 import Footer from './components/Footer';
-
-import {createMuiTheme} from '@material-ui/core/styles';
-import {ThemeProvider} from '@material-ui/styles';
-import {makeStyles, FormControlLabel} from '@material-ui/core';
-import Home from "./page/home/Home";
-import Container from "@material-ui/core/Container";
 import SimpleBackdrop from "./components/SimpleBackdrop";
-import Demand from "./page/demand/DemandDetail";
 import PrimarySearchAppBar from "./components/PrimarySearchAppBar";
+import CustomizedSnackbars from "./components/CustomizedSnackbars";
+import Home from "./page/home/Home";
 import SignUp from "./page/user/SignUp";
 import Login from "./page/user/Login";
 import User from "./page/user/User";
-import CustomizedSnackbars from "./components/CustomizedSnackbars";
+import Demand from "./page/demand/DemandDetail";
+import Main from "./admin/Main";
+
+import {createMuiTheme} from '@material-ui/core/styles';
+import {ThemeProvider} from '@material-ui/styles';
+import {makeStyles} from '@material-ui/core';
+import Container from "@material-ui/core/Container";
 
 export default function App() {
     const classes = useStyles();
@@ -78,12 +85,12 @@ export default function App() {
             <BrowserRouter>
                 <div className={dark ? classes.backgroundDark : classes.backgroundLight}>
                     <PrimarySearchAppBar
-                        dark={dark}
-                        setDark={setDark}
-                        active={active}
-                        changeActive={changeActive}
-                        setLoading={setLoading}
                         notice={notice}
+                        active={active}
+                        dark={dark}
+                        setLoading={setLoading}
+                        setDark={setDark}
+                        changeActive={changeActive}
                     />
                     <Container className={classes.paddingTop}>
                         <SwitchRoute>
@@ -103,16 +110,16 @@ export default function App() {
                             </Route>
                             <Route path="/register">
                                 <SignUp
-                                    changeActive={changeActive}
-                                    setLoading={setLoading}
                                     notice={notice}
+                                    setLoading={setLoading}
+                                    changeActive={changeActive}
                                 />
                             </Route>
                             <Route path="/login">
                                 <Login
-                                    changeActive={changeActive}
-                                    setLoading={setLoading}
                                     notice={notice}
+                                    setLoading={setLoading}
+                                    changeActive={changeActive}
                                 />
                             </Route>
                             <Route path="/user">
@@ -120,6 +127,15 @@ export default function App() {
                                     notice={notice}
                                     setLoading={setLoading}
                                     setOpen={setOpen}
+                                />
+                            </Route>
+                            <Route path="/admin">
+                                <Main/>
+                            </Route>
+                            <Route path="/template">
+                                <Template
+                                    notice={notice}
+                                    setLoading={setLoading}
                                 />
                             </Route>
                         </SwitchRoute>

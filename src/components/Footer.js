@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import {useTranslation} from 'react-i18next';
-import "../i18N/i18N"
+import React from 'react';
 
-import i18N from '../i18N/i18N_zh_CN';
+import {useTranslation} from 'react-i18next';
+import "../i18N"
+
+import global from '../tools/Global';
 
 import {makeStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -11,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import LanguageSelect from "./LanguageSelect";
 
 export default function Footer() {
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
     const classes = useStyles();
 
     return (
@@ -26,7 +27,7 @@ export default function Footer() {
             >
                 <Typography variant="caption" gutterBottom display="block" color="textSecondary">
                     {t("智贝")} 2019 - 2020<br/>
-                    {t("版本")} {i18N.dev_version}<br/>
+                    {t("版本")} {global.dev_version}<br/>
                     Power By React<br/>
                     <LanguageSelect/>
                 </Typography>

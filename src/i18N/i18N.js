@@ -116,6 +116,11 @@ i18n
                     "预算": "Budget",
                     "截止时间": "Deadline",
                     "版本": "Version",
+                    "测试模块": "Test Module",
+                    "后台": "Admin",
+                    "测试页面": "Test Page",
+                    "前台": "Index",
+                    "不要点我": "Don't Click Me",
                 }
             },
             "jp": {

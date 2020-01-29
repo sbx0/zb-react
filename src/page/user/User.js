@@ -54,6 +54,9 @@ function MyDetail({setLoading, notice}) {
                 notice(t(fetchStatusAlert(status)), status);
             }
             setLoading(false);
+        }).catch((error) => {
+            notice(error.toString(), -1);
+            setLoading(false);
         });
     }, []);
 
@@ -90,7 +93,7 @@ function UserDetail({setLoading, notice}) {
     const [user, setUser] = useState({});
 
     useEffect(() => {
-        let url = '/demand/normal?id=' + userId;
+        let url = 'demand/normal?id=' + userId;
         setLoading(true);
         fetchGet(
             url
@@ -101,6 +104,9 @@ function UserDetail({setLoading, notice}) {
             } else {
                 notice(t(fetchStatusAlert(status)), status);
             }
+            setLoading(false);
+        }).catch((error) => {
+            notice(error.toString(), -1);
             setLoading(false);
         });
     }, [userId]);

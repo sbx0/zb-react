@@ -1,16 +1,7 @@
-const i18N = {
+const global = {
     dev_version: '0.0.11',
     server_config: 'https://zb.sbx0.cn/',
     // server_config: 'http://localhost:8085/',
-    page: {
-        home: {
-            nav_bar_title: [
-                '需求',
-                '问题',
-                '文章',
-            ]
-        }
-    },
     common: {
         fetch: {
             page: 0,
@@ -50,4 +41,4 @@ const i18N = {
     }
 };
 
-export default i18N;
+export default global;

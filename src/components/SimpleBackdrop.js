@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react';
+
+import {makeStyles} from '@material-ui/core/styles';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {makeStyles} from '@material-ui/core/styles';
 
 export default function SimpleBackdrop(props) {
     const classes = useStyles();

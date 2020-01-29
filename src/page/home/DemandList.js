@@ -26,7 +26,7 @@ export default function DemandList({loading, setLoading, notice}) {
     const [direction, setDirection] = useState(i18N.common.fetch.direction);
 
     useEffect(() => {
-        let url = '/demand/normal/list?page=' + (page + 1) +
+        let url = 'demand/normal/list?page=' + (page + 1) +
             '&size=' + size +
             '&attribute=time' +
             '&direction=' + direction;
@@ -45,6 +45,9 @@ export default function DemandList({loading, setLoading, notice}) {
                 } else {
                     notice(t(fetchStatusAlert(status)), status);
                 }
+                setLoading(false);
+            }).catch((error) => {
+                notice(error.toString(), -1);
                 setLoading(false);
             });
         }
