@@ -27,26 +27,6 @@ export default {
         console.log(timeStamp + timeStampMinute);
         return timeStamp + timeStampMinute;
     },
-    // 将状态码转换成提示语句
-    statusToAlert(status) {
-        switch (status) {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-                return global.status[status];
-            default:
-                return 'Unknown Wrong';
-        }
-    },
-    // 判断状态码
-    statusToBool(status) {
-        return status === 0;
-    },
     // 规格化小数
     numToFixed(x, num) {
         let clip;

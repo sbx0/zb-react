@@ -16,7 +16,7 @@ import Container from '@material-ui/core/Container';
 import {fetchPost, fetchStatus, fetchStatusAlert, returnStatus} from "../../tools/Network";
 import {useHistory, Link} from "react-router-dom";
 
-export default function SignUp({setLoading, changeActive, notice}) {
+export default function Register({setLoading, changeActive, notice}) {
     const {t, i18n} = useTranslation();
     const classes = useStyles();
     let history = useHistory();

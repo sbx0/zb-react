@@ -4,7 +4,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-export default function SimpleBackdrop(props) {
+export default function LoadingBackdrop(props) {
     const classes = useStyles();
 
     useEffect(() => {

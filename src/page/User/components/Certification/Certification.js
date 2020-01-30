@@ -1,17 +1,17 @@
 import React, {useState, useEffect} from 'react';
 
 import {useTranslation} from 'react-i18next';
-import "../i18N"
+import "../../../../i18N"
 
 import {useHistory, useLocation} from "react-router-dom";
 
-import {fetchGet, fetchStatusAlert} from "./Network";
+import {fetchGet, fetchStatusAlert} from "../../../../tools/Network";
 
 import {makeStyles} from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import Button from "@material-ui/core/Button";
 
-export default function Template({notice, setLoading}) {
+export default function Certification({notice, setLoading}) {
     const classes = useStyles();
     const {t} = useTranslation();
     let location = useLocation();
@@ -36,7 +36,7 @@ export default function Template({notice, setLoading}) {
             url
         ).then((json) => {
             const status = json['status'];
-            notice(t(fetchStatusAlert(status)), status);
+            notice(fetchStatusAlert(status), status);
         }).catch((error) => {
             notice(error.toString(), -1);
         });
@@ -44,14 +44,17 @@ export default function Template({notice, setLoading}) {
 
     return (
         <div className={classes.center}>
-            <Typography variant="h3" align="center">{t("测试模块")}</Typography>
             <Button
                 variant="contained"
-                color="secondary"
+                color="primary"
+                size="large"
                 className={classes.center}
-                onClick={test}
+                startIcon={<VerifiedUserIcon/>}
+                onClick={() => {
+                    history.push("/certification")
+                }}
             >
-                {t("不要点我")}
+                {t("认证")}
             </Button>
         </div>
     );
@@ -59,7 +62,7 @@ export default function Template({notice, setLoading}) {
 
 const useStyles = makeStyles(theme => ({
     center: {
-        display: 'block',
         margin: '5px auto',
+        textAlign: 'center',
     },
 }));

@@ -1,21 +1,23 @@
 import React, {useState, useEffect} from 'react';
+
 import {useTranslation} from 'react-i18next';
-import "../../i18N/i18N"
+import "../../i18N"
 
 import {
-    BrowserRouter as Router,
     Switch,
     Route,
-    Link,
     useRouteMatch,
     useParams,
 } from "react-router-dom";
+
+import {fetchGet, fetchStatus, fetchStatusAlert} from "../../tools/Network";
+import {Certification} from "./components";
 import tools from "../../tools/Utils";
-import {fetchGet, fetchStatusAlert} from "../../tools/Network";
-import Typography from "@material-ui/core/Typography";
+
 import ReactMarkdown from "react-markdown";
-import Avatar from "@material-ui/core/Avatar";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import Typography from "@material-ui/core/Typography";
+import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
 
 export default function User({setLoading, notice}) {
@@ -35,7 +37,7 @@ export default function User({setLoading, notice}) {
 
 
 function MyDetail({setLoading, notice}) {
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
     const classes = useStyles();
     const [user, setUser] = useState({});
     const [userInfo, setUserInfo] = useState({});
@@ -47,7 +49,7 @@ function MyDetail({setLoading, notice}) {
             url
         ).then((json) => {
             const status = json['status'];
-            if (tools.statusToBool(status)) {
+            if (fetchStatus(status)) {
                 setUserInfo(json.object);
                 setUser(json.user);
             } else {
@@ -83,6 +85,7 @@ function MyDetail({setLoading, notice}) {
                     escapeHtml={false}
                 />
             </Typography>
+            <Certification notice={notice}/>
         </>
     );
 }

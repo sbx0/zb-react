@@ -7,6 +7,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Typography from '@material-ui/core/Typography';
 
 export default function LanguageSelect() {
     const {t, i18n} = useTranslation();
@@ -27,8 +28,13 @@ export default function LanguageSelect() {
                 <MenuItem value="zh-CN">简体中文</MenuItem>
                 <MenuItem value="zh-TW">繁體中文</MenuItem>
                 <MenuItem value="en">English</MenuItem>
+                <MenuItem value="de">Deutsch</MenuItem>
                 <MenuItem value="jp">日本語</MenuItem>
             </Select>
+            {
+                language !== "zh-CN" ?
+                    <Typography variant="inherit">{t("翻译来自Google Translate")}</Typography> : <></>
+            }
         </FormControl>
     );
 }

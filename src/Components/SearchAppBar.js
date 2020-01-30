@@ -5,8 +5,7 @@ import "../i18N"
 
 import {useHistory, useLocation} from "react-router-dom";
 
-import tools from "../tools/Utils";
-import {fetchGet, fetchStatusAlert} from "../tools/Network";
+import {fetchGet, fetchStatus, fetchStatusAlert} from "../tools/Network";
 
 import {fade, makeStyles} from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -40,7 +39,7 @@ import {FormControlLabel} from "@material-ui/core";
 import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
 
-export default function PrimarySearchAppBar({dark, setDark, active, changeActive, setLoading, notice}) {
+export default function SearchAppBar({dark, setDark, active, changeActive, setLoading, notice}) {
     const {t} = useTranslation();
     let location = useLocation();
     const classes = useStyles();
@@ -60,13 +59,38 @@ export default function PrimarySearchAppBar({dark, setDark, active, changeActive
     };
 
     useEffect(() => {
+        heartbeat();
+    }, []);
+
+    useEffect(() => {
+        setInterval(
+            () => heartbeat(),
+            1000 * 60 * 5,
+        );
+    }, []);
+
+    function heartbeat() {
+        let url = 'user/base/heartbeat';
+        fetchGet(
+            url
+        ).then((json) => {
+            const status = json['status'];
+            if (!fetchStatus(status)) {
+                notice(fetchStatusAlert(status), status);
+            }
+        }).catch((error) => {
+            notice(error.toString(), -1);
+        });
+    }
+
+    useEffect(() => {
         let url = 'user/base/basic';
         setLoading(true);
         fetchGet(
             url
         ).then((json) => {
             const status = json['status'];
-            if (tools.statusToBool(status)) {
+            if (fetchStatus(status)) {
                 setUser(json["object"]);
             } else {
                 notice(fetchStatusAlert(status), status);
@@ -156,7 +180,7 @@ export default function PrimarySearchAppBar({dark, setDark, active, changeActive
                             url
                         ).then((json) => {
                             const status = json['status'];
-                            if (tools.statusToBool(status)) {
+                            if (fetchStatus(status)) {
                                 changeActive();
                                 history.push("/login");
                             } else {

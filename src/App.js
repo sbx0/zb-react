@@ -1,28 +1,23 @@
 import React, {useState, useEffect} from 'react';
 
 import {
-    Switch as SwitchRoute,
-    Route,
     BrowserRouter
 } from 'react-router-dom';
 
 import './App.css';
-import Template from "./tools/Template";
-import Footer from './components/Footer';
-import SimpleBackdrop from "./components/SimpleBackdrop";
-import PrimarySearchAppBar from "./components/PrimarySearchAppBar";
-import CustomizedSnackbars from "./components/CustomizedSnackbars";
-import Home from "./page/home/Home";
-import SignUp from "./page/user/SignUp";
-import Login from "./page/user/Login";
-import User from "./page/user/User";
-import Demand from "./page/demand/DemandDetail";
-import Main from "./admin/Main";
+import {
+    NoticeSnackbars,
+    Footer,
+    SearchAppBar,
+    LoadingBackdrop,
+} from "./Components";
+import RoutesConfig from "./config/RoutesConfig";
 
 import {createMuiTheme} from '@material-ui/core/styles';
 import {ThemeProvider} from '@material-ui/styles';
 import {makeStyles} from '@material-ui/core';
 import Container from "@material-ui/core/Container";
+
 
 export default function App() {
     const classes = useStyles();
@@ -84,7 +79,7 @@ export default function App() {
         <ThemeProvider theme={theme}>
             <BrowserRouter>
                 <div className={dark ? classes.backgroundDark : classes.backgroundLight}>
-                    <PrimarySearchAppBar
+                    <SearchAppBar
                         notice={notice}
                         active={active}
                         dark={dark}
@@ -93,55 +88,14 @@ export default function App() {
                         changeActive={changeActive}
                     />
                     <Container className={classes.paddingTop}>
-                        <SwitchRoute>
-                            <Route path="/" exact>
-                                <Home
-                                    notice={notice}
-                                    setLoading={setLoading}
-                                    setOpen={setOpen}
-                                />
-                            </Route>
-                            <Route path="/demand">
-                                <Demand
-                                    notice={notice}
-                                    setLoading={setLoading}
-                                    setOpen={setOpen}
-                                />
-                            </Route>
-                            <Route path="/register">
-                                <SignUp
-                                    notice={notice}
-                                    setLoading={setLoading}
-                                    changeActive={changeActive}
-                                />
-                            </Route>
-                            <Route path="/login">
-                                <Login
-                                    notice={notice}
-                                    setLoading={setLoading}
-                                    changeActive={changeActive}
-                                />
-                            </Route>
-                            <Route path="/user">
-                                <User
-                                    notice={notice}
-                                    setLoading={setLoading}
-                                    setOpen={setOpen}
-                                />
-                            </Route>
-                            <Route path="/admin">
-                                <Main/>
-                            </Route>
-                            <Route path="/template">
-                                <Template
-                                    notice={notice}
-                                    setLoading={setLoading}
-                                />
-                            </Route>
-                        </SwitchRoute>
+                        <RoutesConfig
+                            notice={notice}
+                            setLoading={setLoading}
+                            changeActive={changeActive}
+                        />
                         <Footer/>
-                        <SimpleBackdrop loading={loading}/>
-                        <CustomizedSnackbars
+                        <LoadingBackdrop loading={loading}/>
+                        <NoticeSnackbars
                             msg={msg}
                             severity={severity}
                             open={open}

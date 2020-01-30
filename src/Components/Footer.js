@@ -3,13 +3,13 @@ import React from 'react';
 import {useTranslation} from 'react-i18next';
 import "../i18N"
 
+import LanguageSelect from "./LanguageSelect";
 import global from '../tools/Global';
 
 import {makeStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
-import LanguageSelect from "./LanguageSelect";
 
 export default function Footer() {
     const {t} = useTranslation();
