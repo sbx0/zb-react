@@ -28,6 +28,7 @@ export default function LanguageSelect() {
                 <MenuItem value="zh-CN">简体中文</MenuItem>
                 <MenuItem value="zh-TW">繁體中文</MenuItem>
                 <MenuItem value="en">English</MenuItem>
+                <MenuItem value="ru">немецкий</MenuItem>
                 <MenuItem value="de">Deutsch</MenuItem>
                 <MenuItem value="jp">日本語</MenuItem>
             </Select>

@@ -2,11 +2,13 @@ import i18n from 'i18next';
 import XHR from 'i18next-xhr-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import {initReactI18next} from 'react-i18next';
+
 import {zhCN} from "./i18N.zh-CN";
 import {zhTW} from "./i18N.zh-TW";
 import {en} from "./i18N.en";
 import {jp} from "./i18N.jp";
 import {de} from "./i18N.de";
+import {ru} from "./i18N.ru";
 
 i18n
     .use(XHR)
@@ -20,6 +22,7 @@ i18n
             "en": {translation: en},
             "jp": {translation: jp},
             "de": {translation: de},
+            "ru": {translation: ru},
         },
         interpolation: {
             escapeValue: false,

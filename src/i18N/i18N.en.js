@@ -41,4 +41,5 @@ export const en = {
     "访问量": "Views",
     "活跃数": "ActiveCount",
     "认证": "Certification",
+    "终端": "Terminal",
 };

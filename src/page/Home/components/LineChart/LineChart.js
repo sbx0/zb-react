@@ -14,7 +14,7 @@ import {
 import Skeleton from '@material-ui/lab/Skeleton';
 import {fetchGet, fetchStatus, fetchStatusAlert} from "../../../../tools/Network";
 
-export default function DataVisualization({notice, day, kind, group, referenceValue}) {
+export default function LineChart({notice, day, kind, group, referenceValue}) {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -26,7 +26,6 @@ export default function DataVisualization({notice, day, kind, group, referenceVa
         ).then((json) => {
             const status = json['status'];
             if (fetchStatus(status)) {
-                console.log(json["object"]);
                 const data = json['objects']['data'];
                 setData(data);
                 setLoading(false);
@@ -61,16 +60,16 @@ export default function DataVisualization({notice, day, kind, group, referenceVa
                             type={'number'}
                             unit={''}
                         />
-                        <ReferenceLine y={referenceValue} stroke="red" strokeDasharray="3 3"/>
+                        {/*<ReferenceLine y={referenceValue} stroke="red" strokeDasharray="3 3"/>*/}
                         <Tooltip isAnimationActive={false}/>
                         <Line
                             type="monotone"
                             dataKey={kind}
                             name={kind}
-                            stroke="#82ca9d"
-                            strokeWidth={1}
+                            stroke="#8884d8"
+                            strokeWidth={3}
+                            activeDot={{r: 8}}
                             isAnimationActive={false}
-                            dot={false}
                         />
                     </ComposedChart>
                 </ResponsiveContainer>
