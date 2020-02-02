@@ -13,6 +13,7 @@ import {
     User,
     Login,
     NotFound,
+    Certification,
 } from "../page";
 import {
     Main,
@@ -20,6 +21,7 @@ import {
 import {
     Template,
 } from "../tools";
+import Review from "../admin/Review";
 
 function RoutesConfig({notice, setLoading, changeActive}) {
     return (
@@ -61,16 +63,31 @@ function RoutesConfig({notice, setLoading, changeActive}) {
             </Route>
             <Route
                 exact
-                path="/admin"
-            >
-                <Main notice={notice} setLoading={setLoading}/>
-            </Route>
-            <Route
-                exact
                 path="/template"
             >
                 <Template notice={notice} setLoading={setLoading}/>
             </Route>
+            <Route
+                exact
+                path="/certification"
+            >
+                <Certification notice={notice} setLoading={setLoading}/>
+            </Route>
+
+            <Route
+                exact
+                path="/admin"
+            >
+                <Main notice={notice} setLoading={setLoading}/>
+            </Route>
+
+            <Route
+                exact
+                path="/admin/review"
+            >
+                <Review notice={notice} setLoading={setLoading}/>
+            </Route>
+
             <Route
                 exact
                 path="/notFound"

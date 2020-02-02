@@ -1,4 +1,4 @@
-import React, {useState, forwardRef} from 'react';
+import React, {useState, forwardRef, useEffect} from 'react';
 
 import {useTranslation} from 'react-i18next';
 import "../../i18N"
@@ -22,6 +22,9 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import {fetchGet, fetchStatus, fetchStatusAlert} from "../../tools/Network";
+import ReactMarkdown from "react-markdown";
+import Container from "@material-ui/core/Container";
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref}/>),
@@ -68,23 +71,78 @@ function Review({notice, setLoading}) {
             <MaterialTable
                 icons={tableIcons}
                 columns={[
-                    {title: "Adı", field: "name"},
-                    {title: "Soyadı", field: "surname"},
-                    {title: "Doğum Yılı", field: "birthYear", type: "numeric"},
+                    {title: "id", field: "id"},
+                    {title: "userId", field: "userId"},
+                    {title: "status", field: "status"},
+                    {title: "kind", field: "kind", type: "numeric"},
+                    {title: "material", field: "material", render: rowData => rowData.material.substr(0, 5)},
+                    {title: "validityTime", field: "validityTime"},
+                    {title: "submitTime", field: "submitTime"},
+                ]}
+                data={query =>
+                    new Promise((resolve, reject) => {
+                        let url = 'user/certification/list';
+                        url += '?page=' + (query.page + 1)
+                        url += '&size=' + query.pageSize
+                        fetchGet(
+                            url
+                        ).then((json) => {
+                            const status = json['status'];
+                            const data = json['objects'];
+                            if (fetchStatus(status)) {
+                                resolve({
+                                    data: data,
+                                    page: json['page'] - 1,
+                                    totalCount: json['total'],
+                                });
+                            } else {
+                                notice(t(fetchStatusAlert(status)), status);
+                            }
+                        }).catch((error) => {
+                            notice(error.toString(), -1);
+                        });
+                    })
+                }
+                title="Demo Title"
+                editable={{
+                    onRowAdd: newData => new Promise(resolve => {
+                        console.log(newData)
+                        resolve();
+                    }),
+                    onRowUpdate: (newData, oldData) => new Promise(resolve => {
+                        console.log(newData)
+                        console.log(oldData)
+                        resolve();
+                    }),
+                    onRowDelete: oldData => new Promise(resolve => {
+                        console.log(oldData)
+                        resolve();
+                    }),
+                }}
+                actions={[
                     {
-                        title: "Doğum Yeri",
-                        field: "birthCity",
-                        lookup: {34: "İstanbul", 63: "Şanlıurfa"}
+                        icon: () => <Check/>,
+                        tooltip: '审核通过',
+                        onClick: (event, rowData) => {
+                            console.log(rowData)
+                        }
                     }
                 ]}
-                data={[
-                    {name: "Mehmet", surname: "Baran", birthYear: 1987, birthCity: 63},
-                    {name: "Mehmet", surname: "Baran", birthYear: 1987, birthCity: 63},
-                    {name: "Mehmet", surname: "Baran", birthYear: 1987, birthCity: 63},
-                    {name: "Mehmet", surname: "Baran", birthYear: 1987, birthCity: 63},
-                    {name: "Mehmet", surname: "Baran", birthYear: 1987, birthCity: 63},
+                detailPanel={[
+                    {
+                        tooltip: 'Show Name',
+                        render: rowData => {
+                            return (
+                                <Container>
+                                    <ReactMarkdown
+                                        source={rowData.material}
+                                        escapeHtml={false}
+                                    />
+                                </Container>
+                            )
+                        },
+                    },
                 ]}
-                title="Demo Title"
             />
         </div>
     );

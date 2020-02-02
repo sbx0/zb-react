@@ -4,3 +4,4 @@ export {default as Register} from './Register';
 export {default as User} from './User';
 export {default as Login} from './Login';
 export {default as NotFound} from './NotFound';
+export {default as Certification} from './Certification';

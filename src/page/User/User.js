@@ -3,6 +3,8 @@ import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import "../../i18N"
 
+import {useHistory, useLocation} from "react-router-dom";
+
 import {
     Switch,
     Route,
@@ -11,7 +13,6 @@ import {
 } from "react-router-dom";
 
 import {fetchGet, fetchStatus, fetchStatusAlert} from "../../tools/Network";
-import {Certification} from "./components";
 import tools from "../../tools/Utils";
 
 import ReactMarkdown from "react-markdown";
@@ -19,6 +20,9 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
+import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
+import Button from "@material-ui/core/Button";
+import CertificationCard from "./CertificationCard/CertificationCard"
 
 export default function User({setLoading, notice}) {
     let match = useRouteMatch();
@@ -38,6 +42,8 @@ export default function User({setLoading, notice}) {
 
 function MyDetail({setLoading, notice}) {
     const {t} = useTranslation();
+    let location = useLocation();
+    let history = useHistory();
     const classes = useStyles();
     const [user, setUser] = useState({});
     const [userInfo, setUserInfo] = useState({});
@@ -85,7 +91,7 @@ function MyDetail({setLoading, notice}) {
                     escapeHtml={false}
                 />
             </Typography>
-            <Certification notice={notice}/>
+            <CertificationCard notice={notice} setLoading={setLoading}/>
         </>
     );
 }
