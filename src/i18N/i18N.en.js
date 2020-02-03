@@ -3,7 +3,7 @@ export const en = {
     "已清空缓存": "Cache Cleared",
     "消息": "Messages",
     "通知": "Notifications",
-    "首页": "Home",
+    "首页": "Home Page",
     "个人资料": "Personal Information",
     "退出登录": "Logout",
     "清除缓存": "Clear Cache",
@@ -42,4 +42,34 @@ export const en = {
     "活跃数": "ActiveCount",
     "认证": "Certification",
     "终端": "Terminal",
+    "实验场": "Experimental Field",
+    "认证审核": "Certification Audit",
+    "查看材料": "View Material",
+    "通过": "Pass",
+    "驳回": "Reject",
+    "刷新": "Refresh",
+    "行": "rows",
+    "操作": "Actions",
+    "上一页": "Previous Page",
+    "下一页": "Next Page",
+    "末页": "Last Page",
+    "审核中": "Under Review",
+    "申请认证": "Apply For Certification",
+    "认证类别": "Category",
+    "提交": "Submit",
+    "同意智贝的协议": "Agree Agreement",
+    "认证申请材料格式示例": "** Name / Organization Name **: XXXX \n " +
+        "\n" +
+        "** Relevant certificate number **: XXXX-XXXX-XXXX-XXX-XXX \n" +
+        "\n" +
+        "** Electronic photocopy of ID card / Electronic scanned version of stamped official document **:",
+    "用户认证表": {
+        id: "Id",
+        userId: "UserId",
+        status: "Status",
+        kind: "Kind",
+        material: "Material",
+        validityTime: "ValidityTime",
+        submitTime: "SubmitTime",
+    }
 };

@@ -14,6 +14,7 @@ import {
     Login,
     NotFound,
     Certification,
+    Beta
 } from "../page";
 import {
     Main,
@@ -80,7 +81,6 @@ function RoutesConfig({notice, setLoading, changeActive}) {
             >
                 <Main notice={notice} setLoading={setLoading}/>
             </Route>
-
             <Route
                 exact
                 path="/admin/review"
@@ -88,6 +88,12 @@ function RoutesConfig({notice, setLoading, changeActive}) {
                 <Review notice={notice} setLoading={setLoading}/>
             </Route>
 
+            <Route
+                exact
+                path="/beta"
+            >
+                <Beta notice={notice} setLoading={setLoading}/>
+            </Route>
             <Route
                 exact
                 path="/notFound"

@@ -1,6 +1,6 @@
 {
   "name": "zb-react",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.8.3",
@@ -10,7 +10,15 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.2.1",
+    "@vx/curve": "latest",
+    "@vx/gradient": "0.0.193",
+    "@vx/grid": "0.0.193",
+    "@vx/group": "0.0.193",
+    "@vx/mock-data": "0.0.193",
+    "@vx/scale": "0.0.193",
+    "@vx/shape": "0.0.193",
     "clsx": "^1.0.4",
+    "d3-array": "latest",
     "i18next": "^19.1.0",
     "i18next-browser-languagedetector": "^4.0.1",
     "i18next-xhr-backend": "^3.2.2",
@@ -46,5 +54,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@vx/axis": "0.0.193"
   }
 }

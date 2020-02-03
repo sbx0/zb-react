@@ -47,24 +47,15 @@ function Main({notice, setLoading}) {
                 </Route>
                 <Route path={match.path}>
                     <Grid container spacing={3}>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} sm={12}>
                             <Paper
                                 className={classes.paper}
                                 onClick={() => {
                                     history.push("/admin/review")
                                 }}
                             >
-                                待审核 33
+                                {t("认证审核")}
                             </Paper>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Paper className={classes.paper}>今日访问量</Paper>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Paper className={classes.paper}>今日成交量</Paper>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Paper className={classes.paper}>环比</Paper>
                         </Grid>
                     </Grid>
                 </Route>

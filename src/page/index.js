@@ -5,3 +5,4 @@ export {default as User} from './User';
 export {default as Login} from './Login';
 export {default as NotFound} from './NotFound';
 export {default as Certification} from './Certification';
+export {default as Beta} from './Beta';

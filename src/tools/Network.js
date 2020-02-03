@@ -11,9 +11,9 @@ export function fetchStatusAlert(status) {
         case 0:
             return '操作成功';
         case 1:
-            return '空字符串';
+            return '空值错误';
         case 2:
-            return '无效邮箱';
+            return '无效数据';
         case 3:
             return '重复操作';
         case 4:
@@ -36,11 +36,11 @@ export const returnStatus = {
     },
     nullStr: {
         code: 1,
-        msg: '空字符串'
+        msg: '空值错误'
     },
-    invalidMail: {
+    invalidValue: {
         code: 2,
-        msg: '无效邮箱'
+        msg: '无效数据'
     },
     repeatOperation: {
         code: 3,

@@ -8,7 +8,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import {useHistory, Link} from "react-router-dom";
+import {useHistory, useLocation, Link} from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -25,8 +25,9 @@ export default function Certification({setLoading, notice}) {
     const {t, i18n} = useTranslation();
     const classes = useStyles();
     let history = useHistory();
+    let location = useLocation();
     const [kind, setKind] = useState(0)
-    const [material, setMaterial] = useState(t("支持Markdown语法"))
+    const [material, setMaterial] = useState(t("认证申请材料格式示例"));
     const [values, setValues] = useState({
         kind: 0,
         material: '',
@@ -52,6 +53,9 @@ export default function Certification({setLoading, notice}) {
             setLoading(false);
             const status = json['status'];
             notice(t(fetchStatusAlert(status)), status);
+            if (fetchStatus(status)) {
+                location.push("/user");
+            }
         }).catch((error) => {
             notice(error.toString(), -1);
             setLoading(false);

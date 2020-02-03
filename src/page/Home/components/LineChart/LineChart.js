@@ -54,6 +54,7 @@ export default function LineChart({notice, day, kind, group, referenceValue}) {
                     >
                         <CartesianGrid strokeDasharray="3 3"/>
                         <XAxis
+                            hide
                             dataKey="date"
                         />
                         <YAxis
@@ -67,9 +68,10 @@ export default function LineChart({notice, day, kind, group, referenceValue}) {
                             dataKey={kind}
                             name={kind}
                             stroke="#8884d8"
-                            strokeWidth={3}
-                            activeDot={{r: 8}}
+                            strokeWidth={2}
+                            activeDot={{r: 2}}
                             isAnimationActive={false}
+                            dot={false}
                         />
                     </ComposedChart>
                 </ResponsiveContainer>

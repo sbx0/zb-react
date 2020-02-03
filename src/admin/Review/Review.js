@@ -1,4 +1,4 @@
-import React, {useState, forwardRef, useEffect} from 'react';
+import React, {useState, forwardRef, useEffect, createRef} from 'react';
 
 import {useTranslation} from 'react-i18next';
 import "../../i18N"
@@ -25,6 +25,8 @@ import ViewColumn from '@material-ui/icons/ViewColumn';
 import {fetchGet, fetchStatus, fetchStatusAlert} from "../../tools/Network";
 import ReactMarkdown from "react-markdown";
 import Container from "@material-ui/core/Container";
+import CloseIcon from '@material-ui/icons/Close';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref}/>),
@@ -51,6 +53,7 @@ function Review({notice, setLoading}) {
     const {t} = useTranslation();
     const classes = useStyles();
     const theme = useTheme();
+    const tableRef = createRef();
     const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
         defaultMatches: true
     });
@@ -70,15 +73,37 @@ function Review({notice, setLoading}) {
         <div className={classes.container}>
             <MaterialTable
                 icons={tableIcons}
+                tableRef={tableRef}
                 columns={[
-                    {title: "id", field: "id"},
-                    {title: "userId", field: "userId"},
-                    {title: "status", field: "status"},
-                    {title: "kind", field: "kind", type: "numeric"},
-                    {title: "material", field: "material", render: rowData => rowData.material.substr(0, 5)},
-                    {title: "validityTime", field: "validityTime"},
-                    {title: "submitTime", field: "submitTime"},
+                    {title: t("用户认证表.id"), field: "id"},
+                    {title: t("用户认证表.userId"), field: "userId"},
+                    {title: t("用户认证表.status"), field: "status"},
+                    {title: t("用户认证表.kind"), field: "kind", type: "numeric"},
+                    {title: t("用户认证表.material"), field: "material", render: rowData => rowData.material.substr(0, 5)},
+                    {title: t("用户认证表.validityTime"), field: "validityTime"},
+                    {title: t("用户认证表.submitTime"), field: "submitTime"},
                 ]}
+                localization={{
+                    header: {
+                        actions: t("操作")
+                    },
+                    toolbar: {
+                        searchTooltip: t("搜索"),
+                        searchPlaceholder: t("搜索"),
+                    },
+                    pagination: {
+                        labelRowsSelect: t("行"),
+                        firstAriaLabel: t("首页"),
+                        firstTooltip: t("首页"),
+                        previousAriaLabel: t("上一页"),
+                        previousTooltip: t("上一页"),
+                        nextAriaLabel: t("下一页"),
+                        nextTooltip: t("下一页"),
+                        lastAriaLabel: t("末页"),
+                        lastTooltip: t("末页"),
+                        labelDisplayedRows: '{from}-{to} / {count}',
+                    },
+                }}
                 data={query =>
                     new Promise((resolve, reject) => {
                         let url = 'user/certification/list';
@@ -103,34 +128,74 @@ function Review({notice, setLoading}) {
                         });
                     })
                 }
-                title="Demo Title"
+                title={t("认证审核")}
                 editable={{
-                    onRowAdd: newData => new Promise(resolve => {
-                        console.log(newData)
-                        resolve();
-                    }),
-                    onRowUpdate: (newData, oldData) => new Promise(resolve => {
-                        console.log(newData)
-                        console.log(oldData)
-                        resolve();
-                    }),
-                    onRowDelete: oldData => new Promise(resolve => {
-                        console.log(oldData)
-                        resolve();
-                    }),
+                    // onRowAdd: newData => new Promise(resolve => {
+                    //     console.log(newData)
+                    //     resolve();
+                    // }),
+                    // onRowUpdate: (newData, oldData) => new Promise(resolve => {
+                    //     console.log(newData)
+                    //     console.log(oldData)
+                    //     resolve();
+                    // }),
+                    // onRowDelete: oldData => new Promise(resolve => {
+                    //     console.log(oldData)
+                    //     resolve();
+                    // }),
                 }}
                 actions={[
                     {
                         icon: () => <Check/>,
-                        tooltip: '审核通过',
+                        tooltip: t("通过"),
                         onClick: (event, rowData) => {
                             console.log(rowData)
+                            let url = 'user/certification/judge?id=' + rowData.id + "&status=1";
+                            setLoading(true);
+                            fetchGet(
+                                url
+                            ).then((json) => {
+                                const status = json['status'];
+                                notice(t(fetchStatusAlert(status)), status);
+                                setLoading(false);
+                                tableRef.current && tableRef.current.onQueryChange();
+                            }).catch((error) => {
+                                notice(error.toString(), -1);
+                                setLoading(false);
+                            });
+                            tableRef.current && tableRef.current.onQueryChange();
                         }
+                    },
+                    {
+                        icon: () => <CloseIcon/>,
+                        tooltip: t("驳回"),
+                        onClick: (event, rowData) => {
+                            console.log(rowData)
+                            let url = 'user/certification/judge?id=' + rowData.id + "&status=-1";
+                            setLoading(true);
+                            fetchGet(
+                                url
+                            ).then((json) => {
+                                const status = json['status'];
+                                notice(t(fetchStatusAlert(status)), status);
+                                setLoading(false);
+                            }).catch((error) => {
+                                notice(error.toString(), -1);
+                                setLoading(false);
+                            });
+                            tableRef.current && tableRef.current.onQueryChange();
+                        }
+                    },
+                    {
+                        icon: () => <RefreshIcon/>,
+                        tooltip: t("刷新"),
+                        isFreeAction: true,
+                        onClick: () => tableRef.current && tableRef.current.onQueryChange(),
                     }
                 ]}
                 detailPanel={[
                     {
-                        tooltip: 'Show Name',
+                        tooltip: t("查看材料"),
                         render: rowData => {
                             return (
                                 <Container>

@@ -279,7 +279,7 @@ export default function SearchAppBar({dark, setDark, active, changeActive, setLo
                         <ListItem
                             button
                             onClick={() => {
-                                history.push("/template");
+                                history.push("/beta");
                             }}
                         >
                             <ListItemIcon><AdbIcon/></ListItemIcon>

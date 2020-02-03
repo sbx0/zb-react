@@ -42,4 +42,34 @@ export const de = {
     "活跃数": "ActiveCount",
     "认证": "Zertifizierung",
     "终端": "Terminal",
+    "实验场": "Experimentelles Feld",
+    "认证审核": "Zertifizierungsaudit",
+    "查看材料": "Material anzeigen",
+    "通过": "pass",
+    "驳回": "Abgelehnt",
+    "刷新": "Aktualisieren",
+    "行": "Zeile",
+    "操作": "Operation",
+    "上一页": "Zurück",
+    "下一页": "Nächste Seite",
+    "末页": "Letzte Seite",
+    "审核中": "Under review",
+    "申请认证": "Zertifizierung beantragen",
+    "认证类别": "Zertifizierungsart",
+    "提交": "Submit",
+    "同意智贝的协议": "Einverstanden mit Einverständnis",
+    "认证申请材料格式示例": "**Полное имя/Название учреждения**:XXXX\n" +
+        "\n" +
+        "**Номер соответствующего документа**:XXXX-XXXX-XXXX-XXX-XXX\n" +
+        "\n" +
+        "Электронная копия удостоверения личности/Электронная отсканированная версия документа с печатью**:",
+    "用户认证表": {
+        id: "ID",
+        userId: "Benutzer-ID",
+        status: "Status",
+        kind: "Kategorie",
+        material: "Material",
+        validityTime: "Gültigkeitsdauer",
+        submitTime: "Submit Time",
+    }
 };

@@ -6,9 +6,13 @@ import {
     ResponsiveContainer,
     ComposedChart,
     XAxis, YAxis,
+    LabelList
 } from 'recharts';
 import Skeleton from '@material-ui/lab/Skeleton';
 import {fetchGet, fetchStatus, fetchStatusAlert} from "../../../../tools/Network";
+import Typography from "@material-ui/core/Typography";
+import global from "../../../../tools/Global";
+import LanguageSelect from "../../../../Components/LanguageSelect";
 
 export default function PieChart({notice, day, kind, group, referenceValue}) {
     const [data, setData] = useState([]);
