@@ -23,6 +23,7 @@ import {
     Template,
 } from "../tools";
 import Review from "../admin/Review";
+import Table from "../admin/Table";
 
 function RoutesConfig({notice, setLoading, changeActive}) {
     return (
@@ -86,6 +87,12 @@ function RoutesConfig({notice, setLoading, changeActive}) {
                 path="/admin/review"
             >
                 <Review notice={notice} setLoading={setLoading}/>
+            </Route>
+            <Route
+                exact
+                path="/admin/table"
+            >
+                <Table notice={notice} setLoading={setLoading}/>
             </Route>
 
             <Route

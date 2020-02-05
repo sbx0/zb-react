@@ -57,6 +57,16 @@ function Main({notice, setLoading}) {
                                 {t("认证审核")}
                             </Paper>
                         </Grid>
+                        <Grid item xs={4} sm={12}>
+                            <Paper
+                                className={classes.paper}
+                                onClick={() => {
+                                    history.push("/admin/table")
+                                }}
+                            >
+                                {t("通用后台管理")}
+                            </Paper>
+                        </Grid>
                     </Grid>
                 </Route>
             </Switch>

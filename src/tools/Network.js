@@ -20,6 +20,10 @@ export function fetchStatusAlert(status) {
             return '密码错误';
         case 5:
             return '暂未登录';
+        case 6:
+            return '结果为空';
+        case 7:
+            return '暂无权限"';
         default:
             return '未知错误';
     }
@@ -53,6 +57,14 @@ export const returnStatus = {
     notLogin: {
         code: 5,
         msg: '暂未登录'
+    },
+    emptyResult: {
+        code: 6,
+        msg: '结果为空'
+    },
+    noPermission: {
+        code: 7,
+        msg: '暂无权限'
     },
 };
 
