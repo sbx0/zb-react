@@ -5,20 +5,15 @@ import {useHistory, useLocation} from "react-router-dom";
 import "../../../i18N"
 
 import {makeStyles} from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import Typography from '@material-ui/core/Typography';
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
 import {fetchGet, fetchStatus, fetchStatusAlert} from "../../../tools/Network";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import ReactMarkdown from "react-markdown";
 import Chip from "@material-ui/core/Chip";
 import FaceIcon from '@material-ui/icons/Face';
 import Grid from "@material-ui/core/Grid";
+import {CardContent, CardHeader, Divider} from "@material-ui/core";
+import Card from "@material-ui/core/Card";
 
 export default function CertificationCard({notice, setLoading}) {
     const {t, i18n} = useTranslation();
@@ -68,45 +63,54 @@ export default function CertificationCard({notice, setLoading}) {
 
     return (
         <>
-            <Grid
-                container
-                direction="row"
-                justify="center"
-                alignItems="center"
-                className={classes.center}
-            >
-                {
-                    certification == null || certification.status === -1 || certification.status === -2 ?
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            size="large"
-                            startIcon={<VerifiedUserIcon/>}
-                            onClick={() => {
-                                history.push("/certification")
-                            }}
-                        >
-                            {t("认证")}
-                        </Button>
-                        :
-                        <BuildCertificationChip
-                            certification={certification}
-                            handelCancel={handelCancel}
-                            handelClick={handelClick}
-                        />
-                }
-                {
-                    isShow && certification != null ?
-                        <Grid item>
-                            <ReactMarkdown
-                                source={certification.material}
-                                escapeHtml={false}
-                            />
-                        </Grid>
-                        :
-                        <></>
-                }
-            </Grid>
+            <Card>
+                <CardHeader
+                    subheader={t("认证用户享受绿色通道")}
+                    title={t("认证")}
+                />
+                <Divider/>
+                <CardContent>
+                    <Grid
+                        container
+                        direction="row"
+                        justify="center"
+                        alignItems="center"
+                        className={classes.center}
+                    >
+                        {
+                            certification == null || certification.status === -1 || certification.status === -2 ?
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    size="large"
+                                    startIcon={<VerifiedUserIcon/>}
+                                    onClick={() => {
+                                        history.push("/certification")
+                                    }}
+                                >
+                                    {t("认证")}
+                                </Button>
+                                :
+                                <BuildCertificationChip
+                                    certification={certification}
+                                    handelCancel={handelCancel}
+                                    handelClick={handelClick}
+                                />
+                        }
+                        {
+                            isShow && certification != null ?
+                                <Grid item>
+                                    <ReactMarkdown
+                                        source={certification.material}
+                                        escapeHtml={false}
+                                    />
+                                </Grid>
+                                :
+                                <></>
+                        }
+                    </Grid>
+                </CardContent>
+            </Card>
         </>
     );
 }

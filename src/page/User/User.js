@@ -23,6 +23,8 @@ import Grid from "@material-ui/core/Grid";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import Button from "@material-ui/core/Button";
 import CertificationCard from "./CertificationCard/CertificationCard"
+import AccountProfile from "./AccountProfile/AccountProfile";
+import AccountDetails from "./AccountDetails/AccountDetails";
 
 export default function User({setLoading, notice}) {
     let match = useRouteMatch();
@@ -70,28 +72,29 @@ function MyDetail({setLoading, notice}) {
 
     return (
         <>
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <Avatar alt={user.name} src={user["avatar"]} className={classes.avatar}/>
+            <Grid
+                container
+                spacing={4}
+            >
+                <Grid
+                    item
+                    lg={4}
+                    md={6}
+                    xl={4}
+                    xs={12}
+                >
+                    <AccountProfile data={user} info={userInfo}/>
                 </Grid>
-                <Grid item xs={12}>
-                    <Typography variant="h5" color="textSecondary" align="center">
-                        {user.name}
-                    </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                    <Typography variant="subtitle1" color="textSecondary" align="center">
-                        Lv.{userInfo["level"]}
-                    </Typography>
+                <Grid
+                    item
+                    lg={8}
+                    md={6}
+                    xl={8}
+                    xs={12}
+                >
+                    <CertificationCard notice={notice} setLoading={setLoading}/>
                 </Grid>
             </Grid>
-            <Typography paragraph color="textSecondary">
-                <ReactMarkdown
-                    source={user["introduction"]}
-                    escapeHtml={false}
-                />
-            </Typography>
-            <CertificationCard notice={notice} setLoading={setLoading}/>
         </>
     );
 }

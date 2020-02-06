@@ -18,6 +18,8 @@ import {useMediaQuery, useTheme} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 
+import SmallDataCard from "./components/SmallDataCard/SmallDataCard";
+
 function Main({notice, setLoading}) {
     const {t} = useTranslation();
     const classes = useStyles();
@@ -46,8 +48,22 @@ function Main({notice, setLoading}) {
                     <Review/>
                 </Route>
                 <Route path={match.path}>
+                    <Grid
+                        container
+                        spacing={4}
+                    >
+                        <Grid
+                            item
+                            lg={3}
+                            sm={3}
+                            xl={6}
+                            xs={6}
+                        >
+                            <SmallDataCard notice={notice} setLoading={setLoading}/>
+                        </Grid>
+                    </Grid>
                     <Grid container spacing={3}>
-                        <Grid item xs={4} sm={12}>
+                        <Grid item xs={12} sm={6} md={4} lg={3}>
                             <Paper
                                 className={classes.paper}
                                 onClick={() => {
@@ -57,7 +73,7 @@ function Main({notice, setLoading}) {
                                 {t("认证审核")}
                             </Paper>
                         </Grid>
-                        <Grid item xs={4} sm={12}>
+                        <Grid item xs={12} sm={6} md={4} lg={3}>
                             <Paper
                                 className={classes.paper}
                                 onClick={() => {
