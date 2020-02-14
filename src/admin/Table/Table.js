@@ -209,47 +209,46 @@ function Table({notice, setLoading}) {
                     }).catch((error) => {
                         notice(error.toString(), -1);
                     });
-                })
-                }
+                })}
                 title={table}
                 editable={{
                     onRowAdd: newData => new Promise(resolve => {
-                        console.log(newData);
                         fetchPost(table_columns_data[table].url + 'save', newData).then((json) => {
-                            setLoading(false);
                             const status = json['status'];
                             notice(t(fetchStatusAlert(status)), status);
                         }).catch((error) => {
+                            tableRef.current && tableRef.current.onQueryChange()
+                        }).catch((error) => {
                             notice(error.toString(), -1);
-                            setLoading(false);
+                        }).finally(() => {
+                            resolve();
                         });
-                        resolve();
                     }),
                     onRowUpdate: (newData, oldData) => new Promise(resolve => {
-                        console.log(newData)
-                        console.log(oldData)
                         fetchPost(table_columns_data[table].url + 'save', newData).then((json) => {
-                            setLoading(false);
                             const status = json['status'];
                             notice(t(fetchStatusAlert(status)), status);
                         }).catch((error) => {
+                            tableRef.current && tableRef.current.onQueryChange()
+                        }).catch((error) => {
                             notice(error.toString(), -1);
-                            setLoading(false);
+                        }).finally(() => {
+                            resolve();
                         });
-                        resolve();
                     }),
                     onRowDelete: oldData => new Promise(resolve => {
-                        console.log(oldData)
                         let url = table_columns_data[table].url + 'delete?id=' + oldData["id"];
                         fetchGet(
                             url
                         ).then((json) => {
                             const status = json['status'];
                             notice(t(fetchStatusAlert(status)), status);
+                            tableRef.current && tableRef.current.onQueryChange()
                         }).catch((error) => {
                             notice(error.toString(), -1);
+                        }).finally(() => {
+                            resolve();
                         });
-                        resolve();
                     }),
                 }}
                 actions={[

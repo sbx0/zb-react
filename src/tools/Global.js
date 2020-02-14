@@ -1,7 +1,8 @@
 const global = {
-    dev_version: '0.0.17',
+    dev_version: '0.0.18',
     server_config: 'https://zb.sbx0.cn/',
     // server_config: 'http://192.168.0.104:8085/',
+    // server_config: 'http://localhost:8085/',
     common: {
         fetch: {
             page: 0,
