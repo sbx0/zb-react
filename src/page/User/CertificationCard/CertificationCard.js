@@ -23,7 +23,7 @@ export default function CertificationCard({notice, setLoading}) {
     let location = useLocation();
     let history = useHistory();
 
-    useEffect(() => {
+    function check() {
         let url = 'user/certification/check';
         setLoading(true);
         fetchGet(
@@ -32,14 +32,16 @@ export default function CertificationCard({notice, setLoading}) {
             const status = json['status'];
             if (fetchStatus(status)) {
                 setCertification(json["object"]);
-            } else if (status != 1) {
-                notice(t(fetchStatusAlert(status)), status);
             }
             setLoading(false);
         }).catch((error) => {
             notice(error.toString(), -1);
             setLoading(false);
         });
+    }
+
+    useEffect(() => {
+        check();
     }, []);
 
     function handelClick() {
@@ -55,6 +57,7 @@ export default function CertificationCard({notice, setLoading}) {
             const status = json['status'];
             notice(t(fetchStatusAlert(status)), status);
             setLoading(false);
+            check();
         }).catch((error) => {
             notice(error.toString(), -1);
             setLoading(false);

@@ -216,7 +216,6 @@ function Table({notice, setLoading}) {
                         fetchPost(table_columns_data[table].url + 'save', newData).then((json) => {
                             const status = json['status'];
                             notice(t(fetchStatusAlert(status)), status);
-                        }).catch((error) => {
                             tableRef.current && tableRef.current.onQueryChange()
                         }).catch((error) => {
                             notice(error.toString(), -1);
@@ -228,7 +227,6 @@ function Table({notice, setLoading}) {
                         fetchPost(table_columns_data[table].url + 'save', newData).then((json) => {
                             const status = json['status'];
                             notice(t(fetchStatusAlert(status)), status);
-                        }).catch((error) => {
                             tableRef.current && tableRef.current.onQueryChange()
                         }).catch((error) => {
                             notice(error.toString(), -1);

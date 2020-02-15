@@ -54,7 +54,7 @@ export default function Certification({setLoading, notice}) {
             const status = json['status'];
             notice(t(fetchStatusAlert(status)), status);
             if (fetchStatus(status)) {
-                location.push("/user");
+                history.push("/user");
             }
         }).catch((error) => {
             notice(error.toString(), -1);
@@ -63,7 +63,7 @@ export default function Certification({setLoading, notice}) {
     }
 
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component="main">
             <CssBaseline/>
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>

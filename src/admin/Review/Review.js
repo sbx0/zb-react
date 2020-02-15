@@ -106,8 +106,8 @@ function Review({notice, setLoading}) {
                 }}
                 data={query =>
                     new Promise((resolve, reject) => {
-                        let url = 'user/certification/list';
-                        url += '?page=' + (query.page + 1)
+                        let url = 'user/certification/list?status=0';
+                        url += '&page=' + (query.page + 1)
                         url += '&size=' + query.pageSize
                         fetchGet(
                             url
@@ -115,11 +115,18 @@ function Review({notice, setLoading}) {
                             const status = json['status'];
                             const data = json['objects'];
                             if (fetchStatus(status)) {
-                                resolve({
-                                    data: data,
-                                    page: json['page'] - 1,
-                                    totalCount: json['total'],
-                                });
+                                if (data != null && data.length > 0)
+                                    resolve({
+                                        data: data,
+                                        page: json['page'] - 1,
+                                        totalCount: json['total'],
+                                    });
+                                else
+                                    resolve({
+                                        data: [],
+                                        page: query.page,
+                                        totalCount: 0,
+                                    });
                             } else {
                                 notice(t(fetchStatusAlert(status)), status);
                             }
@@ -129,21 +136,6 @@ function Review({notice, setLoading}) {
                     })
                 }
                 title={t("认证审核")}
-                editable={{
-                    // onRowAdd: newData => new Promise(resolve => {
-                    //     console.log(newData)
-                    //     resolve();
-                    // }),
-                    // onRowUpdate: (newData, oldData) => new Promise(resolve => {
-                    //     console.log(newData)
-                    //     console.log(oldData)
-                    //     resolve();
-                    // }),
-                    // onRowDelete: oldData => new Promise(resolve => {
-                    //     console.log(oldData)
-                    //     resolve();
-                    // }),
-                }}
                 actions={[
                     {
                         icon: () => <Check/>,
@@ -151,19 +143,15 @@ function Review({notice, setLoading}) {
                         onClick: (event, rowData) => {
                             console.log(rowData)
                             let url = 'user/certification/judge?id=' + rowData.id + "&status=1";
-                            setLoading(true);
                             fetchGet(
                                 url
                             ).then((json) => {
                                 const status = json['status'];
                                 notice(t(fetchStatusAlert(status)), status);
-                                setLoading(false);
-                                tableRef.current && tableRef.current.onQueryChange();
+                                tableRef.current && tableRef.current.onQueryChange()
                             }).catch((error) => {
                                 notice(error.toString(), -1);
-                                setLoading(false);
                             });
-                            tableRef.current && tableRef.current.onQueryChange();
                         }
                     },
                     {
@@ -172,18 +160,15 @@ function Review({notice, setLoading}) {
                         onClick: (event, rowData) => {
                             console.log(rowData)
                             let url = 'user/certification/judge?id=' + rowData.id + "&status=-1";
-                            setLoading(true);
                             fetchGet(
                                 url
                             ).then((json) => {
                                 const status = json['status'];
                                 notice(t(fetchStatusAlert(status)), status);
-                                setLoading(false);
+                                tableRef.current && tableRef.current.onQueryChange()
                             }).catch((error) => {
                                 notice(error.toString(), -1);
-                                setLoading(false);
                             });
-                            tableRef.current && tableRef.current.onQueryChange();
                         }
                     },
                     {
