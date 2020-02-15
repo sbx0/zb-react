@@ -73,15 +73,15 @@ export default function CertificationCard({notice, setLoading}) {
                 />
                 <Divider/>
                 <CardContent>
-                    <Grid
-                        container
-                        direction="row"
-                        justify="center"
-                        alignItems="center"
-                        className={classes.center}
-                    >
-                        {
-                            certification == null || certification.status === -1 || certification.status === -2 ?
+                    {
+                        certification == null || certification.status === -1 || certification.status === -2 ?
+                            <Grid
+                                container
+                                direction="row"
+                                justify="center"
+                                alignItems="center"
+                                className={classes.center}
+                            >
                                 <Button
                                     variant="contained"
                                     color="primary"
@@ -93,25 +93,33 @@ export default function CertificationCard({notice, setLoading}) {
                                 >
                                     {t("认证")}
                                 </Button>
-                                :
+                            </Grid>
+                            :
+                            <Grid
+                                container
+                                direction="row"
+                                justify="center"
+                                alignItems="center"
+                                className={classes.center}
+                            >
                                 <BuildCertificationChip
                                     certification={certification}
                                     handelCancel={handelCancel}
                                     handelClick={handelClick}
                                 />
-                        }
-                        {
-                            isShow && certification != null ?
-                                <Grid item>
-                                    <ReactMarkdown
-                                        source={certification.material}
-                                        escapeHtml={false}
-                                    />
-                                </Grid>
-                                :
-                                <></>
-                        }
-                    </Grid>
+                            </Grid>
+                    }
+                    {
+                        isShow && certification != null ?
+                            <Grid item>
+                                <ReactMarkdown
+                                    source={certification.material}
+                                    escapeHtml={false}
+                                />
+                            </Grid>
+                            :
+                            <></>
+                    }
                 </CardContent>
             </Card>
         </>

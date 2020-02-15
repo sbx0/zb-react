@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {useTranslation} from 'react-i18next';
 import "../../../i18N"
@@ -14,6 +14,7 @@ import {
     Button,
     LinearProgress
 } from '@material-ui/core';
+import UploadAvatar from "../UploadAvatar/UploadAvatar";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -38,6 +39,7 @@ const useStyles = makeStyles(theme => ({
 export default function AccountProfile({data, info}) {
     const {t} = useTranslation();
     const classes = useStyles();
+    const [isUpload, setIsUpload] = useState(false);
 
     const user = {
         name: 'Shen Zhi',
@@ -49,53 +51,65 @@ export default function AccountProfile({data, info}) {
 
     return (
         <Card>
-            <CardContent>
-                <div className={classes.details}>
-                    <div>
-                        <Typography
-                            gutterBottom
-                            variant="h5"
-                        >
-                            {data.name}
-                        </Typography>
-                        <Typography
-                            className={classes.locationText}
-                            color="textSecondary"
-                            variant="body1"
-                        >
-                            {info.introduction}
-                        </Typography>
-                        <Typography
-                            className={classes.dateText}
-                            color="textSecondary"
-                            variant="body1"
-                        >
+            {
+                isUpload ?
+                    <CardContent>
+                        <UploadAvatar/>
+                    </CardContent>
+                    :
+                    <CardContent>
+                        <div className={classes.details}>
+                            <div>
+                                <Typography
+                                    gutterBottom
+                                    variant="h5"
+                                >
+                                    {data.name}
+                                </Typography>
+                                <Typography
+                                    className={classes.locationText}
+                                    color="textSecondary"
+                                    variant="body1"
+                                >
+                                    {info.introduction}
+                                </Typography>
+                                <Typography
+                                    className={classes.dateText}
+                                    color="textSecondary"
+                                    variant="body1"
+                                >
 
-                        </Typography>
-                    </div>
-                    <Avatar
-                        className={classes.avatar}
-                        src={data.avatar}
-                    />
-                </div>
-                <div className={classes.progress}>
-                    <Typography variant="body1">{t("等级")} {info.level} {t("级")}</Typography>
-                    <LinearProgress
-                        value={info.exp / info.expMax}
-                        variant="determinate"
-                    />
-                </div>
-            </CardContent>
+                                </Typography>
+                            </div>
+                            <Avatar
+                                className={classes.avatar}
+                                src={data.avatar}
+                            />
+                        </div>
+                        <div className={classes.progress}>
+                            <Typography variant="body1">{t("等级")} {info.level} {t("级")}</Typography>
+                            <LinearProgress
+                                value={info.exp / info.expMax}
+                                variant="determinate"
+                            />
+                        </div>
+                    </CardContent>
+            }
             <Divider/>
             <CardActions>
-                <Button
-                    className={classes.uploadButton}
-                    color="primary"
-                    variant="text"
-                >
-                    {t("上传头像")}
-                </Button>
-                {/*<Button variant="text">Remove picture</Button>*/}
+                {
+                    isUpload ?
+                        <Button variant="text" onClick={() => setIsUpload(false)}>{t("返回")}</Button>
+                        :
+                        <Button
+                            className={classes.uploadButton}
+                            color="primary"
+                            variant="text"
+                            onClick={() => setIsUpload(true)}
+                        >
+                            {t("上传头像")}
+                        </Button>
+                }
             </CardActions>
         </Card>
     );

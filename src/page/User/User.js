@@ -18,13 +18,9 @@ import tools from "../../tools/Utils";
 import ReactMarkdown from "react-markdown";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Typography from "@material-ui/core/Typography";
-import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
-import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
-import Button from "@material-ui/core/Button";
 import CertificationCard from "./CertificationCard/CertificationCard"
 import AccountProfile from "./AccountProfile/AccountProfile";
-import AccountDetails from "./AccountDetails/AccountDetails";
 
 export default function User({setLoading, notice}) {
     let match = useRouteMatch();
