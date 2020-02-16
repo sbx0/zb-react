@@ -14,26 +14,51 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import tools from "../../tools/Utils";
 import Container from "@material-ui/core/Container";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
 
 export default function Beta({notice, setLoading}) {
     const classes = useStyles();
     const {t} = useTranslation();
     let location = useLocation();
     let history = useHistory();
-    const [serverConfig, setServerConfig] = useState(localStorage.getItem("server_config"))
+    const [serverConfig, setServerConfig] = useState(localStorage.getItem("server_config"));
+    const [autoDarkMode, setAutoDarkMode] = useState(() => {
+        let autoDarkMode = localStorage.getItem("auto_dark_mode");
+        return autoDarkMode === "true";
+    });
 
     function handleChange(event) {
         setServerConfig(event.target.value)
     }
 
     function submit() {
-        localStorage.setItem("server_config", serverConfig)
+        localStorage.setItem("server_config", serverConfig);
+        notice(t(fetchStatusAlert(0)), 0);
     }
+
+    useEffect(() => {
+        console.log(autoDarkMode)
+    }, [autoDarkMode])
 
     return (
         <Container component="main">
-            <Typography variant="h3" align="center">{t("实验场")}</Typography>
             <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                color="primary"
+                                onChange={() => {
+                                    setAutoDarkMode(!autoDarkMode);
+                                    localStorage.setItem("auto_dark_mode", !autoDarkMode + "");
+                                }}
+                                checked={autoDarkMode}
+                            />}
+                        label={t("自动开启夜间模式")}
+                        labelPlacement="start"
+                    />
+                </Grid>
                 <Grid item xs={12}>
                     <Typography variant="inherit" align="center"
                                 onClick={() => setServerConfig(localStorage.getItem("server_config"))}>
@@ -68,15 +93,17 @@ export default function Beta({notice, setLoading}) {
                         autoFocus
                     />
                 </Grid>
-                <Button
-                    type="button"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    onClick={() => submit()}
-                >
-                    {t("保存")}
-                </Button>
+                <Grid item xs={12}>
+                    <Button
+                        type="button"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        onClick={() => submit()}
+                    >
+                        {t("保存")}
+                    </Button>
+                </Grid>
             </Grid>
         </Container>
     );

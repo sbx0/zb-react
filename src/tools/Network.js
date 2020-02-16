@@ -73,6 +73,24 @@ const headers = {
     'Access-Control-Allow-Origin': '*',
 };
 
+export async function fetchUpload(url, formData) {
+    let serverConfig = localStorage.getItem("server_config");
+    if (serverConfig == null) {
+        localStorage.setItem("server_config", "https://zb.sbx0.cn/");
+        serverConfig = global.server_config;
+    }
+    url = serverConfig + url;
+    const request = fetch(url, {
+        method: 'POST',
+        credentials: 'include',
+        mode: 'cors',
+        cache: 'default',
+        body: formData,
+    });
+    return await fetchResult(request);
+}
+
+
 export async function fetchPost(url, params) {
     let serverConfig = localStorage.getItem("server_config");
     if (serverConfig == null) {

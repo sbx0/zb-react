@@ -1,9 +1,7 @@
 import React, {useState, useEffect} from 'react';
-
 import {
     BrowserRouter
 } from 'react-router-dom';
-
 import './App.css';
 import {
     NoticeSnackbars,
@@ -12,12 +10,12 @@ import {
     LoadingBackdrop,
 } from "./Components";
 import RoutesConfig from "./config/RoutesConfig";
-
+import utils from "./tools/Utils"
 import {createMuiTheme} from '@material-ui/core/styles';
 import {ThemeProvider} from '@material-ui/styles';
 import {makeStyles} from '@material-ui/core';
 import Container from "@material-ui/core/Container";
-
+import {fetchGet, fetchStatus, fetchStatusAlert} from "./tools/Network";
 
 export default function App() {
     const classes = useStyles();
@@ -28,10 +26,63 @@ export default function App() {
     const [msg, setMsg] = useState("");
     const [severity, setSeverity] = useState("success");
     const [active, setActive] = useState(false);
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        login();
+    }, [active]);
+
+    function login() {
+        let url = 'user/base/basic';
+        setLoading(true);
+        fetchGet(
+            url
+        ).then((json) => {
+            const status = json['status'];
+            if (fetchStatus(status)) {
+                let user = json["object"];
+                if (user['avatar'] !== 'avatar.jpg') {
+                    user['avatar'] = localStorage.getItem("server_config") + user['avatar'];
+                }
+                setUser(json["object"]);
+            } else {
+                notice(fetchStatusAlert(status), status);
+            }
+            setLoading(false);
+        }).catch((error) => {
+            notice(error.toString(), -1);
+            setLoading(false);
+        });
+    }
 
     function changeActive() {
         setActive(!active);
     }
+
+    function checkIsNight() {
+        let autoDarkMode = localStorage.getItem("auto_dark_mode");
+        if (autoDarkMode != null && autoDarkMode) {
+            let isNight = utils.isNight();
+            if (isNight) {
+                localStorage.setItem("dark", "true");
+                setTheme(DarkTheme);
+                setDark(true);
+            } else {
+                localStorage.setItem("dark", "false");
+                setTheme(LightTheme);
+                setDark(false);
+            }
+        } else {
+            localStorage.setItem("auto_dark_mode", "false");
+        }
+    }
+
+    useEffect(() => {
+        setInterval(
+            () => checkIsNight(),
+            1000 * 60 * 30,
+        );
+    }, []);
 
     useEffect(() => {
         let darkMode = localStorage.getItem("dark");
@@ -80,6 +131,7 @@ export default function App() {
             <BrowserRouter>
                 <div className={dark ? classes.backgroundDark : classes.backgroundLight}>
                     <SearchAppBar
+                        user={user}
                         notice={notice}
                         active={active}
                         dark={dark}
@@ -89,6 +141,8 @@ export default function App() {
                     />
                     <Container className={classes.paddingTop}>
                         <RoutesConfig
+                            user={user}
+                            active={active}
                             notice={notice}
                             setLoading={setLoading}
                             changeActive={changeActive}

@@ -1,20 +1,14 @@
 import React, {useState, useEffect} from 'react';
-
 import {useTranslation} from 'react-i18next';
 import "../../i18N"
-
 import {useHistory, useLocation} from "react-router-dom";
-
 import {
     Switch,
     Route,
     useRouteMatch,
     useParams,
 } from "react-router-dom";
-
 import {fetchGet, fetchStatus, fetchStatusAlert} from "../../tools/Network";
-import tools from "../../tools/Utils";
-
 import ReactMarkdown from "react-markdown";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Typography from "@material-ui/core/Typography";
@@ -22,7 +16,15 @@ import Grid from "@material-ui/core/Grid";
 import CertificationCard from "./CertificationCard/CertificationCard"
 import AccountProfile from "./AccountProfile/AccountProfile";
 
-export default function User({setLoading, notice}) {
+export default function User(
+    {
+        user,
+        setLoading,
+        notice,
+        changeActive,
+        active
+    }
+) {
     let match = useRouteMatch();
 
     return (
@@ -31,19 +33,31 @@ export default function User({setLoading, notice}) {
                 <UserDetail notice={notice} setLoading={setLoading}/>
             </Route>
             <Route path={match.path}>
-                <MyDetail notice={notice} setLoading={setLoading}/>
+                <MyDetail
+                    user={user}
+                    notice={notice}
+                    setLoading={setLoading}
+                    changeActive={changeActive}
+                />
             </Route>
         </Switch>
     );
 }
 
 
-function MyDetail({setLoading, notice}) {
+function MyDetail(
+    {
+        user,
+        setLoading,
+        notice,
+        changeActive,
+        active
+    }
+) {
     const {t} = useTranslation();
     let location = useLocation();
     let history = useHistory();
     const classes = useStyles();
-    const [user, setUser] = useState({});
     const [userInfo, setUserInfo] = useState({});
 
     useEffect(() => {
@@ -55,7 +69,6 @@ function MyDetail({setLoading, notice}) {
             const status = json['status'];
             if (fetchStatus(status)) {
                 setUserInfo(json.object);
-                setUser(json.user);
             } else {
                 notice(t(fetchStatusAlert(status)), status);
             }
@@ -64,7 +77,7 @@ function MyDetail({setLoading, notice}) {
             notice(error.toString(), -1);
             setLoading(false);
         });
-    }, []);
+    }, [active]);
 
     return (
         <>
@@ -79,7 +92,13 @@ function MyDetail({setLoading, notice}) {
                     xl={4}
                     xs={12}
                 >
-                    <AccountProfile data={user} info={userInfo}/>
+                    <AccountProfile
+                        data={user}
+                        info={userInfo}
+                        notice={notice}
+                        active={active}
+                        changeActive={changeActive}
+                    />
                 </Grid>
                 <Grid
                     item
@@ -107,7 +126,7 @@ function UserDetail({setLoading, notice}) {
             url
         ).then((json) => {
             const status = json['status'];
-            if (tools.statusToBool(status)) {
+            if (fetchStatus(status)) {
                 setUser(json.object);
             } else {
                 notice(t(fetchStatusAlert(status)), status);

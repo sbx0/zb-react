@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {useTranslation} from 'react-i18next';
 import "../../../i18N"
@@ -15,6 +15,7 @@ import {
     LinearProgress
 } from '@material-ui/core';
 import UploadAvatar from "../UploadAvatar/UploadAvatar";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -36,25 +37,32 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function AccountProfile({data, info}) {
+export default function AccountProfile(
+    {
+        data,
+        info,
+        notice,
+        active,
+        changeActive
+    }
+) {
     const {t} = useTranslation();
     const classes = useStyles();
     const [isUpload, setIsUpload] = useState(false);
+    let history = useHistory();
 
-    const user = {
-        name: 'Shen Zhi',
-        city: 'Los Angeles',
-        country: 'USA',
-        timezone: 'GTM-7',
-        avatar: '/images/avatars/avatar_11.png'
-    };
+    useEffect(() => {
+        if (data == null) {
+            history.push('/login')
+        }
+    }, [])
 
     return (
         <Card>
             {
                 isUpload ?
                     <CardContent>
-                        <UploadAvatar/>
+                        <UploadAvatar notice={notice} active={active} changeActive={changeActive}/>
                     </CardContent>
                     :
                     <CardContent>
@@ -64,7 +72,7 @@ export default function AccountProfile({data, info}) {
                                     gutterBottom
                                     variant="h5"
                                 >
-                                    {data.name}
+                                    {data != null ? data.name : ''}
                                 </Typography>
                                 <Typography
                                     className={classes.locationText}
@@ -83,7 +91,7 @@ export default function AccountProfile({data, info}) {
                             </div>
                             <Avatar
                                 className={classes.avatar}
-                                src={data.avatar}
+                                src={data != null ? data.avatar : ''}
                             />
                         </div>
                         <div className={classes.progress}>

@@ -106,6 +106,10 @@ function Table({notice, setLoading}) {
             name: t("用户统计表"),
             url: 'statistical/user/admin/'
         },
+        file_upload: {
+            name: t("上传文件表"),
+            url: 'file/upload/admin/'
+        },
         option: {
             add: 'save',
             delete: 'delete',
@@ -162,6 +166,7 @@ function Table({notice, setLoading}) {
                 <MenuItem value="user_certification">用户认证表</MenuItem>
                 <MenuItem value="statistical_data">数据统计表</MenuItem>
                 <MenuItem value="statistical_user">用户统计表</MenuItem>
+                <MenuItem value="file_upload">上传文件表</MenuItem>
             </Select>
             <MaterialTable
                 icons={tableIcons}

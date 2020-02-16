@@ -19,6 +19,12 @@ Date.prototype.format = function format(fmt) {
 };
 
 export default {
+    // 判断是否为晚上
+    isNight() {
+        let date = new Date();
+        let time = date.format("hh");
+        return !(time > 7 && time < 18);
+    },
     // 创建cache时间标签
     cacheTimeStamp(minute) {
         let date = new Date();

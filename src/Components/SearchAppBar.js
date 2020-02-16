@@ -39,12 +39,21 @@ import {FormControlLabel} from "@material-ui/core";
 import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
 
-export default function SearchAppBar({dark, setDark, active, changeActive, setLoading, notice}) {
+export default function SearchAppBar(
+    {
+        user,
+        dark,
+        setDark,
+        active,
+        changeActive,
+        setLoading,
+        notice
+    }
+) {
     const {t} = useTranslation();
     let location = useLocation();
     const classes = useStyles();
     let history = useHistory();
-    const [user, setUser] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -82,25 +91,6 @@ export default function SearchAppBar({dark, setDark, active, changeActive, setLo
             notice(error.toString(), -1);
         });
     }
-
-    useEffect(() => {
-        let url = 'user/base/basic';
-        setLoading(true);
-        fetchGet(
-            url
-        ).then((json) => {
-            const status = json['status'];
-            if (fetchStatus(status)) {
-                setUser(json["object"]);
-            } else {
-                notice(fetchStatusAlert(status), status);
-            }
-            setLoading(false);
-        }).catch((error) => {
-            notice(error.toString(), -1);
-            setLoading(false);
-        });
-    }, [active]);
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -283,7 +273,7 @@ export default function SearchAppBar({dark, setDark, active, changeActive, setLo
                             }}
                         >
                             <ListItemIcon><AdbIcon/></ListItemIcon>
-                            <ListItemText primary={t("测试页面")}/>
+                            <ListItemText primary={t("开发者选项")}/>
                         </ListItem>
                         <ListItem
                             button

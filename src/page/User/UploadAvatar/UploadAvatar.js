@@ -1,42 +1,51 @@
-import React from 'react';
-import {useDropzone} from 'react-dropzone';
+import React, {useCallback, useEffect, useState} from 'react'
+import {useDropzone} from 'react-dropzone'
 import MyAvatarEditor from "../AvatarEditor/AvatarEditor";
+import {useTranslation} from "react-i18next";
+import {fetchStatus, fetchStatusAlert, fetchUpload} from "../../../tools/Network";
 
-export default function UploadAvatar(props) {
-    const {acceptedFiles, rejectedFiles, getRootProps, getInputProps} = useDropzone({
-        accept: 'image/jpeg, image/png, image/ico'
-    });
+export default function UploadAvatar({notice, changeActive, active}) {
+    const {t} = useTranslation();
+    const [isUpload, setIsUpload] = useState(false);
+    const [file, setFile] = useState("/avatar.jpg");
 
-    const acceptedFilesItems = acceptedFiles.map(file => (
-        <li key={file.path}>
-            {file.path} - {file.size} bytes
-        </li>
-    ));
+    const onDrop = useCallback(acceptedFiles => {
+        let formData = new FormData()
+        formData.append('file', acceptedFiles[0]);
+        fetchUpload('file/upload/submit', formData).then((json) => {
+            const status = json['status'];
+            if (fetchStatus(status) || status === 3) {
+                const name = json['name'];
+                const type = json['type'];
+                const user = "user" + json['user'];
+                const filePath = localStorage.getItem("server_config") + "upload/" + user + "/" + type + "/" + name;
+                setFile(filePath);
+                setIsUpload(true);
+            } else {
+                notice(t(fetchStatusAlert(status)), status);
+            }
+        }).catch((error) => {
+            notice(error.toString(), -1);
+        });
+    }, [])
 
-    const rejectedFilesItems = rejectedFiles.map(file => (
-        <li key={file.path}>
-            {file.path} - {file.size} bytes
-        </li>
-    ));
+    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
     return (
-        <section className="container">
-            <div {...getRootProps({className: 'dropzone'})}>
-                <input {...getInputProps()} />
-                <p>Drag 'n' drop some files here, or click to select files</p>
-                <em>(Only *.jpeg and *.png and *.ico images will be accepted)</em>
-            </div>
-            <aside>
-                <h4>Accepted files</h4>
-                <ul>
-                    {acceptedFilesItems}
-                </ul>
-                <h4>Rejected files</h4>
-                <ul>
-                    {rejectedFilesItems}
-                </ul>
-            </aside>
-            <MyAvatarEditor/>
-        </section>
-    );
+        <>
+            {
+                isUpload ?
+                    <MyAvatarEditor file={file} notice={notice} active={active} changeActive={changeActive}/>
+                    :
+                    <div {...getRootProps()}>
+                        <input {...getInputProps()} />
+                        {
+                            isDragActive ?
+                                <p>{t("松开鼠标即可上传")}</p> :
+                                <p>{t("将文件拖到这里或点击此处")}</p>
+                        }
+                    </div>
+            }
+        </>
+    )
 }
