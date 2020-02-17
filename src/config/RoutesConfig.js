@@ -24,6 +24,7 @@ import {
 } from "../tools";
 import Review from "../admin/Review";
 import Table from "../admin/Table";
+import Group from "../page/Group/Group";
 
 function RoutesConfig(
     {
@@ -36,7 +37,7 @@ function RoutesConfig(
 ) {
     useEffect(() => {
         console.log('routes change')
-    }, [active]);
+    }, []);
 
     return (
         <Switch>
@@ -81,6 +82,12 @@ function RoutesConfig(
                 path="/beta"
             >
                 <Beta notice={notice} setLoading={setLoading}/>
+            </Route>
+            <Route
+                exact
+                path="/group"
+            >
+                <Group notice={notice} setLoading={setLoading}/>
             </Route>
             {
                 user != null ?

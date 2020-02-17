@@ -38,6 +38,8 @@ import Divider from "@material-ui/core/Divider";
 import {FormControlLabel} from "@material-ui/core";
 import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import GroupIcon from '@material-ui/icons/Group';
 
 export default function SearchAppBar(
     {
@@ -160,6 +162,20 @@ export default function SearchAppBar(
                 </IconButton>
                 <p>{t("个人资料")}</p>
             </MenuItem>
+            <MenuItem onClick={() => {
+                handleMobileMenuClose();
+                history.push("/group");
+            }}>
+                <IconButton
+                    aria-label="account of current user"
+                    aria-controls="primary-search-account-menu"
+                    aria-haspopup="true"
+                    color="inherit"
+                >
+                    <GroupIcon/>
+                </IconButton>
+                <p>{t("群组")}</p>
+            </MenuItem>
             <MenuItem
                 onClick={
                     () => {
@@ -181,10 +197,8 @@ export default function SearchAppBar(
                     }
                 }
             >
-                <IconButton
-                    color="secondary"
-                >
-                    <AccountCircle/>
+                <IconButton>
+                    <ExitToAppIcon/>
                 </IconButton>
                 <p>{t("退出登录")}</p>
             </MenuItem>
