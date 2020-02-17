@@ -150,20 +150,6 @@ export default function SearchAppBar(
             </MenuItem>
             <MenuItem onClick={() => {
                 handleMobileMenuClose();
-                history.push("/user");
-            }}>
-                <IconButton
-                    aria-label="account of current user"
-                    aria-controls="primary-search-account-menu"
-                    aria-haspopup="true"
-                    color="inherit"
-                >
-                    <AccountCircle/>
-                </IconButton>
-                <p>{t("个人资料")}</p>
-            </MenuItem>
-            <MenuItem onClick={() => {
-                handleMobileMenuClose();
                 history.push("/group");
             }}>
                 <IconButton
@@ -175,6 +161,20 @@ export default function SearchAppBar(
                     <GroupIcon/>
                 </IconButton>
                 <p>{t("群组")}</p>
+            </MenuItem>
+            <MenuItem onClick={() => {
+                handleMobileMenuClose();
+                history.push("/user");
+            }}>
+                <IconButton
+                    aria-label="account of current user"
+                    aria-controls="primary-search-account-menu"
+                    aria-haspopup="true"
+                    color="inherit"
+                >
+                    <AccountCircle/>
+                </IconButton>
+                <p>{t("个人资料")}</p>
             </MenuItem>
             <MenuItem
                 onClick={

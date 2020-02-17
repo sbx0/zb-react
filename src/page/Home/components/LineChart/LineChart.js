@@ -42,7 +42,7 @@ export default function LineChart({notice, day, kind, group, referenceValue}) {
     useEffect(() => {
         setInterval(
             () => loadData(),
-            1000 * 60 * 60,
+            1000 * 60 * 30,
         );
     }, [])
 

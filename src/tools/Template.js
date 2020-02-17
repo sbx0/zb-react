@@ -1,15 +1,12 @@
 import React, {useState, useEffect} from 'react';
-
-import {useTranslation} from 'react-i18next';
 import "../i18N"
-
+import {fetchGet, fetchStatus, fetchStatusAlert} from "../tools/Network";
+import {useTranslation} from 'react-i18next';
 import {useHistory, useLocation} from "react-router-dom";
-
-import {fetchGet, fetchStatusAlert} from "./Network";
-
 import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button";
+import {Divider} from "@material-ui/core";
 
 export default function Template({notice, setLoading}) {
     const classes = useStyles();
@@ -17,6 +14,12 @@ export default function Template({notice, setLoading}) {
     let location = useLocation();
     let history = useHistory();
     const [value, setValue] = useState("welcome");
+    const [values, setValues] = useState([
+        {name: 'f'},
+        {name: 'u'},
+        {name: 'c'},
+        {name: 'k'},
+    ]);
 
     function test() {
         setLoading(true);
@@ -53,6 +56,12 @@ export default function Template({notice, setLoading}) {
             >
                 {t("不要点我")}
             </Button>
+            <Divider/>
+            {
+                values.map((one) => (
+                    <Typography variant="inherit" align="center" key={one.name}>{one.name}</Typography>
+                ))
+            }
         </div>
     );
 }
