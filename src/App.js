@@ -47,6 +47,7 @@ export default function App() {
                 setUser(json["object"]);
             } else {
                 notice(fetchStatusAlert(status), status);
+                setUser(null);
             }
             setLoading(false);
         }).catch((error) => {

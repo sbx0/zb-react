@@ -1,1 +1,1 @@
-export {default} from './Beta';
+export {default} from './Group';

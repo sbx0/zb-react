@@ -18,8 +18,7 @@ export default function LineChart({notice, day, kind, group, referenceValue}) {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        setLoading(true);
+    function loadData() {
         let url = 'statistical/data/recent?day=' + day + '&kind=' + kind + '&group=' + group;
         fetchGet(
             url
@@ -28,13 +27,23 @@ export default function LineChart({notice, day, kind, group, referenceValue}) {
             if (fetchStatus(status)) {
                 const data = json['objects']['data'];
                 setData(data);
-                setLoading(false);
             } else {
                 notice(fetchStatusAlert(status), status);
             }
         }).catch((error) => {
             notice(error.toString(), -1);
         });
+    }
+
+    useEffect(() => {
+        loadData();
+    }, [])
+
+    useEffect(() => {
+        setInterval(
+            () => loadData(),
+            1000 * 60 * 60,
+        );
     }, [])
 
     return <>

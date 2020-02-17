@@ -41,6 +41,9 @@ export default function Beta({notice, setLoading}) {
         let openConsole = localStorage.getItem("open_console");
         return openConsole === "true";
     });
+    const [domain, setDomain] = useState(() => {
+        return document.domain;
+    });
 
     function handleChange(event) {
         setServerConfig(event.target.value)
@@ -128,9 +131,9 @@ export default function Beta({notice, setLoading}) {
                     <Typography
                         variant="inherit"
                         align="center"
-                        onClick={() => setServerConfig("http://192.168.137.1:8085/")}
+                        onClick={() => setServerConfig("http://" + domain + ":8085/")}
                     >
-                        {t("自定")} http://192.168.137.1:8085/<br/>
+                        {t("自定")} http://{domain}:8085/<br/>
                     </Typography>
                 </Grid>
                 <Grid

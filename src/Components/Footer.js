@@ -20,15 +20,6 @@ export default function Footer() {
 
     return (
         <div className={classes.div}>
-            <Button
-                type="button"
-                fullWidth
-                variant="outlined"
-                className={classes.divider}
-                onClick={() => history.goBack()}
-            >
-                {t("返回")}
-            </Button>
             <Divider variant="middle"/>
             <Grid
                 container
