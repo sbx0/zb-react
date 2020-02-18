@@ -29,11 +29,11 @@ export default function DemandDetail({setLoading, notice}) {
             } else {
                 notice(t(fetchStatusAlert(status)), status);
             }
-            setLoading(false);
         }).catch((error) => {
             notice(error.toString(), -1);
+        }).finally(() => {
             setLoading(false);
-        });
+        })
     }, [id]);
 
     return (

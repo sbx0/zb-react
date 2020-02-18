@@ -12,6 +12,7 @@ import GroupIcon from "@material-ui/icons/Group";
 import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
 import Container from "@material-ui/core/Container";
+import ShowUser from "../../../../Components/ShowUser";
 
 export default function GroupList({notice, setLoading, groups, from, name, searchActive, setSearchActive}) {
     const classes = useStyles();
@@ -92,7 +93,14 @@ export default function GroupList({notice, setLoading, groups, from, name, searc
                     <>
                         {
                             groups.map((group) => (
-                                <Grid container justify="space-between" key={group['id']}>
+                                <Grid
+                                    container
+                                    justify="space-between"
+                                    key={group['id']}
+                                    onClick={() => {
+                                        history.push("/group/detail/" + group['id']);
+                                    }}
+                                >
                                     <Grid item xs={12}>
                                         <Typography variant={'h6'}>
                                             {group['name']}
@@ -140,53 +148,12 @@ export default function GroupList({notice, setLoading, groups, from, name, searc
     </>;
 }
 
-function ShowUser({id, notice}) {
-    const classes = useStyles();
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        let url = 'user/base/show?id=' + id;
-        fetchGet(
-            url
-        ).then((json) => {
-            const status = json['status'];
-            if (fetchStatus(status)) {
-                const object = json['object'];
-                if (object['avatar'] !== 'avatar.jpg') {
-                    object['avatar'] = localStorage.getItem("server_config") + object['avatar'];
-                }
-                setUser(object)
-            } else {
-                notice(t(fetchStatusAlert(status)), status);
-                setUser(null);
-            }
-        }).catch((error) => {
-            notice(error.toString(), -1);
-        });
-    }, []);
-
-    return <>
-        <Chip
-            variant="outlined"
-            avatar={
-                <Avatar
-                    className={classes.avatar}
-                    src={user?.avatar}
-                />
-            }
-            label={user?.name}
-        />
-    </>;
-}
-
 const useStyles = makeStyles(theme => ({
     center: {
         display: 'block',
         margin: '5px auto',
     },
     paper: {
-        display: 'flex',
-        flexDirection: 'column',
         alignItems: 'center',
         textAlign: 'center',
     },

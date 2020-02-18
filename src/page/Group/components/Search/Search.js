@@ -83,7 +83,7 @@ export default function GroupSearch({notice, setLoading}) {
     return (
         <Container component="main">
             <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid item xs={12} sm={6}>
                     <Card>
                         <CardHeader
                             subheader={t("搜索并创建或加入群组")}
@@ -95,42 +95,35 @@ export default function GroupSearch({notice, setLoading}) {
                                 direction="row"
                                 justify="center"
                                 alignItems="center"
-                                className={classes.center}
                             >
-                                <div className={classes.paper}>
-                                    <Grid
-                                        direction="row"
-                                        justify="center"
-                                        alignItems="center"
+                                <Grid item xs={12}>
+                                    <TextField
+                                        label={t("群组名称")}
+                                        value={name}
+                                        onChange={searchKeyHandleChange}
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                        autoFocus
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Divider variant="fullWidth" className={classes.divider}/>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Button
+                                        variant="outlined"
+                                        fullWidth
+                                        onClick={submit}
                                     >
-                                        <Grid item xs={12}>
-                                            <TextField
-                                                label={t("群组名称")}
-                                                value={name}
-                                                onChange={searchKeyHandleChange}
-                                                variant="outlined"
-                                                required
-                                                fullWidth
-                                                autoFocus
-                                            />
-                                        </Grid>
-                                        <Divider variant="fullWidth" className={classes.divider}/>
-                                        <Grid item xs={12}>
-                                            <Button
-                                                variant="outlined"
-                                                fullWidth
-                                                onClick={submit}
-                                            >
-                                                {t("搜索群组")}
-                                            </Button>
-                                        </Grid>
-                                    </Grid>
-                                </div>
+                                        {t("搜索群组")}
+                                    </Button>
+                                </Grid>
                             </Grid>
                         </CardContent>
                     </Card>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} sm={6}>
                     <Card>
                         <CardContent>
                             <GroupList
@@ -384,15 +377,6 @@ export default function GroupSearch({notice, setLoading}) {
 // }
 
 const useStyles = makeStyles(theme => ({
-    center: {
-        display: 'block',
-        margin: '5px auto',
-    },
-    paper: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
     divider: {
         margin: '10px auto'
     }

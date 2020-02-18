@@ -51,20 +51,24 @@ export default function Group({notice, setLoading}) {
 
     return (
         <Container component="main">
-            <Card>
-                <CardHeader
-                    subheader={t("创建或加入的群组")}
-                    title={t("我的群组")}
-                />
-                <CardContent>
-                    <GroupList
-                        notice={notice}
-                        setLoading={setLoading}
-                        groups={groups}
-                        from="index"
-                    />
-                </CardContent>
-            </Card>
+            <Grid container>
+                <Grid item xs={12} sm={6}>
+                    <Card>
+                        <CardHeader
+                            subheader={t("创建或加入的群组")}
+                            title={t("我的群组")}
+                        />
+                        <CardContent>
+                            <GroupList
+                                notice={notice}
+                                setLoading={setLoading}
+                                groups={groups}
+                                from="index"
+                            />
+                        </CardContent>
+                    </Card>
+                </Grid>
+            </Grid>
         </Container>
     );
 }

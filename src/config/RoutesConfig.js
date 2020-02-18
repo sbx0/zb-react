@@ -26,6 +26,7 @@ import Review from "../admin/Review";
 import Table from "../admin/Table";
 import Group from "../page/Group/Group";
 import GroupSearch from "../page/Group/components/Search/Search";
+import GroupDetail from "../page/Group/components/Detail/Detail";
 
 function RoutesConfig(
     {
@@ -95,6 +96,12 @@ function RoutesConfig(
                 path="/group/search"
             >
                 <GroupSearch notice={notice} setLoading={setLoading}/>
+            </Route>
+            <Route
+                exact
+                path="/group/detail/:id"
+            >
+                <GroupDetail notice={notice} setLoading={setLoading}/>
             </Route>
             {
                 user != null ?
