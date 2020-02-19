@@ -23,7 +23,11 @@ export function fetchStatusAlert(status) {
         case 6:
             return '结果为空';
         case 7:
-            return '暂无权限"';
+            return '暂无权限';
+        case 8:
+            return '发生异常';
+        case 9:
+            return '超出限制';
         default:
             return '未知错误';
     }

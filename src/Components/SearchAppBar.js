@@ -71,14 +71,33 @@ export default function SearchAppBar(
 
     useEffect(() => {
         heartbeat();
-    }, []);
-
-    useEffect(() => {
         setInterval(
             () => heartbeat(),
             1000 * 60 * 5,
         );
     }, []);
+
+    useEffect(() => {
+        report();
+        setInterval(
+            () => report(),
+            1000 * 60 * 60,
+        );
+    }, []);
+
+    function report() {
+        let url = 'statistical/user/report';
+        fetchGet(
+            url
+        ).then((json) => {
+            const status = json['status'];
+            if (!fetchStatus(status)) {
+                notice(fetchStatusAlert(status), status);
+            }
+        }).catch((error) => {
+            notice(error.toString(), -1);
+        });
+    }
 
     function heartbeat() {
         let url = 'user/base/heartbeat';

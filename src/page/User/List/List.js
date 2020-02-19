@@ -7,14 +7,25 @@ import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import {Badge, Divider, List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
+import {
+    Badge,
+    Card,
+    CardContent,
+    CardHeader,
+    Divider,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText
+} from "@material-ui/core";
 import GroupIcon from "@material-ui/icons/Group";
 import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
 import Container from "@material-ui/core/Container";
 import ShowUser from "../../../Components/ShowUser";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 
-export default function UserList({notice, setLoading, users}) {
+export default function UserList({notice, setLoading, loadActive, users}) {
     const classes = useStyles();
     const {t} = useTranslation();
     let location = useLocation();
@@ -22,28 +33,54 @@ export default function UserList({notice, setLoading, users}) {
 
     return <>
         <div className={classes.paper}>
-            {
-                users.length === 0 ?
-                    <>
-                        <Grid
-                            direction="row"
-                            justify="center"
-                            alignItems="center"
-                        >
-                            <Grid item xs={12}>
-                                <Typography variant="inherit">{name} {t("暂无结果")}</Typography>
-                            </Grid>
-                        </Grid>
-                    </>
-                    :
-                    <>
-                        {
-                            users.map((user) => (
-                                <ShowUser key={user.id} data={user} notice={notice}/>
-                            ))
-                        }
-                    </>
-            }
+            <Grid
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+            >
+                <Grid item xs={12}>
+                    {
+                        users.length === 0 ?
+                            <Typography variant="inherit">{name} {t("暂无结果")}</Typography>
+                            :
+                            <Card>
+                                <CardHeader
+                                    subheader={''}
+                                    title={t('成员')}
+                                />
+                                <CardContent>
+                                    <List>
+                                        {
+                                            users.map((user) => (
+                                                <>
+                                                    <ListItem key={'userList' + user.id}>
+                                                        <ListItemAvatar>
+                                                            <Avatar
+                                                                src={
+                                                                    user['avatar'] === 'avatar.jpg' ?
+                                                                        user['avatar']
+                                                                        :
+                                                                        localStorage.getItem("server_config") + user['avatar']
+                                                                }
+                                                            />
+                                                        </ListItemAvatar>
+                                                        <ListItemText primary={user.name}/>
+                                                    </ListItem>
+                                                    <Divider
+                                                        key={'userListDivider' + user.id}
+                                                        variant={'inset'}
+                                                        component={'li'}
+                                                    />
+                                                </>
+                                            ))
+                                        }
+                                    </List>
+                                </CardContent>
+                            </Card>
+                    }
+                </Grid>
+            </Grid>
         </div>
     </>;
 }
@@ -55,7 +92,6 @@ const useStyles = makeStyles(theme => ({
     },
     paper: {
         alignItems: 'center',
-        textAlign: 'center',
     },
     divider: {
         margin: '10px auto'

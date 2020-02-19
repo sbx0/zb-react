@@ -16,7 +16,7 @@ import {fetchGet, fetchStatus, fetchStatusAlert} from "../tools/Network";
 import Chip from "@material-ui/core/Chip";
 import Avatar from "@material-ui/core/Avatar";
 
-export default function ShowUser({id, notice, data}) {
+export default function ShowUser({id, notice, loadActive, data}) {
     const classes = useStyles();
     const [user, setUser] = useState(data);
 
@@ -44,16 +44,35 @@ export default function ShowUser({id, notice, data}) {
     }, []);
 
     return <>
-        <Chip
-            variant="outlined"
-            avatar={
-                <Avatar
-                    className={classes.avatar}
-                    src={user?.avatar}
+        {
+            data == null ?
+                <Chip
+                    variant="outlined"
+                    avatar={
+                        <Avatar
+                            className={classes.avatar}
+                            src={user?.avatar}
+                        />
+                    }
+                    label={user?.name}
                 />
-            }
-            label={user?.name}
-        />
+                :
+                <Chip
+                    variant="outlined"
+                    avatar={
+                        <Avatar
+                            className={classes.avatar}
+                            src={
+                                data['avatar'] === 'avatar.jpg' ?
+                                    data['avatar']
+                                    :
+                                    localStorage.getItem("server_config") + data['avatar']
+                            }
+                        />
+                    }
+                    label={data?.name}
+                />
+        }
     </>;
 }
 

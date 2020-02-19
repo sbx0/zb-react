@@ -13,6 +13,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
 import Container from "@material-ui/core/Container";
 import ShowUser from "../../../../Components/ShowUser";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 
 export default function GroupList({notice, setLoading, groups, from, name, searchActive, setSearchActive}) {
     const classes = useStyles();
@@ -26,6 +27,7 @@ export default function GroupList({notice, setLoading, groups, from, name, searc
                 groups.length === 0 ?
                     <>
                         <Grid
+                            container
                             direction="row"
                             justify="center"
                             alignItems="center"
@@ -128,16 +130,18 @@ export default function GroupList({notice, setLoading, groups, from, name, searc
                         }
                         {
                             from === 'index' ?
-                                <Grid item xs={12}>
-                                    <Button
-                                        variant="outlined"
-                                        fullWidth
-                                        onClick={() => {
-                                            history.push("/group/search")
-                                        }}
-                                    >
-                                        {t("搜索群组")}
-                                    </Button>
+                                <Grid container>
+                                    <Grid item xs={12}>
+                                        <Button
+                                            variant="outlined"
+                                            fullWidth
+                                            onClick={() => {
+                                                history.push("/group/search")
+                                            }}
+                                        >
+                                            {t("搜索群组")}
+                                        </Button>
+                                    </Grid>
                                 </Grid>
                                 :
                                 <></>

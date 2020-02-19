@@ -26,6 +26,7 @@ export default function GroupDetail({notice, setLoading}) {
         name: '',
         ownerId: '',
         limitNumber: '',
+        currentNumber: '',
     });
     const [users, setUsers] = useState([]);
     const [loadActive, setLoadActive] = useState(false);
@@ -64,14 +65,14 @@ export default function GroupDetail({notice, setLoading}) {
         }).finally(() => {
             setLoading(false);
         })
-    }, []);
+    }, [loadActive]);
 
     return <>
         <Container component="main">
-            <Grid container>
-                <Grid item xs={12} sm={6}>
+            <Grid container spacing={2}>
+                <Grid item xs={12} sm={12} md={6}>
                     {
-                        group.name === '' ?
+                        group?.name === '' ?
                             <>
                                 <Typography component="h1" variant="h5">
                                     {t("加载中")}
@@ -93,17 +94,25 @@ export default function GroupDetail({notice, setLoading}) {
                                             className={classes.center}
                                         >
                                             <Grid item xs={4}>
-                                                <LinearProgress variant={"determinate"} value={group['limitNumber']}/>
+                                                {group?.currentNumber} / {group?.limitNumber}
+                                                <LinearProgress
+                                                    variant={"determinate"}
+                                                    value={group?.currentNumber * 100 / group?.limitNumber}
+                                                />
                                             </Grid>
                                             <Grid item xs={4}>
                                                 <ShowUser
                                                     notice={notice}
-                                                    id={group['ownerId']}
+                                                    id={group?.ownerId}
                                                 />
                                             </Grid>
                                             <Grid item xs={4}>
-                                                <CheckButton loadActive={loadActive} setLoadActive={setLoadActive}
-                                                             notice={notice} id={group['id']}/>
+                                                <CheckButton
+                                                    loadActive={loadActive}
+                                                    setLoadActive={setLoadActive}
+                                                    notice={notice}
+                                                    id={group?.id}
+                                                />
                                             </Grid>
                                         </Grid>
                                     </CardContent>
@@ -111,8 +120,8 @@ export default function GroupDetail({notice, setLoading}) {
                             </>
                     }
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                    <UserList notice={notice} setLoading={setLoading} users={users}/>
+                <Grid item xs={12} sm={12} md={6}>
+                    <UserList notice={notice} setLoading={setLoading} loadActive={loadActive} users={users}/>
                 </Grid>
             </Grid>
         </Container>
