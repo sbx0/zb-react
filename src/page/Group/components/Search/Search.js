@@ -81,7 +81,7 @@ export default function GroupSearch({notice, setLoading}) {
 
 
     return (
-        <Container component="main">
+        <div>
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                     <Card>
@@ -139,7 +139,7 @@ export default function GroupSearch({notice, setLoading}) {
                     </Card>
                 </Grid>
             </Grid>
-        </Container>
+        </div>
     );
 }
 //

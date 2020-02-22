@@ -53,8 +53,8 @@ export default function UserList({notice, setLoading, loadActive, users}) {
                                     <List>
                                         {
                                             users.map((user) => (
-                                                <>
-                                                    <ListItem key={'userList' + user.id}>
+                                                <div key={'userList' + user.id}>
+                                                    <ListItem>
                                                         <ListItemAvatar>
                                                             <Avatar
                                                                 src={
@@ -68,11 +68,10 @@ export default function UserList({notice, setLoading, loadActive, users}) {
                                                         <ListItemText primary={user.name}/>
                                                     </ListItem>
                                                     <Divider
-                                                        key={'userListDivider' + user.id}
                                                         variant={'inset'}
                                                         component={'li'}
                                                     />
-                                                </>
+                                                </div>
                                             ))
                                         }
                                     </List>

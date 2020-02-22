@@ -50,7 +50,7 @@ export default function Group({notice, setLoading}) {
     }, []);
 
     return (
-        <Container component="main">
+        <div>
             <Grid container>
                 <Grid item xs={12} sm={6}>
                     <Card>
@@ -69,7 +69,7 @@ export default function Group({notice, setLoading}) {
                     </Card>
                 </Grid>
             </Grid>
-        </Container>
+        </div>
     );
 }
 

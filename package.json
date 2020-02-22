@@ -1,6 +1,6 @@
 {
   "name": "zb-react",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "private": true,
   "dependencies": {
     "@babel/core": "7.7.4",
@@ -57,6 +57,7 @@
     "react": "^16.12.0",
     "react-app-polyfill": "^1.0.5",
     "react-avatar-editor": "^12.0.0-beta.0",
+    "react-chat-ui": "^0.3.2",
     "react-dev-utils": "^10.0.0",
     "react-dom": "^16.12.0",
     "react-dropzone": "^10.2.1",
@@ -64,12 +65,14 @@
     "react-markdown": "^4.3.1",
     "react-mde": "^8.0.1",
     "react-router-dom": "^5.1.2",
+    "react-stomp": "^4.3.0",
     "recharts": "^1.8.5",
     "resolve": "1.12.2",
     "resolve-url-loader": "3.1.1",
     "sass-loader": "8.0.0",
     "semver": "6.3.0",
     "showdown": "^1.9.1",
+    "socket.io-client": "^2.3.0",
     "style-loader": "1.0.0",
     "terser-webpack-plugin": "2.2.1",
     "ts-pnp": "1.1.5",
@@ -77,6 +80,7 @@
     "webpack": "4.41.2",
     "webpack-dev-server": "3.9.0",
     "webpack-manifest-plugin": "2.2.0",
+    "websocket": "^1.0.31",
     "workbox-webpack-plugin": "4.3.1"
   },
   "scripts": {

@@ -80,7 +80,7 @@ const headers = {
 export async function fetchUpload(url, formData) {
     let serverConfig = localStorage.getItem("server_config");
     if (serverConfig == null) {
-        localStorage.setItem("server_config", "https://zb.sbx0.cn/");
+        localStorage.setItem("server_config", global.server_config);
         serverConfig = global.server_config;
     }
     url = serverConfig + url;

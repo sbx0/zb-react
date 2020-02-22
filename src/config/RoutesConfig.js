@@ -27,6 +27,7 @@ import Table from "../admin/Table";
 import Group from "../page/Group/Group";
 import GroupSearch from "../page/Group/components/Search/Search";
 import GroupDetail from "../page/Group/components/Detail/Detail";
+import ChatPage from "../page/Chat/Chat";
 
 function RoutesConfig(
     {
@@ -102,6 +103,12 @@ function RoutesConfig(
                 path="/group/detail/:id"
             >
                 <GroupDetail notice={notice} setLoading={setLoading}/>
+            </Route>
+            <Route
+                exact
+                path="/chat/with/:id"
+            >
+                <ChatPage user={user} notice={notice} setLoading={setLoading}/>
             </Route>
             {
                 user != null ?

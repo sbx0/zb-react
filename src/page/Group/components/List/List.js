@@ -21,6 +21,10 @@ export default function GroupList({notice, setLoading, groups, from, name, searc
     let location = useLocation();
     let history = useHistory();
 
+    useEffect(() => {
+
+    }, [])
+
     return <>
         <div className={classes.paper}>
             {

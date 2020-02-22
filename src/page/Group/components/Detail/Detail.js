@@ -15,6 +15,8 @@ import Container from "@material-ui/core/Container";
 import ShowUser from "../../../../Components/ShowUser";
 import GroupIcon from "@material-ui/icons/Group";
 import UserList from "../../../User/List/List";
+import RecentActivity from "../RecentActivity/RecentActivity";
+import WebSocket from "../WebSocket";
 
 export default function GroupDetail({notice, setLoading}) {
     const classes = useStyles();
@@ -68,63 +70,69 @@ export default function GroupDetail({notice, setLoading}) {
     }, [loadActive]);
 
     return <>
-        <Container component="main">
-            <Grid container spacing={2}>
-                <Grid item xs={12} sm={12} md={6}>
-                    {
-                        group?.name === '' ?
-                            <>
-                                <Typography component="h1" variant="h5">
-                                    {t("加载中")}
-                                </Typography>
-                            </>
-                            :
-                            <>
-                                <Card>
-                                    <CardHeader
-                                        subheader={''}
-                                        title={group?.name}
-                                    />
-                                    <CardContent>
-                                        <Grid
-                                            container
-                                            alignItems={"center"}
-                                            alignContent={"center"}
-                                            spacing={2}
-                                            className={classes.center}
-                                        >
-                                            <Grid item xs={4}>
-                                                {group?.currentNumber} / {group?.limitNumber}
-                                                <LinearProgress
-                                                    variant={"determinate"}
-                                                    value={group?.currentNumber * 100 / group?.limitNumber}
-                                                />
+        <Grid container spacing={2}>
+            <Grid item xs={12} sm={12} md={6}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        {
+                            group?.name === '' ?
+                                <>
+                                    <Typography component="h1" variant="h5">
+                                        {t("加载中")}
+                                    </Typography>
+                                </>
+                                :
+                                <>
+                                    <Card>
+                                        <CardHeader
+                                            subheader={''}
+                                            title={group?.name}
+                                        />
+                                        <CardContent>
+                                            <Grid
+                                                container
+                                                alignItems={"center"}
+                                                alignContent={"center"}
+                                                spacing={2}
+                                                className={classes.center}
+                                            >
+                                                <Grid item xs={4}>
+                                                    {group?.currentNumber} / {group?.limitNumber}
+                                                    <LinearProgress
+                                                        variant={"determinate"}
+                                                        value={group?.currentNumber * 100 / group?.limitNumber}
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={4}>
+                                                    <ShowUser
+                                                        notice={notice}
+                                                        id={group?.ownerId}
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={4}>
+                                                    <CheckButton
+                                                        loadActive={loadActive}
+                                                        setLoadActive={setLoadActive}
+                                                        notice={notice}
+                                                        id={group?.id}
+                                                    />
+                                                </Grid>
                                             </Grid>
-                                            <Grid item xs={4}>
-                                                <ShowUser
-                                                    notice={notice}
-                                                    id={group?.ownerId}
-                                                />
-                                            </Grid>
-                                            <Grid item xs={4}>
-                                                <CheckButton
-                                                    loadActive={loadActive}
-                                                    setLoadActive={setLoadActive}
-                                                    notice={notice}
-                                                    id={group?.id}
-                                                />
-                                            </Grid>
-                                        </Grid>
-                                    </CardContent>
-                                </Card>
-                            </>
-                    }
-                </Grid>
-                <Grid item xs={12} sm={12} md={6}>
-                    <UserList notice={notice} setLoading={setLoading} loadActive={loadActive} users={users}/>
+                                        </CardContent>
+                                    </Card>
+                                </>
+                        }
+                    </Grid>
+                    <Grid item xs={12}>
+                        <WebSocket/>
+                        <RecentActivity notice={notice} setLoading={setLoading}/>
+                    </Grid>
                 </Grid>
             </Grid>
-        </Container>
+            <Grid item xs={12} sm={12} md={6}>
+                <UserList notice={notice} setLoading={setLoading} loadActive={loadActive} users={users}/>
+            </Grid>
+        </Grid>
     </>;
 }
 
@@ -164,6 +172,9 @@ function JoinButton({id, notice, loadActive, setLoadActive}) {
     const classes = useStyles();
     const {t} = useTranslation();
 
+    useEffect(() => {
+    }, []);
+
     return <Button
         variant="outlined"
         fullWidth
@@ -194,6 +205,9 @@ function JoinButton({id, notice, loadActive, setLoadActive}) {
 function QuitButton({id, notice, loadActive, setLoadActive}) {
     const classes = useStyles();
     const {t} = useTranslation();
+
+    useEffect(() => {
+    }, [])
 
     return <Button
         variant="outlined"
