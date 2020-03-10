@@ -106,6 +106,12 @@ function RoutesConfig(
             </Route>
             <Route
                 exact
+                path="/chat/public"
+            >
+                <ChatPage user={user} notice={notice} setLoading={setLoading}/>
+            </Route>
+            <Route
+                exact
                 path="/chat/with/:id"
             >
                 <ChatPage user={user} notice={notice} setLoading={setLoading}/>

@@ -124,7 +124,6 @@ export default function GroupDetail({notice, setLoading}) {
                         }
                     </Grid>
                     <Grid item xs={12}>
-                        <WebSocket/>
                         <RecentActivity notice={notice} setLoading={setLoading}/>
                     </Grid>
                 </Grid>

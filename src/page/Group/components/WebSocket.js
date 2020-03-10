@@ -26,7 +26,7 @@ export default function WebSocket(
             url={localStorage.getItem('server_config') + 'ws'}
             topics={[
                 '/user/queue/msg',
-                '/topic/public'
+                '/topic/test'
             ]}
             onConnect={() => {
                 notice('Connected.', 0);

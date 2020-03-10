@@ -34,7 +34,7 @@ export default function ChatPage({user, notice, setLoading}) {
     });
     const [client, setClient] = useState(null);
 
-    const [url, setUrl] = useState('/ws/sendToPublic');
+    const [url, setUrl] = useState('/ws/send/channel');
     const [active, setActive] = useState(false);
     const [state, setState] = useState(false);
 
@@ -44,7 +44,7 @@ export default function ChatPage({user, notice, setLoading}) {
 
     function sendMsg() {
         if (client != null && state) {
-            client.sendMessage(url, user.name + '||' + values.msg);
+            client.sendMessage(url, user.name + '||test||' + values.msg);
         }
     }
 

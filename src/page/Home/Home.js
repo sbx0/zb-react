@@ -8,14 +8,28 @@ import {Card, CardContent, CardHeader, Divider, makeStyles} from "@material-ui/c
 import {useTranslation} from "react-i18next";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import {useHistory} from "react-router-dom";
 
 function Home({notice, setLoading}) {
     const {t} = useTranslation();
+    let history = useHistory();
     const classes = useStyles();
 
     return (
         <div className={classes.container}>
             <Grid container spacing={3}>
+                <Grid item xs={12}>
+                    <Card
+                        onClick={() => {
+                            history.push('/chat/public')
+                        }}
+                    >
+                        <CardHeader
+                            subheader={t('实时聊天')}
+                            title={t('前往公共聊天室')}
+                        />
+                    </Card>
+                </Grid>
                 <Grid item sm={6} xs={12}>
                     <Card>
                         <CardHeader
