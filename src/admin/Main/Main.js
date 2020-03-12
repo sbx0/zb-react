@@ -54,12 +54,14 @@ function Main({notice, setLoading}) {
                     >
                         <Grid
                             item
-                            lg={3}
-                            sm={3}
-                            xl={6}
-                            xs={6}
+                            xs={3}
                         >
-                            <SmallDataCard notice={notice} setLoading={setLoading}/>
+                            <SmallDataCard
+                                title={'在线人数'}
+                                url={'user/base/active'}
+                                notice={notice}
+                                setLoading={setLoading}
+                            />
                         </Grid>
                     </Grid>
                     <Grid container spacing={3}>

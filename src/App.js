@@ -145,6 +145,7 @@ export default function App() {
                             user={user}
                             active={active}
                             notice={notice}
+                            loading={loading}
                             setLoading={setLoading}
                             changeActive={changeActive}
                         />

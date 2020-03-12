@@ -169,6 +169,17 @@ export default function SearchAppBar(
             </MenuItem>
             <MenuItem onClick={() => {
                 handleMobileMenuClose();
+                history.push("/post");
+            }}>
+                <IconButton aria-label="show 11 new notifications" color="inherit">
+                    <Badge badgeContent={11} color="secondary">
+                        <NotificationsIcon/>
+                    </Badge>
+                </IconButton>
+                <p>{t("发布")}</p>
+            </MenuItem>
+            <MenuItem onClick={() => {
+                handleMobileMenuClose();
                 history.push("/group");
             }}>
                 <IconButton

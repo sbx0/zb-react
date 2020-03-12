@@ -16,7 +16,7 @@ import Avatar from "@material-ui/core/Avatar";
 import {ArrowDownward, Money} from "@material-ui/icons";
 import Card from "@material-ui/core/Card";
 
-export default function SmallDataCard({notice, setLoading}) {
+export default function SmallDataCard({title, url, notice, setLoading}) {
     const classes = useStyles();
     const {t} = useTranslation();
     let location = useLocation();
@@ -24,7 +24,6 @@ export default function SmallDataCard({notice, setLoading}) {
     const [data, setData] = useState(0);
 
     useEffect(() => {
-        let url = 'user/base/active';
         fetchGet(
             url
         ).then((json) => {
@@ -53,7 +52,7 @@ export default function SmallDataCard({notice, setLoading}) {
                             gutterBottom
                             variant="body2"
                         >
-                            {t("活跃人数")}
+                            {t(title)}
                         </Typography>
                         <Typography variant="h5">{data}</Typography>
                     </Grid>

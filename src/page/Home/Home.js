@@ -6,19 +6,70 @@ import {
 } from "./components"
 import {Card, CardContent, CardHeader, Divider, makeStyles} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
-import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import {useHistory} from "react-router-dom";
+import SmallDataCard from "../../admin/Main/components/SmallDataCard/SmallDataCard";
+import ShowCard from "./components/ShowCard/ShowCard";
+import AchievementList from "./components/AchievementList/AchievementList";
 
-function Home({notice, setLoading}) {
+function Home({notice, loading, setLoading}) {
     const {t} = useTranslation();
     let history = useHistory();
     const classes = useStyles();
 
     return (
         <div className={classes.container}>
-            <Grid container spacing={3}>
-                <Grid item xs={12}>
+            <Grid container spacing={1}>
+                <Grid
+                    item
+                    xs={3}
+                >
+                    <SmallDataCard
+                        title={'技术成果'}
+                        url={'user/base/active'}
+                        notice={notice}
+                        setLoading={setLoading}
+                    />
+                </Grid>
+                <Grid
+                    item
+                    xs={3}
+                >
+                    <SmallDataCard
+                        title={'技术需求'}
+                        url={'user/base/active'}
+                        notice={notice}
+                        setLoading={setLoading}
+                    />
+                </Grid>
+                <Grid
+                    item
+                    xs={3}
+                >
+                    <SmallDataCard
+                        title={'在线合作'}
+                        url={'user/base/active'}
+                        notice={notice}
+                        setLoading={setLoading}
+                    />
+                </Grid>
+                <Grid
+                    item
+                    xs={3}
+                >
+                    <SmallDataCard
+                        title={'在线人数'}
+                        url={'user/base/active'}
+                        notice={notice}
+                        setLoading={setLoading}
+                    />
+                </Grid>
+                <AchievementList
+                    notice={notice}
+                    loading={loading}
+                    setLoading={setLoading}
+                />
+                <Grid item sm={6} xs={12}>
                     <Card
                         onClick={() => {
                             history.push('/chat/public')
@@ -74,7 +125,6 @@ function Home({notice, setLoading}) {
 const useStyles = makeStyles((theme) => ({
     container: {
         margin: '0px auto',
-        textAlign: 'center',
     },
     center: {
         margin: '0px auto',

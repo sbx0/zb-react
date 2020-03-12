@@ -80,35 +80,67 @@ function Table({notice, setLoading}) {
     const table_columns_data = {
         user_role: {
             name: t("角色表"),
-            url: 'user/role/admin/'
+            url: 'user/role'
         },
         user_role_bind: {
             name: t("角色绑定表"),
-            url: 'user/role/bind/admin/'
+            url: 'user/role/bind'
         },
         user_base: {
             name: t("基础用户表"),
-            url: 'user/base/admin/'
+            url: 'user/base'
         },
         user_info: {
             name: t("用户信息表"),
-            url: 'user/info/admin/'
+            url: 'user/info'
         },
         user_certification: {
             name: t("用户认证表"),
-            url: 'user/certification/admin/'
+            url: 'user/certification'
         },
         statistical_data: {
             name: t("数据统计表"),
-            url: 'statistical/data/admin/'
+            url: 'statistical/data/'
         },
         statistical_user: {
             name: t("用户统计表"),
-            url: 'statistical/user/admin/'
+            url: 'statistical/user'
         },
         file_upload: {
             name: t("上传文件表"),
-            url: 'file/upload/admin/'
+            url: 'file/upload'
+        },
+        address_base: {
+            name: t("基础地区表"),
+            url: 'address/base'
+        },
+        technical_achievements: {
+            name: t("技术成果表"),
+            url: 'technical/achievements'
+        },
+        technical_achievements_and_address_bind: {
+            name: t("技术成果和地区绑定表"),
+            url: 'technical/achievements/address/bind'
+        },
+        technical_achievements_and_classificaiton_bind: {
+            name: t("技术成果和分类绑定表"),
+            url: 'technical/achievements/classification/bind'
+        },
+        technical_classification: {
+            name: t("技术分类表"),
+            url: 'technical/classification'
+        },
+        technical_requirements: {
+            name: t("技术需求表"),
+            url: 'technical/requirements'
+        },
+        technical_requirements_and_address_bind: {
+            name: t("技术需求和地区绑定表"),
+            url: 'technical/requirements/address/bind'
+        },
+        technical_requirements_and_classificaiton_bind: {
+            name: t("技术需求和分类绑定表"),
+            url: 'technical/requirements/classification/bind'
         },
         option: {
             add: 'save',
@@ -126,7 +158,7 @@ function Table({notice, setLoading}) {
     }, [table])
 
     function buildColumns() {
-        let url = table_columns_data[table].url + table_columns_data.option.attribute;
+        let url = table_columns_data[table].url + '/admin/' + table_columns_data.option.attribute;
         fetchGet(
             url
         ).then((json) => {
@@ -167,6 +199,14 @@ function Table({notice, setLoading}) {
                 <MenuItem value="statistical_data">数据统计表</MenuItem>
                 <MenuItem value="statistical_user">用户统计表</MenuItem>
                 <MenuItem value="file_upload">上传文件表</MenuItem>
+                <MenuItem value="address_base">基础地区表</MenuItem>
+                <MenuItem value="technical_achievements">技术成果表</MenuItem>
+                <MenuItem value="technical_achievements_and_address_bind">技术成果和地区绑定表</MenuItem>
+                <MenuItem value="technical_achievements_and_classificaiton_bind">技术成果和分类绑定表</MenuItem>
+                <MenuItem value="technical_classification">技术分类表</MenuItem>
+                <MenuItem value="technical_requirements">技术需求表</MenuItem>
+                <MenuItem value="technical_requirements_and_address_bind">技术需求和地区绑定表</MenuItem>
+                <MenuItem value="technical_requirements_and_classificaiton_bind">技术需求和分类绑定表</MenuItem>
             </Select>
             <MaterialTable
                 icons={tableIcons}
@@ -194,7 +234,7 @@ function Table({notice, setLoading}) {
                     },
                 }}
                 data={query => new Promise((resolve, reject) => {
-                    let url = table_columns_data[table].url + 'list';
+                    let url = table_columns_data[table].url + '/admin/list';
                     url += '?page=' + (query.page + 1);
                     url += '&size=' + query.pageSize;
                     fetchGet(
@@ -218,7 +258,7 @@ function Table({notice, setLoading}) {
                 title={table}
                 editable={{
                     onRowAdd: newData => new Promise(resolve => {
-                        fetchPost(table_columns_data[table].url + 'save', newData).then((json) => {
+                        fetchPost(table_columns_data[table].url + '/admin/save', newData).then((json) => {
                             const status = json['status'];
                             notice(t(fetchStatusAlert(status)), status);
                             tableRef.current && tableRef.current.onQueryChange()
@@ -229,7 +269,7 @@ function Table({notice, setLoading}) {
                         });
                     }),
                     onRowUpdate: (newData, oldData) => new Promise(resolve => {
-                        fetchPost(table_columns_data[table].url + 'save', newData).then((json) => {
+                        fetchPost(table_columns_data[table].url + '/admin/save', newData).then((json) => {
                             const status = json['status'];
                             notice(t(fetchStatusAlert(status)), status);
                             tableRef.current && tableRef.current.onQueryChange()
@@ -240,7 +280,7 @@ function Table({notice, setLoading}) {
                         });
                     }),
                     onRowDelete: oldData => new Promise(resolve => {
-                        let url = table_columns_data[table].url + 'delete?id=' + oldData["id"];
+                        let url = table_columns_data[table].url + '/admin/delete?id=' + oldData["id"];
                         fetchGet(
                             url
                         ).then((json) => {

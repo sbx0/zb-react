@@ -28,9 +28,12 @@ import Group from "../page/Group/Group";
 import GroupSearch from "../page/Group/components/Search/Search";
 import GroupDetail from "../page/Group/components/Detail/Detail";
 import ChatPage from "../page/Chat/Chat";
+import PostAchievements from "../page/Post/PostAchievements";
+import Post from "../page/Post/Post";
 
 function RoutesConfig(
     {
+        loading,
         user,
         notice,
         setLoading,
@@ -53,7 +56,7 @@ function RoutesConfig(
                 exact
                 path="/home"
             >
-                <Home notice={notice} setLoading={setLoading}/>
+                <Home notice={notice} loading={loading} setLoading={setLoading}/>
             </Route>
             <Route
                 exact
@@ -115,6 +118,18 @@ function RoutesConfig(
                 path="/chat/with/:id"
             >
                 <ChatPage user={user} notice={notice} setLoading={setLoading}/>
+            </Route>
+            <Route
+                exact
+                path="/post"
+            >
+                <Post notice={notice} setLoading={setLoading}/>
+            </Route>
+            <Route
+                exact
+                path="/post/technical/achievements"
+            >
+                <PostAchievements notice={notice} setLoading={setLoading}/>
             </Route>
             {
                 user != null ?
