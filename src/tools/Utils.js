@@ -1,5 +1,27 @@
 import global from '../tools/Global';
 
+const date_to_time_after = {
+    already: '已',
+    just: '刚刚',
+    over: '结束',
+    there_are_still: '还有',
+    month: '个月',
+    week: '周',
+    day: '天',
+    hour: '小时',
+    min: '分钟',
+};
+
+const date_to_time_before = {
+    just: '刚刚',
+    before: '前',
+    month: '个月',
+    week: '周',
+    day: '天',
+    hour: '小时',
+    min: '分钟',
+};
+
 Date.prototype.format = function format(fmt) {
     let o = {
         "M+": this.getMonth() + 1,                 //月份
@@ -51,56 +73,56 @@ export default {
         if (hours <= 0.0169) {
             const second = this.numToFixed((hours * 60.0 * 60.0), 0);
             if (second > 0) {
-                result += second.toFixed(0) + ' ' + global.date_to_time_after.second + ' ';
+                result += second.toFixed(0) + ' ' + date_to_time_after.second + ' ';
             }
         } else if (hours < 1) {
             const minutes = hours * 60.0;
             const minute = this.numToFixed(minutes, 0);
             hours = (minutes - minute) / 60.0;
             if (minute > 0) {
-                result += minute.toFixed(0) + ' ' + global.date_to_time_after.minute + ' ' +
+                result += minute.toFixed(0) + ' ' + date_to_time_after.minute + ' ' +
                     this.hourToBetter(hours);
             } else {
-                result += minutes.toFixed(0) + ' ' + global.date_to_time_after.minute + ' ';
+                result += minutes.toFixed(0) + ' ' + date_to_time_after.minute + ' ';
             }
         } else if (hours < 24) {
             const hour = this.numToFixed(hours, 0);
             hours = hours - hour;
             if (hour > 0) {
-                result += hour.toFixed(0) + ' ' + global.date_to_time_after.hour + ' ' +
+                result += hour.toFixed(0) + ' ' + date_to_time_after.hour + ' ' +
                     this.hourToBetter(hours);
             } else {
-                result += hours.toFixed(0) + ' ' + global.date_to_time_after.hour + ' ';
+                result += hours.toFixed(0) + ' ' + date_to_time_after.hour + ' ';
             }
         } else if (hours < 24 * 30) {
             const days = hours / 24.0;
             const day = this.numToFixed(days, 0);
             hours = (days - day) * 24.0;
             if (day > 0) {
-                result += day.toFixed(0) + ' ' + global.date_to_time_after.day + ' ' +
+                result += day.toFixed(0) + ' ' + date_to_time_after.day + ' ' +
                     this.hourToBetter(hours);
             } else {
-                result += days.toFixed(0) + ' ' + global.date_to_time_after.day + ' ';
+                result += days.toFixed(0) + ' ' + date_to_time_after.day + ' ';
             }
         } else if (hours < 24 * 30 * 365.0) {
             const months = hours / (24.0 * 30.0);
             const month = this.numToFixed(months, 0);
             hours = (months - month) * (24.0 * 30.0);
             if (month > 0) {
-                result += month.toFixed(0) + ' ' + global.date_to_time_after.month + ' ' +
+                result += month.toFixed(0) + ' ' + date_to_time_after.month + ' ' +
                     this.hourToBetter(hours);
             } else {
-                result += months.toFixed(0) + ' ' + global.date_to_time_after.month + ' ';
+                result += months.toFixed(0) + ' ' + date_to_time_after.month + ' ';
             }
         } else {
             const years = hours / (24.0 * 30.0 * 365.0);
             const year = this.numToFixed(years, 0);
             hours = (years - year) * (24.0 * 30.0 * 365.0);
             if (year > 0) {
-                result += year.toFixed(0) + ' ' + global.date_to_time_after.year + ' ' +
+                result += year.toFixed(0) + ' ' + date_to_time_after.year + ' ' +
                     this.hourToBetter(hours);
             } else {
-                result += years.toFixed(0) + ' ' + global.date_to_time_after.year + ' ';
+                result += years.toFixed(0) + ' ' + date_to_time_after.year + ' ';
             }
         }
         return result;
@@ -125,26 +147,26 @@ export default {
         let result;
         if (monthC >= 1) {
             result = parseInt(monthC.toString()) + ' ' +
-                global.date_to_time_before.month +
-                global.date_to_time_before.before;
+                date_to_time_before.month +
+                date_to_time_before.before;
         } else if (weekC >= 1) {
             result = parseInt(weekC.toString()) + ' ' +
-                global.date_to_time_before.week +
-                global.date_to_time_before.before;
+                date_to_time_before.week +
+                date_to_time_before.before;
         } else if (dayC >= 1) {
             result = parseInt(dayC.toString()) + ' ' +
-                global.date_to_time_before.day +
-                global.date_to_time_before.before;
+                date_to_time_before.day +
+                date_to_time_before.before;
         } else if (hourC >= 1) {
             result = parseInt(hourC.toString()) + ' ' +
-                global.date_to_time_before.hour +
-                global.date_to_time_before.before;
+                date_to_time_before.hour +
+                date_to_time_before.before;
         } else if (minC >= 1) {
             result = parseInt(minC.toString()) + ' ' +
-                global.date_to_time_before.min +
-                global.date_to_time_before.before;
+                date_to_time_before.min +
+                date_to_time_before.before;
         } else {
-            result = global.date_to_time_before.just;
+            result = date_to_time_before.just;
         }
         return result;
     },

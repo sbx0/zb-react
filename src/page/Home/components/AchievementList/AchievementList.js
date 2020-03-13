@@ -16,7 +16,7 @@ export default function AchievementList({loading, setLoading, notice}) {
     const [page, setPage] = useState(0);
     const [totalPage, setTotalPage] = useState(1);
     const [size, setSize] = useState(10);
-    const [direction, setDirection] = useState('desc');
+    const [direction, setDirection] = useState('DESC');
 
     useEffect(() => {
         let url = 'technical/achievements/list?page=' + (page + 1) +
@@ -63,8 +63,9 @@ export default function AchievementList({loading, setLoading, notice}) {
                 ))
             ) : (
                 objects.map((one) => (
-                    <Grid item sm={6} xs={12} key={one.id}>
+                    <Grid item sm={6} xs={12} key={one['id']}>
                         <ShowCard
+                            url={"/one/technical/achievements/" + one['id']}
                             title={one['name']}
                             time={one['postTime']}
                             desc={one['context']}

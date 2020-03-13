@@ -30,6 +30,7 @@ import GroupDetail from "../page/Group/components/Detail/Detail";
 import ChatPage from "../page/Chat/Chat";
 import PostAchievements from "../page/Post/PostAchievements";
 import Post from "../page/Post/Post";
+import TechnicalAchievementsOne from "../page/One/TechnicalAchievementsOne";
 
 function RoutesConfig(
     {
@@ -130,6 +131,12 @@ function RoutesConfig(
                 path="/post/technical/achievements"
             >
                 <PostAchievements notice={notice} setLoading={setLoading}/>
+            </Route>
+            <Route
+                exact
+                path="/one/technical/achievements/:id"
+            >
+                <TechnicalAchievementsOne notice={notice} setLoading={setLoading}/>
             </Route>
             {
                 user != null ?

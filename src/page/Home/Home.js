@@ -26,7 +26,7 @@ function Home({notice, loading, setLoading}) {
                 >
                     <SmallDataCard
                         title={'技术成果'}
-                        url={'user/base/active'}
+                        url={'technical/achievements/count'}
                         notice={notice}
                         setLoading={setLoading}
                     />
@@ -69,7 +69,7 @@ function Home({notice, loading, setLoading}) {
                     loading={loading}
                     setLoading={setLoading}
                 />
-                <Grid item sm={6} xs={12}>
+                <Grid item xs={12}>
                     <Card
                         onClick={() => {
                             history.push('/chat/public')
@@ -79,6 +79,19 @@ function Home({notice, loading, setLoading}) {
                             subheader={t('实时聊天')}
                             title={t('前往公共聊天室')}
                         />
+                    </Card>
+                </Grid>
+                <Grid item sm={6} xs={12}>
+                    <Card>
+                        <CardHeader
+                            subheader={t("每天更新")}
+                            title={t("技术成果数")}
+                        />
+                        <Divider/>
+                        <CardContent>
+                            <LineChart notice={notice} day={30} kind="technicalAchievementsCount" group="per_day"
+                                       referenceValue={0}/>
+                        </CardContent>
                     </Card>
                 </Grid>
                 <Grid item sm={6} xs={12}>

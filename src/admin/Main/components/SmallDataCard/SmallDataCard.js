@@ -29,7 +29,7 @@ export default function SmallDataCard({title, url, notice, setLoading}) {
         ).then((json) => {
             const status = json['status'];
             if (fetchStatus(status)) {
-                setData(json['active']);
+                setData(json['object']);
             } else {
                 notice(t(fetchStatusAlert(status)), status);
             }

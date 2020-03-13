@@ -4,6 +4,8 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
+import {useHistory, useLocation} from "react-router-dom";
+import tools from "../../../../tools/Utils";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -15,50 +17,55 @@ const useStyles = makeStyles(theme => ({
         maxWidth: 500,
     },
     image: {
-        width: 128,
-        height: 128,
+        margin: '0 auto',
     },
     img: {
-        margin: 'auto',
+        margin: '0 auto',
         display: 'block',
-        maxWidth: '100%',
-        maxHeight: '100%',
+        minWidth: 370,
+        maxHeight: 120,
+        objectFit: 'cover',
     },
 }));
 
-export default function ShowCard({title, img, price, time, desc}) {
+export default function ShowCard({title, img, price, time, desc, url}) {
     const classes = useStyles();
+    let location = useLocation();
+    let history = useHistory();
 
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
                 <Grid container spacing={2}>
-                    <Grid item>
-                        <ButtonBase className={classes.image}>
+                    <Grid item className={classes.image}>
+                        <ButtonBase>
                             <img className={classes.img} alt="complex" src={img}/>
                         </ButtonBase>
                     </Grid>
-                    <Grid item xs={12} sm container>
+                    <Grid item container>
                         <Grid item xs container direction="column" spacing={2}>
                             <Grid item xs>
                                 <Typography gutterBottom variant="subtitle1">
                                     {title}
                                 </Typography>
                                 <Typography variant="body2" gutterBottom>
-                                    {time}
-                                </Typography>
-                                <Typography variant="body2" color="textSecondary">
-                                    {desc}
+                                    {tools.timeShow(time)}
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <Typography variant="body2" style={{cursor: 'pointer'}}>
+                                <Typography
+                                    variant="body2"
+                                    style={{cursor: 'pointer'}}
+                                    onClick={() => {
+                                        history.push(url);
+                                    }}
+                                >
                                     查看详情
                                 </Typography>
                             </Grid>
                         </Grid>
                         <Grid item>
-                            <Typography variant="subtitle1">{price}</Typography>
+                            <Typography variant="subtitle1">{price + "￥"}</Typography>
                         </Grid>
                     </Grid>
                 </Grid>
