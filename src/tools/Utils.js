@@ -50,10 +50,8 @@ export default {
     // 创建cache时间标签
     cacheTimeStamp(minute) {
         let date = new Date();
-        let timeStamp = date.format("yyyyMMddhh");
-        let timeStampMinute = date.getMinutes() / minute;
-        console.log(timeStamp + timeStampMinute);
-        return timeStamp + timeStampMinute;
+        let timeStamp = date.format("yyyyMMdd");
+        return timeStamp;
     },
     // 规格化小数
     numToFixed(x, num) {

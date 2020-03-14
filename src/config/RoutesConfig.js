@@ -145,6 +145,12 @@ function RoutesConfig(
             >
                 <TechnicalAchievementMarket notice={notice} setLoading={setLoading}/>
             </Route>
+            <Route
+                exact
+                path="/market/technical/achievements/:key"
+            >
+                <TechnicalAchievementMarket notice={notice} setLoading={setLoading}/>
+            </Route>
             {
                 user != null ?
                     <>

@@ -27,46 +27,107 @@ const useStyles = makeStyles(theme => ({
 export default function TechnicalAchievementMarket({setLoading, notice}) {
     const classes = useStyles();
     const {t} = useTranslation();
-    const [classificationOne, setClassificationOne] = useState(null);
-    const [classificationTwo, setClassificationTwo] = useState(null);
+    let {key} = useParams();
+    const [classificationOne, setClassificationOne] = useState('');
+    const [classificationTwo, setClassificationTwo] = useState('');
     const [classificationTwoActive, setClassificationTwoActive] = useState(false);
-    const [classificationId, setClassificationId] = useState(null);
-    const [addressId, setAddressId] = useState(null);
+    const [classificationId, setClassificationId] = useState('');
+    const [addressId, setAddressId] = useState('');
     const [provinceActive, setProvinceActive] = useState(false);
     const [cityActive, setCityActive] = useState(false);
-    const [country, setCountry] = useState(null);
-    const [province, setProvince] = useState(null);
-    const [city, setCity] = useState(null);
-    const [maturity, setMaturity] = useState(null);
-    const [cooperationMethod, setCooperationMethod] = useState(null);
+    const [country, setCountry] = useState('');
+    const [province, setProvince] = useState('');
+    const [city, setCity] = useState('');
+    const [maturity, setMaturity] = useState('');
+    const [cooperationMethod, setCooperationMethod] = useState('');
+    const [active, setActive] = useState(false);
+
+    function classificationSelect(id) {
+        let url = 'technical/classification/sonToFather?sonId=' + id;
+        fetchGet(
+            url
+        ).then((json) => {
+            const status = json['status'];
+            if (fetchStatus(status)) {
+                const objects = json['objects'].reverse();
+                setClassificationOne(objects[0]['id']);
+                if (objects.length > 1) setClassificationTwo(objects[1]['id']);
+            } else {
+                notice(t(fetchStatusAlert(status)), status);
+            }
+        }).catch((error) => {
+            notice(error.toString(), -1);
+        }).finally(() => {
+
+        })
+    }
+
+    function addressSelect(id) {
+        let url = 'address/base/sonToFather?sonId=' + id;
+        fetchGet(
+            url
+        ).then((json) => {
+            const status = json['status'];
+            if (fetchStatus(status)) {
+                const objects = json['objects'].reverse();
+                setCountry(objects[0]['id']);
+                if (objects.length > 1) setProvince(objects[1]['id']);
+                if (objects.length > 2) setCity(objects[2]['id']);
+            } else {
+                notice(t(fetchStatusAlert(status)), status);
+            }
+        }).catch((error) => {
+            notice(error.toString(), -1);
+        }).finally(() => {
+
+        })
+    }
+
+    useEffect(() => {
+        if (key != null && key != undefined) {
+            let map = key.split(':');
+            if (map[0] == 'classificationId') {
+                setClassificationId(map[1]);
+                classificationSelect(map[1]);
+            } else if (map[0] == 'addressId') {
+                setAddressId(map[1]);
+                addressSelect(map[1]);
+            }
+        }
+        setActive(true);
+    }, []);
 
     useEffect(() => {
         setClassificationTwoActive(!classificationTwoActive);
-        if (classificationOne !== null)
+        if (classificationOne !== '') {
             setClassificationId(classificationOne);
-        setClassificationTwo(null);
+        }
     }, [classificationOne]);
 
     useEffect(() => {
-        if (classificationTwo !== null)
+        if (classificationTwo !== '') {
             setClassificationId(classificationTwo);
+        }
     }, [classificationTwo]);
 
     useEffect(() => {
-        setProvinceActive(!provinceActive);
-        if (country !== null)
-            setAddressId(country)
+        if (country !== '') {
+            setAddressId(country);
+            setProvinceActive(!provinceActive);
+        }
     }, [country]);
 
     useEffect(() => {
-        setCityActive(!cityActive);
-        if (province !== null)
-            setAddressId(province)
+        if (province !== '') {
+            setAddressId(province);
+            setCityActive(!cityActive);
+        }
     }, [province]);
 
     useEffect(() => {
-        if (city !== null)
-            setAddressId(city)
+        if (city !== '') {
+            setAddressId(city);
+        }
     }, [city]);
 
     return (
@@ -83,14 +144,14 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                 </Grid>
                 <Grid item xs={12}>
                     <Grid container spacing={2}>
-                        <Grid item xs={2}>
+                        <Grid item xs={12}>
                             <Typography
                                 variant="inherit"
                             >
-                                地区({addressId})：
+                                地区：{addressId}
                             </Typography>
                         </Grid>
-                        <Grid item xs={10}>
+                        <Grid item xs={12}>
                             <Grid container>
                                 <Grid item xs={4}>
                                     <CommonSelect
@@ -127,14 +188,14 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                 </Grid>
                 <Grid item xs={12}>
                     <Grid container spacing={2}>
-                        <Grid item xs={2}>
+                        <Grid item xs={12}>
                             <Typography
                                 variant="inherit"
                             >
-                                领域({classificationId})：
+                                领域：{classificationId}
                             </Typography>
                         </Grid>
-                        <Grid item xs={10}>
+                        <Grid item xs={12}>
                             <Grid container>
                                 <Grid item xs={6}>
                                     <CommonSelect
@@ -161,14 +222,14 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                 </Grid>
                 <Grid item xs={12}>
                     <Grid container spacing={2}>
-                        <Grid item xs={2}>
+                        <Grid item xs={12}>
                             <Typography
                                 variant="inherit"
                             >
-                                成熟度({maturity})和合作方式({cooperationMethod})：
+                                成熟度和合作方式：{maturity}{cooperationMethod}
                             </Typography>
                         </Grid>
-                        <Grid item xs={10}>
+                        <Grid item xs={12}>
                             <Grid container>
                                 <Grid item xs={6}>
                                     <CommonSelect
@@ -194,6 +255,7 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                 </Grid>
                 <Grid item xs={12}>
                     <TechnicalAchievementList
+                        active={active}
                         maturity={maturity}
                         cooperationMethod={cooperationMethod}
                         addressId={addressId}

@@ -15,8 +15,10 @@ import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
 import {ArrowDownward, Money} from "@material-ui/icons";
 import Card from "@material-ui/core/Card";
+import Badge from '@material-ui/core/Badge';
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
-export default function SmallDataCard({title, url, notice, setLoading}) {
+export default function SmallDataCard({icon, title, url, notice, setLoading}) {
     const classes = useStyles();
     const {t} = useTranslation();
     let location = useLocation();
@@ -44,6 +46,7 @@ export default function SmallDataCard({title, url, notice, setLoading}) {
                 <Grid
                     container
                     justify="space-between"
+                    alignContent={'center'}
                 >
                     <Grid item>
                         <Typography
@@ -54,12 +57,18 @@ export default function SmallDataCard({title, url, notice, setLoading}) {
                         >
                             {t(title)}
                         </Typography>
-                        <Typography variant="h5">{data}</Typography>
                     </Grid>
                     <Grid item>
-                        <Avatar className={classes.avatar}>
-                            <Money className={classes.icon}/>
-                        </Avatar>
+                        <div className={classes.paper}>
+                            <Badge
+                                badgeContent={data}
+                                color="default"
+                            >
+                                <Avatar className={classes.avatar}>
+                                    {icon}
+                                </Avatar>
+                            </Badge>
+                        </div>
                     </Grid>
                 </Grid>
             </CardContent>
@@ -68,6 +77,11 @@ export default function SmallDataCard({title, url, notice, setLoading}) {
 }
 
 const useStyles = makeStyles(theme => ({
+    paper: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
     root: {
         height: '100%'
     },
@@ -79,13 +93,13 @@ const useStyles = makeStyles(theme => ({
         fontWeight: 700
     },
     avatar: {
-        backgroundColor: theme.palette.error.main,
-        height: 56,
-        width: 56
+        backgroundColor: theme.palette.primary.main,
+        height: 55,
+        width: 55
     },
     icon: {
-        height: 32,
-        width: 32
+        height: 42,
+        width: 42
     },
     difference: {
         marginTop: theme.spacing(2),

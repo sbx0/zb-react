@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import "../../i18N"
 import {fetchGet, fetchStatus, fetchStatusAlert} from "../../tools/Network";
 import {useTranslation} from 'react-i18next';
-import {useHistory, useLocation} from "react-router-dom";
+import {Link as RouterLink, useHistory, useLocation} from "react-router-dom";
 import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button";
@@ -41,7 +41,12 @@ export default function ShowAddress({id, notice, setLoading}) {
             <Breadcrumbs>
                 {
                     objects.map((one, index, list) => (
-                        <Link key={one['id']} color={(index + 1) < list.length ? 'inherit' : 'textPrimary'}>
+                        <Link
+                            component={RouterLink}
+                            to={'/market/technical/achievements/addressId:' + one['id']}
+                            key={one['id']}
+                            color={(index + 1) < list.length ? 'inherit' : 'textPrimary'}
+                        >
                             {one['name']}
                         </Link>
                     ))

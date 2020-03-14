@@ -9,43 +9,45 @@ import Grid from "@material-ui/core/Grid";
 import Pagination from "@material-ui/lab/Pagination";
 import ShowCard from "../Home/components/ShowCard/ShowCard";
 
-export default function TechnicalAchievementList({maturity, cooperationMethod, addressId, classificationId, loading, setLoading, notice}) {
+export default function TechnicalAchievementList({active, maturity, cooperationMethod, addressId, classificationId, loading, setLoading, notice}) {
     const {t, i18n} = useTranslation();
     const classes = useStyles();
     const [objects, setObjects] = useState([]);
     const [page, setPage] = useState(1);
     const [totalPage, setTotalPage] = useState(1);
     const [size, setSize] = useState(10);
-    const [direction, setDirection] = useState('DESC');
+    const [direction, setDirection] = useState('ASC');
 
     useEffect(() => {
-        if (classificationId == null) classificationId = '';
-        if (addressId == null) addressId = '';
-        if (cooperationMethod == null) cooperationMethod = -1;
-        if (maturity == null) maturity = -1;
-        let url = 'technical/achievements/mybatis/list?page=' + page +
-            '&size=' + size +
-            '&addressId=' + addressId +
-            '&maturity=' + maturity +
-            '&cooperationMethod=' + cooperationMethod +
-            '&classificationId=' + classificationId;
-        setLoading(true);
-        fetchGet(
-            url
-        ).then((json) => {
-            const status = json['status'];
-            setTotalPage(json['total_pages']);
-            if (fetchStatus(status)) {
-                setObjects(json['objects']);
-            } else {
-                notice(t(fetchStatusAlert(status)), status);
-            }
-        }).catch((error) => {
-            notice(error.toString(), -1);
-        }).finally(() => {
-            setLoading(false);
-        });
-    }, [maturity, cooperationMethod, page, classificationId, addressId]);
+        if (active) {
+            if (classificationId == null) classificationId = '';
+            if (addressId == null) addressId = '';
+            if (cooperationMethod == null) cooperationMethod = -1;
+            if (maturity == null) maturity = -1;
+            let url = 'technical/achievements/mybatis/list?page=' + page +
+                '&size=' + size +
+                '&addressId=' + addressId +
+                '&maturity=' + maturity +
+                '&cooperationMethod=' + cooperationMethod +
+                '&classificationId=' + classificationId;
+            setLoading(true);
+            fetchGet(
+                url
+            ).then((json) => {
+                const status = json['status'];
+                setTotalPage(json['total_pages']);
+                if (fetchStatus(status)) {
+                    setObjects(json['objects']);
+                } else {
+                    notice(t(fetchStatusAlert(status)), status);
+                }
+            }).catch((error) => {
+                notice(error.toString(), -1);
+            }).finally(() => {
+                setLoading(false);
+            });
+        }
+    }, [active, maturity, cooperationMethod, page, classificationId, addressId]);
 
     return (
         <Grid

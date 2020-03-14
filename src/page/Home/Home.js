@@ -12,6 +12,10 @@ import SmallDataCard from "../../admin/Main/components/SmallDataCard/SmallDataCa
 import ShowCard from "./components/ShowCard/ShowCard";
 import AchievementList from "./components/AchievementList/AchievementList";
 import ButtonBase from "@material-ui/core/ButtonBase";
+import SchoolIcon from '@material-ui/icons/School';
+import BusinessIcon from '@material-ui/icons/Business';
+import GroupIcon from '@material-ui/icons/Group';
+import PersonIcon from '@material-ui/icons/Person';
 
 function Home({notice, loading, setLoading}) {
     const {t} = useTranslation();
@@ -29,6 +33,7 @@ function Home({notice, loading, setLoading}) {
                     }}
                 >
                     <SmallDataCard
+                        icon={<SchoolIcon className={classes.icon}/>}
                         title={'技术成果'}
                         url={'technical/achievements/count'}
                         notice={notice}
@@ -40,6 +45,7 @@ function Home({notice, loading, setLoading}) {
                     xs={3}
                 >
                     <SmallDataCard
+                        icon={<BusinessIcon className={classes.icon}/>}
                         title={'技术需求'}
                         url={'user/base/active'}
                         notice={notice}
@@ -51,6 +57,7 @@ function Home({notice, loading, setLoading}) {
                     xs={3}
                 >
                     <SmallDataCard
+                        icon={<GroupIcon className={classes.icon}/>}
                         title={'在线合作'}
                         url={'user/base/active'}
                         notice={notice}
@@ -62,6 +69,7 @@ function Home({notice, loading, setLoading}) {
                     xs={3}
                 >
                     <SmallDataCard
+                        icon={<PersonIcon className={classes.icon}/>}
                         title={'在线人数'}
                         url={'user/base/active'}
                         notice={notice}
@@ -170,7 +178,12 @@ const useStyles = makeStyles((theme) => ({
     },
     center: {
         margin: '0px auto',
-    }
+    },
+    icon: {
+        height: 32,
+        width: 32,
+        margin: '5px auto',
+    },
 }));
 
 export default Home;

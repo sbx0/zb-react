@@ -40,6 +40,7 @@ import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import GroupIcon from '@material-ui/icons/Group';
+import PostAddIcon from '@material-ui/icons/PostAdd';
 
 export default function SearchAppBar(
     {
@@ -171,10 +172,13 @@ export default function SearchAppBar(
                 handleMobileMenuClose();
                 history.push("/post");
             }}>
-                <IconButton aria-label="show 11 new notifications" color="inherit">
-                    <Badge badgeContent={11} color="secondary">
-                        <NotificationsIcon/>
-                    </Badge>
+                <IconButton
+                    aria-label="account of current user"
+                    aria-controls="primary-search-account-menu"
+                    aria-haspopup="true"
+                    color="inherit"
+                >
+                    <PostAddIcon/>
                 </IconButton>
                 <p>{t("发布")}</p>
             </MenuItem>

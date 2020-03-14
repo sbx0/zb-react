@@ -60,7 +60,7 @@ export default function AchievementList({loading, setLoading, notice}) {
                     />
                 ))
             ) : (
-                objects.map((one) => (
+                objects?.map((one) => (
                     <Grid item lg={4} md={6} sm={12} xs={12} key={one['id']}>
                         <ShowCard
                             url={"/one/technical/achievements/" + one['id']}

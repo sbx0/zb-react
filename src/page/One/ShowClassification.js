@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button";
 import {Divider, Link} from "@material-ui/core";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import {Link as RouterLink} from 'react-router-dom';
 
 export default function ShowClassification({id, notice, setLoading}) {
     const classes = useStyles();
@@ -41,7 +42,12 @@ export default function ShowClassification({id, notice, setLoading}) {
             <Breadcrumbs>
                 {
                     objects.map((one, index, list) => (
-                        <Link key={one['id']} color={(index + 1) < list.length ? 'inherit' : 'textPrimary'}>
+                        <Link
+                            component={RouterLink}
+                            to={'/market/technical/achievements/classificationId:' + one['id']}
+                            key={one['id']}
+                            color={(index + 1) < list.length ? 'inherit' : 'textPrimary'}
+                        >
                             {one['name']}
                         </Link>
                     ))
