@@ -19,6 +19,7 @@ import Paper from "@material-ui/core/Paper";
 import ShowClassification from "./ShowClassification";
 import Divider from "@material-ui/core/Divider";
 import tools from "../../tools/Utils";
+import ShowUser from "./ShowUser";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -76,81 +77,91 @@ export default function TechnicalAchievementsOne({setLoading, notice}) {
 
     return (
         <>
-            <Grid container spacing={1}>
+            <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <ShowClassification
-                        id={object['classificationId']}
+                    <ShowUser
+                        id={object['userId']}
                         notice={notice}
-                        setLoading={setLoading}
                     />
-                    <Divider className={classes.mt}/>
-                </Grid>
-                <Grid item className={classes.image}>
-                    <ButtonBase>
-                        <img className={classes.img} alt="complex" src={object['cover']}/>
-                    </ButtonBase>
                 </Grid>
                 <Grid item xs={12}>
-                    <Typography
-                        variant="h5"
-                        color="textSecondary"
-                        align="center"
-                    >
-                        {object['name']}
-                    </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                    <Typography
-                        variant="subtitle1"
-                        color="textSecondary"
-                        align="center"
-                    >
+                    <Grid container spacing={1}>
+                        <Grid item xs={12}>
+                            <ShowClassification
+                                id={object['classificationId']}
+                                notice={notice}
+                                setLoading={setLoading}
+                            />
+                            <Divider className={classes.mt}/>
+                        </Grid>
+                        <Grid item className={classes.image}>
+                            <ButtonBase>
+                                <img className={classes.img} alt="complex" src={object['cover']}/>
+                            </ButtonBase>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Typography
+                                variant="h5"
+                                color="textSecondary"
+                                align="center"
+                            >
+                                {object['name']}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Typography
+                                variant="subtitle1"
+                                color="textSecondary"
+                                align="center"
+                            >
 
-                        {tools.timeShow(object['postTime'])}
-                    </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                    <Typography
-                        variant="subtitle1"
-                        color="textSecondary"
-                        align="center"
-                    >
-                        {object['price'] + t("￥")}
-                    </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                    <Typography
-                        variant="subtitle1"
-                        color="textSecondary"
-                        align="center"
-                    >
-                        {object['maturity']}
-                    </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                    <Typography
-                        variant="subtitle1"
-                        color="textSecondary"
-                        align="center"
-                    >
-                        {object['cooperationMethod']}
-                    </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                    <Paper>
-                        <ReactMarkdown
-                            source={object['context']}
-                            escapeHtml={true}
-                        />
-                    </Paper>
-                </Grid>
-                <Grid item xs={12}>
-                    <Divider className={classes.mb}/>
-                    <ShowAddress
-                        id={object['addressId']}
-                        notice={notice}
-                        setLoading={setLoading}
-                    />
+                                {tools.timeShow(object['postTime'])}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Typography
+                                variant="subtitle1"
+                                color="textSecondary"
+                                align="center"
+                            >
+                                {object['price'] + t("￥")}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Typography
+                                variant="subtitle1"
+                                color="textSecondary"
+                                align="center"
+                            >
+                                {object['maturity']}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Typography
+                                variant="subtitle1"
+                                color="textSecondary"
+                                align="center"
+                            >
+                                {object['cooperationMethod']}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Paper>
+                                <ReactMarkdown
+                                    source={object['context']}
+                                    escapeHtml={true}
+                                />
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Divider className={classes.mb}/>
+                            <ShowAddress
+                                id={object['addressId']}
+                                notice={notice}
+                                setLoading={setLoading}
+                            />
+                        </Grid>
+                    </Grid>
                 </Grid>
             </Grid>
         </>

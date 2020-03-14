@@ -11,6 +11,7 @@ import {useHistory} from "react-router-dom";
 import SmallDataCard from "../../admin/Main/components/SmallDataCard/SmallDataCard";
 import ShowCard from "./components/ShowCard/ShowCard";
 import AchievementList from "./components/AchievementList/AchievementList";
+import ButtonBase from "@material-ui/core/ButtonBase";
 
 function Home({notice, loading, setLoading}) {
     const {t} = useTranslation();
@@ -23,6 +24,9 @@ function Home({notice, loading, setLoading}) {
                 <Grid
                     item
                     xs={3}
+                    onClick={() => {
+                        history.push('/market/technical/achievements')
+                    }}
                 >
                     <SmallDataCard
                         title={'技术成果'}

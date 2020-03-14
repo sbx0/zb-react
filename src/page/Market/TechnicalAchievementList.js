@@ -1,16 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import "../../../../i18N"
+import "../../i18N"
 
-import {fetchGet, fetchStatus, fetchStatusAlert} from '../../../../tools/Network';
+import {fetchGet, fetchStatus, fetchStatusAlert} from '../../tools/Network';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Grid from "@material-ui/core/Grid";
-import ShowCard from "../ShowCard/ShowCard";
-import tools from "../../../../tools/Utils";
 import Pagination from "@material-ui/lab/Pagination";
+import ShowCard from "../Home/components/ShowCard/ShowCard";
 
-export default function AchievementList({loading, setLoading, notice}) {
+export default function TechnicalAchievementList({maturity, cooperationMethod, addressId, classificationId, loading, setLoading, notice}) {
     const {t, i18n} = useTranslation();
     const classes = useStyles();
     const [objects, setObjects] = useState([]);
@@ -20,10 +19,16 @@ export default function AchievementList({loading, setLoading, notice}) {
     const [direction, setDirection] = useState('DESC');
 
     useEffect(() => {
-        let url = 'technical/achievements/list?page=' + page +
+        if (classificationId == null) classificationId = '';
+        if (addressId == null) addressId = '';
+        if (cooperationMethod == null) cooperationMethod = -1;
+        if (maturity == null) maturity = -1;
+        let url = 'technical/achievements/mybatis/list?page=' + page +
             '&size=' + size +
-            '&attribute=id' +
-            '&direction=' + direction;
+            '&addressId=' + addressId +
+            '&maturity=' + maturity +
+            '&cooperationMethod=' + cooperationMethod +
+            '&classificationId=' + classificationId;
         setLoading(true);
         fetchGet(
             url
@@ -31,7 +36,7 @@ export default function AchievementList({loading, setLoading, notice}) {
             const status = json['status'];
             setTotalPage(json['total_pages']);
             if (fetchStatus(status)) {
-                setObjects(json.objects);
+                setObjects(json['objects']);
             } else {
                 notice(t(fetchStatusAlert(status)), status);
             }
@@ -40,7 +45,7 @@ export default function AchievementList({loading, setLoading, notice}) {
         }).finally(() => {
             setLoading(false);
         });
-    }, [page, size, direction]);
+    }, [maturity, cooperationMethod, page, classificationId, addressId]);
 
     return (
         <Grid
@@ -60,7 +65,7 @@ export default function AchievementList({loading, setLoading, notice}) {
                     />
                 ))
             ) : (
-                objects.map((one) => (
+                objects?.map((one) => (
                     <Grid item lg={4} md={6} sm={12} xs={12} key={one['id']}>
                         <ShowCard
                             url={"/one/technical/achievements/" + one['id']}

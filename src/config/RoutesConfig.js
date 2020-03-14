@@ -31,6 +31,7 @@ import ChatPage from "../page/Chat/Chat";
 import PostAchievements from "../page/Post/PostAchievements";
 import Post from "../page/Post/Post";
 import TechnicalAchievementsOne from "../page/One/TechnicalAchievementsOne";
+import TechnicalAchievementMarket from "../page/Market/TechnicalAchievementMarket";
 
 function RoutesConfig(
     {
@@ -137,6 +138,12 @@ function RoutesConfig(
                 path="/one/technical/achievements/:id"
             >
                 <TechnicalAchievementsOne notice={notice} setLoading={setLoading}/>
+            </Route>
+            <Route
+                exact
+                path="/market/technical/achievements"
+            >
+                <TechnicalAchievementMarket notice={notice} setLoading={setLoading}/>
             </Route>
             {
                 user != null ?

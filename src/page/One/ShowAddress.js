@@ -17,21 +17,23 @@ export default function ShowAddress({id, notice, setLoading}) {
     const [objects, setObjects] = useState([]);
 
     useEffect(() => {
-        let url = 'address/base/sonToFather?sonId=' + id;
-        fetchGet(
-            url
-        ).then((json) => {
-            const status = json['status'];
-            if (fetchStatus(status)) {
-                setObjects(json['objects'].reverse());
-            } else {
-                notice(t(fetchStatusAlert(status)), status);
-            }
-        }).catch((error) => {
-            notice(error.toString(), -1);
-        }).finally(() => {
+        if (id !== undefined) {
+            let url = 'address/base/sonToFather?sonId=' + id;
+            fetchGet(
+                url
+            ).then((json) => {
+                const status = json['status'];
+                if (fetchStatus(status)) {
+                    setObjects(json['objects'].reverse());
+                } else {
+                    notice(t(fetchStatusAlert(status)), status);
+                }
+            }).catch((error) => {
+                notice(error.toString(), -1);
+            }).finally(() => {
 
-        })
+            })
+        }
     }, [id]);
 
     return (
