@@ -38,7 +38,11 @@ export default function ShowCard({title, img, price, time, desc, url}) {
             <Paper className={classes.paper}>
                 <Grid container spacing={2}>
                     <Grid item className={classes.image}>
-                        <ButtonBase>
+                        <ButtonBase
+                            onClick={() => {
+                                history.push(url);
+                            }}
+                        >
                             <img className={classes.img} alt="complex" src={img}/>
                         </ButtonBase>
                     </Grid>
@@ -50,17 +54,6 @@ export default function ShowCard({title, img, price, time, desc, url}) {
                                 </Typography>
                                 <Typography variant="body2" gutterBottom>
                                     {tools.timeShow(time)}
-                                </Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography
-                                    variant="body2"
-                                    style={{cursor: 'pointer'}}
-                                    onClick={() => {
-                                        history.push(url);
-                                    }}
-                                >
-                                    查看详情
                                 </Typography>
                             </Grid>
                         </Grid>

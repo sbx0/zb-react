@@ -8,52 +8,50 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import Grid from "@material-ui/core/Grid";
 import ShowCard from "../ShowCard/ShowCard";
 import tools from "../../../../tools/Utils";
+import Pagination from "@material-ui/lab/Pagination";
 
 export default function AchievementList({loading, setLoading, notice}) {
     const {t, i18n} = useTranslation();
     const classes = useStyles();
     const [objects, setObjects] = useState([]);
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const [totalPage, setTotalPage] = useState(1);
     const [size, setSize] = useState(10);
     const [direction, setDirection] = useState('DESC');
 
     useEffect(() => {
-        let url = 'technical/achievements/list?page=' + (page + 1) +
+        let url = 'technical/achievements/list?page=' + page +
             '&size=' + size +
             '&attribute=id' +
             '&direction=' + direction;
-        let cache = JSON.parse(localStorage.getItem(url + tools.cacheTimeStamp(1)));
-        if (cache != null && cache.length > 0) setObjects(cache);
-        else {
-            setLoading(true);
-            fetchGet(
-                url
-            ).then((json) => {
-                const status = json['status'];
-                setTotalPage(json['totalPage']);
-                if (fetchStatus(status)) {
-                    setObjects(json.objects);
-                    localStorage.setItem(url + tools.cacheTimeStamp(1), JSON.stringify(json.objects));
-                } else {
-                    notice(t(fetchStatusAlert(status)), status);
-                }
-                setLoading(false);
-            }).catch((error) => {
-                notice(error.toString(), -1);
-                setLoading(false);
-            });
-        }
-    }, [page, size, direction]);
-
-    // function load() {
-    //     setPage(page + 1);
-    // }
+        setLoading(true);
+        fetchGet(
+            url
+        ).then((json) => {
+            const status = json['status'];
+            setTotalPage(json['total_pages']);
+            if (fetchStatus(status)) {
+                setObjects(json.objects);
+            } else {
+                notice(t(fetchStatusAlert(status)), status);
+            }
+        }).catch((error) => {
+            notice(error.toString(), -1);
+        }).finally(() => {
+            setLoading(false);
+        });
+    }, [page]);
 
     return (
-        <>
+        <Grid
+            container
+            direction="row"
+            justify="space-between"
+            alignItems="center"
+            spacing={1}
+        >
             {loading ? (
-                [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((one) => (
+                [0, 1, 2].map((one) => (
                     <Skeleton
                         key={one}
                         variant="rect"
@@ -63,7 +61,7 @@ export default function AchievementList({loading, setLoading, notice}) {
                 ))
             ) : (
                 objects.map((one) => (
-                    <Grid item sm={6} xs={12} key={one['id']}>
+                    <Grid item lg={4} md={6} sm={12} xs={12} key={one['id']}>
                         <ShowCard
                             url={"/one/technical/achievements/" + one['id']}
                             title={one['name']}
@@ -75,7 +73,18 @@ export default function AchievementList({loading, setLoading, notice}) {
                     </Grid>
                 )))
             }
-        </>
+            <Grid item xs={12}>
+                <Pagination
+                    page={page}
+                    onChange={(e, p) => {
+                        setPage(p);
+                    }}
+                    count={totalPage}
+                    showFirstButton
+                    showLastButton
+                />
+            </Grid>
+        </Grid>
     );
 }
 

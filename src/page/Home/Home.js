@@ -64,11 +64,13 @@ function Home({notice, loading, setLoading}) {
                         setLoading={setLoading}
                     />
                 </Grid>
-                <AchievementList
-                    notice={notice}
-                    loading={loading}
-                    setLoading={setLoading}
-                />
+                <Grid item xs={12}>
+                    <AchievementList
+                        notice={notice}
+                        loading={loading}
+                        setLoading={setLoading}
+                    />
+                </Grid>
                 <Grid item xs={12}>
                     <Card
                         onClick={() => {
@@ -89,8 +91,13 @@ function Home({notice, loading, setLoading}) {
                         />
                         <Divider/>
                         <CardContent>
-                            <LineChart notice={notice} day={30} kind="technicalAchievementsCount" group="per_day"
-                                       referenceValue={0}/>
+                            <LineChart
+                                notice={notice}
+                                day={30}
+                                kind="technicalAchievementsCount"
+                                group="per_day"
+                                referenceValue={0}
+                            />
                         </CardContent>
                     </Card>
                 </Grid>
@@ -102,7 +109,13 @@ function Home({notice, loading, setLoading}) {
                         />
                         <Divider/>
                         <CardContent>
-                            <LineChart notice={notice} day={30} kind="view" group="per_hour" referenceValue={0}/>
+                            <LineChart
+                                notice={notice}
+                                day={30}
+                                kind="view"
+                                group="per_hour"
+                                referenceValue={0}
+                            />
                         </CardContent>
                     </Card>
                 </Grid>
@@ -114,7 +127,13 @@ function Home({notice, loading, setLoading}) {
                         />
                         <Divider/>
                         <CardContent>
-                            <LineChart notice={notice} day={30} kind="active" group="per_hour" referenceValue={0}/>
+                            <LineChart
+                                notice={notice}
+                                day={30}
+                                kind="active"
+                                group="per_hour"
+                                referenceValue={0}
+                            />
                         </CardContent>
                     </Card>
                 </Grid>
@@ -126,7 +145,13 @@ function Home({notice, loading, setLoading}) {
                         />
                         <Divider/>
                         <CardContent>
-                            <PieChart notice={notice} day={30} kind="active" group="per_hour" referenceValue={0}/>
+                            <PieChart
+                                notice={notice}
+                                day={30}
+                                kind="active"
+                                group="per_hour"
+                                referenceValue={0}
+                            />
                         </CardContent>
                     </Card>
                 </Grid>
