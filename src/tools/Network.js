@@ -280,3 +280,7 @@ export const getUserCertificationCheck = (params) => fetchGet(urlUserCertificati
 
 export const urlUserCertificationCancel = `user/certification/cancel`;
 export const getUserCertificationCancel = (params) => fetchGet(urlUserCertificationCancel, params).then(json => json);
+
+export const urlTechnicalAchievementsAttribute = `technical/achievements/attribute`;
+export const getTechnicalAchievementsAttribute = (params) => fetchGet(urlTechnicalAchievementsAttribute, params).then(json => json);
+

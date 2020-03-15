@@ -13,9 +13,10 @@ import RoutesConfig from "./config/RoutesConfig";
 import utils from "./tools/Utils"
 import {createMuiTheme} from '@material-ui/core/styles';
 import {ThemeProvider} from '@material-ui/styles';
-import {makeStyles} from '@material-ui/core';
+import {makeStyles, useMediaQuery} from '@material-ui/core';
 import Container from "@material-ui/core/Container";
 import {fetchGet, fetchStatus, fetchStatusAlert} from "./tools/Network";
+import GlobalBottomNavigation from "./Components/GlobalBottomNavigation";
 
 export default function App() {
     const classes = useStyles();
@@ -27,6 +28,9 @@ export default function App() {
     const [severity, setSeverity] = useState("success");
     const [active, setActive] = useState(false);
     const [user, setUser] = useState(null);
+    const isDesktop = useMediaQuery(theme.breakpoints.up('sm'), {
+        defaultMatches: true
+    });
 
     function notice(msg, type) {
         setOpen(true);
@@ -156,8 +160,15 @@ export default function App() {
                             open={open}
                             setOpen={setOpen}
                         />
-                        {/*<div className={classes.bottom}/>*/}
-                        {/*<GlobalBottomNavigation/>*/}
+                        {
+                            isDesktop ?
+                                <></>
+                                :
+                                <>
+                                    <div className={classes.bottom}/>
+                                    <GlobalBottomNavigation/>
+                                </>
+                        }
                     </Container>
                 </div>
             </BrowserRouter>

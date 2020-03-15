@@ -1,18 +1,13 @@
 import React, {useState} from 'react';
 import {Redirect, withRouter} from 'react-router-dom';
-import PropTypes from 'prop-types';
-
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import FlagIcon from '@material-ui/icons/Flag';
+import ChatIcon from '@material-ui/icons/Chat';
+import PageViewIcon from '@material-ui/icons/Pageview';
 import HomeIcon from '@material-ui/icons/Home';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
 export default withRouter(GlobalBottomNavigation);
-
-GlobalBottomNavigation.propTypes = {
-    location: PropTypes.object,
-};
 
 function GlobalBottomNavigation(props) {
     const [value, setValue] = useState(pathnameToIndex(props.location.pathname));
@@ -26,35 +21,38 @@ function GlobalBottomNavigation(props) {
             <BottomNavigation
                 value={value}
                 onChange={(_event, newValue) => {
-                    let path = '/';
+                    let pathNew = '/';
                     switch (newValue) {
                         case 0:
-                            path = '/memory';
+                            pathNew = '/home';
+                            break;
+                        case 1:
+                            pathNew = '/market/technical/achievements';
                             break;
                         case 2:
-                            path = '/task';
+                            pathNew = '/chat/public';
+                            break;
+                        case 3:
+                            pathNew = '/user';
                             break;
                         default:
-                            path = '/';
+                            pathNew = '/';
                             break;
                     }
+                    setPath(pathNew);
                     setValue(newValue);
-                    setPath(path);
                 }}
                 showLabels
             >
-                <BottomNavigationAction label="首页" icon={<FavoriteIcon/>}/>
                 <BottomNavigationAction label="首页" icon={<HomeIcon/>}/>
-                <BottomNavigationAction label="首页" icon={<FlagIcon/>}/>
+                <BottomNavigationAction label="成果" icon={<PageViewIcon/>}/>
+                <BottomNavigationAction label="聊天" icon={<ChatIcon/>}/>
+                <BottomNavigationAction label="我的" icon={<AccountBoxIcon/>}/>
                 {/* <BottomNavigationAction label={i18N.beta} icon={<AdbIcon />} /> */}
             </BottomNavigation>
         </>
     );
 }
-
-RenderRedirect.propTypes = {
-    path: PropTypes.string,
-};
 
 function RenderRedirect(props) {
     return <Redirect to={props.path}/>;
@@ -62,11 +60,15 @@ function RenderRedirect(props) {
 
 function pathnameToIndex(path) {
     switch (path) {
-        case '/memory':
+        case '/home':
             return 0;
-        case '/task':
-            return 2;
-        default:
+        case '/market/technical/achievements':
             return 1;
+        case '/chat/public':
+            return 2;
+        case '/user':
+            return 3;
+        default:
+            return 0;
     }
 }

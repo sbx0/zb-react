@@ -1,5 +1,5 @@
 const global = {
-    dev_version: '0.0.34',
+    dev_version: '0.0.35',
     dev_time: '2020.03.15',
     server_config: 'https://zb.sbx0.cn/',
     common: {

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import "../../i18N/"
 import {
-    Link as RouterLink,
+    Link as RouterLink, useHistory,
     useParams
 } from "react-router-dom";
 import {fetchStatus, fetchStatusAlert, getTechnicalAchievementOne} from "../../tools/Network";
@@ -20,6 +20,7 @@ import ShowUser from "./ShowUser";
 import {Link} from "@material-ui/core";
 
 export default function TechnicalAchievementsOne({setLoading, notice}) {
+    let history = useHistory();
     const classes = useStyles();
     const {t} = useTranslation();
     let {id} = useParams();
@@ -48,7 +49,13 @@ export default function TechnicalAchievementsOne({setLoading, notice}) {
     return (
         <>
             <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid
+                    item
+                    xs={12}
+                    onClick={() => {
+                        history.push('/market/technical/achievements/userId:' + object['userId'])
+                    }}
+                >
                     <ShowUser
                         id={object['userId']}
                         notice={notice}

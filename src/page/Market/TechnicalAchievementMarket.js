@@ -9,7 +9,7 @@ import {
     fetchStatusAlert,
     getAddressBaseFather,
     getAddressBaseSon,
-    getAddressBaseSonToFather, getTechnicalAchievementsCooperationMethodList,
+    getAddressBaseSonToFather, getTechnicalAchievementsAttribute, getTechnicalAchievementsCooperationMethodList,
     getTechnicalAchievementsMaturityList,
     getTechnicalClassificationFather,
     getTechnicalClassificationSon,
@@ -17,8 +17,14 @@ import {
 } from "../../tools/Network";
 import CommonSelect from "../../Components/CommonSelect";
 import TechnicalAchievementList from "./TechnicalAchievementList";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import {makeStyles} from "@material-ui/core/styles";
 
 export default function TechnicalAchievementMarket({setLoading, notice}) {
+    const classes = useStyles();
     const {t} = useTranslation();
     let {key} = useParams();
     const [classificationOne, setClassificationOne] = useState('');
@@ -35,6 +41,13 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
     const [cooperationMethod, setCooperationMethod] = useState('');
     const [active, setActive] = useState(false);
     const [lock, setLock] = useState(true);
+    const [userId, setUserId] = useState(0);
+    const [attribute, setAttribute] = useState('id');
+    const [direction, setDirection] = useState('DESC');
+    const directions = [
+        {name: '升序', value: 'ASC'},
+        {name: '降序', value: 'DESC'},
+    ];
 
     function classificationSelect(id) {
         getTechnicalClassificationSonToFather({
@@ -88,6 +101,8 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                 setMaturity(map[1]);
             } else if (map[0] === 'cooperationMethodId') {
                 setCooperationMethod(map[1]);
+            } else if (map[0] === 'userId') {
+                setUserId(map[1]);
             }
         }
         setActive(true);
@@ -131,18 +146,13 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
         }
     }, [city]);
 
+    const handleChange = event => {
+        setDirection(event.target.value);
+    };
+
     return (
         <>
             <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <Typography
-                        variant="h5"
-                        color="textSecondary"
-                        align="center"
-                    >
-                        技术成果市场
-                    </Typography>
-                </Grid>
                 <Grid item xs={12}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
@@ -205,7 +215,7 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                                     <CommonSelect
                                         param={'father'}
                                         fetch={getTechnicalClassificationFather}
-                                        title={'技术分类1级'}
+                                        title={'技术大类'}
                                         notice={notice}
                                         selected={classificationOne}
                                         setSelected={setClassificationOne}
@@ -215,7 +225,7 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                                     <CommonSelect
                                         param={classificationOne}
                                         fetch={getTechnicalClassificationSon}
-                                        title={'技术分类2级'}
+                                        title={'技术小类'}
                                         active={classificationTwoActive}
                                         notice={notice}
                                         selected={classificationTwo}
@@ -262,7 +272,58 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <Typography
+                                variant="inherit"
+                            >
+                                排序：{attribute} {direction}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Grid container>
+                                <Grid item xs={6}>
+                                    <CommonSelect
+                                        param={'list'}
+                                        fetch={getTechnicalAchievementsAttribute}
+                                        title={'属性'}
+                                        notice={notice}
+                                        selected={attribute}
+                                        setSelected={setAttribute}
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <FormControl className={classes.formControl}>
+                                        <InputLabel shrink>{t('方向')}</InputLabel>
+                                        <Select
+                                            value={direction}
+                                            onChange={handleChange}
+                                            inputProps={{
+                                                name: 'option',
+                                                id: 'option',
+                                            }}
+                                            displayEmpty
+                                        >
+                                            <MenuItem value="">
+                                                <em>{t('请选择')}</em>
+                                            </MenuItem>
+                                            {
+                                                directions.map((one) => (
+                                                    <MenuItem key={one.value} value={one.value}>{t(one.name)}</MenuItem>
+                                                ))
+                                            }
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid item xs={12}>
                     <TechnicalAchievementList
+                        userId={userId}
+                        attribute={attribute}
+                        direction={direction}
                         setLock={setLock}
                         active={active}
                         maturity={maturity}
@@ -277,3 +338,10 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
         </>
     );
 }
+
+const useStyles = makeStyles(theme => ({
+    formControl: {
+        margin: theme.spacing(1),
+        width: '90%',
+    },
+}));

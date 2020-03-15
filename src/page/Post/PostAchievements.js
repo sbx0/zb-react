@@ -197,7 +197,7 @@ export default function PostAchievements({setLoading, notice}) {
                                             <CommonSelect
                                                 param={'father'}
                                                 fetch={getTechnicalClassificationFather}
-                                                title={'技术分类1级'}
+                                                title={'技术大类'}
                                                 notice={notice}
                                                 selected={classificationOne}
                                                 setSelected={setClassificationOne}
@@ -207,7 +207,7 @@ export default function PostAchievements({setLoading, notice}) {
                                             <CommonSelect
                                                 param={classificationOne}
                                                 fetch={getTechnicalClassificationSon}
-                                                title={'技术分类2级'}
+                                                title={'技术小类'}
                                                 active={classificationTwoActive}
                                                 notice={notice}
                                                 selected={classificationTwo}

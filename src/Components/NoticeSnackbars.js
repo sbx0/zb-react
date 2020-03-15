@@ -26,6 +26,7 @@ export default function NoticeSnackbars({msg, severity, open, setOpen}) {
                 open={open}
                 autoHideDuration={3000}
                 onClose={handleClose}
+                className={classes.snack}
             >
                 <Alert onClose={handleClose} severity={severity}>
                     {msg}
@@ -46,5 +47,8 @@ const useStyles = makeStyles(theme => ({
         '& > * + *': {
             marginTop: theme.spacing(2),
         },
+    },
+    snack: {
+        marginBottom: 66
     },
 }));

@@ -9,14 +9,13 @@ import Grid from "@material-ui/core/Grid";
 import Pagination from "@material-ui/lab/Pagination";
 import ShowCard from "../Home/components/ShowCard/ShowCard";
 
-export default function TechnicalAchievementList({setLock, active, maturity, cooperationMethod, addressId, classificationId, loading, setLoading, notice}) {
+export default function TechnicalAchievementList({userId, attribute, direction, setLock, active, maturity, cooperationMethod, addressId, classificationId, loading, setLoading, notice}) {
     const {t, i18n} = useTranslation();
     const classes = useStyles();
     const [objects, setObjects] = useState([]);
     const [page, setPage] = useState(1);
     const [totalPage, setTotalPage] = useState(1);
     const [size, setSize] = useState(10);
-    const [direction, setDirection] = useState('ASC');
 
     useEffect(() => {
         if (active) {
@@ -28,6 +27,9 @@ export default function TechnicalAchievementList({setLock, active, maturity, coo
                 maturity: maturity,
                 cooperationMethod: cooperationMethod,
                 classificationId: classificationId,
+                attribute: attribute,
+                direction: direction,
+                userId: userId,
             }).then((json) => {
                 const status = json['status'];
                 setTotalPage(json['total_pages']);
@@ -43,7 +45,7 @@ export default function TechnicalAchievementList({setLock, active, maturity, coo
                 setLoading(false);
             });
         }
-    }, [active, maturity, cooperationMethod, page, classificationId, addressId]);
+    }, [attribute, direction, active, maturity, cooperationMethod, page, classificationId, addressId]);
 
     return (
         <Grid
