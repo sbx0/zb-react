@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import "../../i18N"
 
-import {fetchGet, fetchStatus, fetchStatusAlert} from '../../tools/Network';
+import {fetchGet, fetchStatus, fetchStatusAlert, getTechnicalAchievementListMybatis} from '../../tools/Network';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Grid from "@material-ui/core/Grid";
@@ -20,16 +20,15 @@ export default function TechnicalAchievementList({setLock, active, maturity, coo
 
     useEffect(() => {
         if (active) {
-            let url = 'technical/achievements/mybatis/list?page=' + page +
-                '&size=' + size +
-                '&addressId=' + addressId +
-                '&maturity=' + maturity +
-                '&cooperationMethod=' + cooperationMethod +
-                '&classificationId=' + classificationId;
             setLoading(true);
-            fetchGet(
-                url
-            ).then((json) => {
+            getTechnicalAchievementListMybatis({
+                page: page,
+                size: size,
+                addressId: addressId,
+                maturity: maturity,
+                cooperationMethod: cooperationMethod,
+                classificationId: classificationId,
+            }).then((json) => {
                 const status = json['status'];
                 setTotalPage(json['total_pages']);
                 if (fetchStatus(status)) {

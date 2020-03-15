@@ -1,15 +1,15 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback} from 'react'
 import {useDropzone} from 'react-dropzone'
 import {useTranslation} from "react-i18next";
-import {fetchStatus, fetchStatusAlert, fetchUpload} from "../tools/Network";
+import {fetchStatus, fetchStatusAlert, getUrlUploadFile} from "../tools/Network";
 
 export default function CommonUpload({notice, setFileUrl}) {
     const {t} = useTranslation();
 
     const onDrop = useCallback(acceptedFiles => {
-        let formData = new FormData()
+        let formData = new FormData();
         formData.append('file', acceptedFiles[0]);
-        fetchUpload('file/upload/submit', formData).then((json) => {
+        getUrlUploadFile(formData).then((json) => {
             const status = json['status'];
             if (fetchStatus(status) || status === 3) {
                 const name = json['name'];
@@ -23,9 +23,9 @@ export default function CommonUpload({notice, setFileUrl}) {
         }).catch((error) => {
             notice(error.toString(), -1);
         });
-    }, [])
+    }, []);
 
-    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
 
     return (
         <>

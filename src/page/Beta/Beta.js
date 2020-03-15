@@ -1,27 +1,22 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 
 import {useTranslation} from 'react-i18next';
 import "../../i18N"
 
-import {useHistory, useLocation} from "react-router-dom";
-
-import {fetchGet, fetchStatusAlert} from "../../tools/Network";
+import {fetchStatusAlert} from "../../tools/Network";
 
 import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import tools from "../../tools/Utils";
 import Container from "@material-ui/core/Container";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import {Wifi} from "@material-ui/icons";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Divider from "@material-ui/core/Divider";
 import BrightnessAutoIcon from '@material-ui/icons/BrightnessAuto';
@@ -30,8 +25,6 @@ import DeveloperModeIcon from '@material-ui/icons/DeveloperMode';
 export default function Beta({notice, setLoading}) {
     const classes = useStyles();
     const {t} = useTranslation();
-    let location = useLocation();
-    let history = useHistory();
     const [serverConfig, setServerConfig] = useState(localStorage.getItem("server_config"));
     const [autoDarkMode, setAutoDarkMode] = useState(() => {
         let autoDarkMode = localStorage.getItem("auto_dark_mode");

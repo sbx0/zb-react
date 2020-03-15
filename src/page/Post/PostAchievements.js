@@ -7,23 +7,32 @@ import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import {useHistory, useLocation, Link} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {fetchPost, fetchStatus, fetchStatusAlert, returnStatus} from "../../tools/Network";
+import {
+    fetchStatus,
+    fetchStatusAlert,
+    getAddressBaseFather,
+    getAddressBaseSon,
+    getTechnicalAchievementsCooperationMethodList,
+    getTechnicalAchievementsMaturityList,
+    getTechnicalClassificationFather,
+    getTechnicalClassificationSon,
+    postTechnicalAchievementPost,
+} from "../../tools/Network";
 import MarkdownEditor from "../../page/Certification/components/MarkdownEditor/MarkdownEditor";
 import TextField from "@material-ui/core/TextField";
 import CommonSelect from "../../Components/CommonSelect";
 import CommonUpload from "../../Components/CommonUpload";
 
 export default function PostAchievements({setLoading, notice}) {
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
     const classes = useStyles();
     let history = useHistory();
-    let location = useLocation();
     const [material, setMaterial] = useState('这里简单介绍你的技术成果');
     const [maturity, setMaturity] = useState('');
     const [country, setCountry] = useState('');
@@ -95,7 +104,7 @@ export default function PostAchievements({setLoading, notice}) {
 
     async function submitData() {
         setLoading(true);
-        fetchPost('technical/achievements/post', values).then((json) => {
+        postTechnicalAchievementPost(values).then((json) => {
             setLoading(false);
             const status = json['status'];
             notice(t(fetchStatusAlert(status)), status);
@@ -126,71 +135,123 @@ export default function PostAchievements({setLoading, notice}) {
                                 setFileUrl={setFileUrl}
                             />
                         </Grid>
-                        <Grid item xs={6}>
-                            <CommonSelect
-                                url={'/technical/classification/father'}
-                                title={'技术分类1级'}
-                                notice={notice}
-                                selected={classificationOne}
-                                setSelected={setClassificationOne}
-                            />
+                        <Grid item xs={12}>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12}>
+                                    <Typography
+                                        variant="inherit"
+                                    >
+                                        地区：
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Grid container>
+                                        <Grid item xs={4}>
+                                            <CommonSelect
+                                                param={'father'}
+                                                fetch={getAddressBaseFather}
+                                                title={'国家'}
+                                                notice={notice}
+                                                selected={country}
+                                                setSelected={setCountry}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={4}>
+                                            <CommonSelect
+                                                param={country}
+                                                fetch={getAddressBaseSon}
+                                                active={provinceActive}
+                                                title={'省'}
+                                                notice={notice}
+                                                selected={province}
+                                                setSelected={setProvince}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={4}>
+                                            <CommonSelect
+                                                param={province}
+                                                fetch={getAddressBaseSon}
+                                                active={cityActive}
+                                                title={'市'}
+                                                notice={notice}
+                                                selected={city}
+                                                setSelected={setCity}
+                                            />
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
                         </Grid>
-                        <Grid item xs={6}>
-                            <CommonSelect
-                                url={'/technical/classification/son?fatherId=' + classificationOne}
-                                title={'技术分类2级'}
-                                active={classificationTwoActive}
-                                notice={notice}
-                                selected={classificationTwo}
-                                setSelected={setClassificationTwo}
-                            />
+                        <Grid item xs={12}>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12}>
+                                    <Typography
+                                        variant="inherit"
+                                    >
+                                        领域：
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Grid container>
+                                        <Grid item xs={6}>
+                                            <CommonSelect
+                                                param={'father'}
+                                                fetch={getTechnicalClassificationFather}
+                                                title={'技术分类1级'}
+                                                notice={notice}
+                                                selected={classificationOne}
+                                                setSelected={setClassificationOne}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <CommonSelect
+                                                param={classificationOne}
+                                                fetch={getTechnicalClassificationSon}
+                                                title={'技术分类2级'}
+                                                active={classificationTwoActive}
+                                                notice={notice}
+                                                selected={classificationTwo}
+                                                setSelected={setClassificationTwo}
+                                            />
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
                         </Grid>
-                        <Grid item xs={4}>
-                            <CommonSelect
-                                url={'/address/base/father'}
-                                title={'国家'}
-                                notice={notice}
-                                selected={country}
-                                setSelected={setCountry}
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <CommonSelect
-                                url={'/address/base/son?fatherId=' + country}
-                                active={provinceActive}
-                                title={'省'}
-                                notice={notice}
-                                selected={province}
-                                setSelected={setProvince}
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <CommonSelect
-                                url={'/address/base/son?fatherId=' + province}
-                                active={cityActive}
-                                title={'市'}
-                                notice={notice}
-                                selected={city}
-                                setSelected={setCity}
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <CommonSelect
-                                url={'/technical/achievements/maturity/list'}
-                                title={'成熟度'}
-                                notice={notice}
-                                selected={maturity}
-                                setSelected={setMaturity}
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <CommonSelect
-                                url={'/technical/achievements/cooperationMethod/list'}
-                                title={'合作方式'}
-                                notice={notice}
-                                selected={cooperationMethod}
-                                setSelected={setCooperationMethod}
-                            />
+                        <Grid item xs={12}>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12}>
+                                    <Typography
+                                        variant="inherit"
+                                    >
+                                        成熟度和合作方式：
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Grid container>
+                                        <Grid item xs={6}>
+                                            <CommonSelect
+                                                param={'list'}
+                                                fetch={getTechnicalAchievementsMaturityList}
+                                                title={'成熟度'}
+                                                notice={notice}
+                                                selected={maturity}
+                                                setSelected={setMaturity}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <CommonSelect
+                                                param={'list'}
+                                                fetch={getTechnicalAchievementsCooperationMethodList}
+                                                title={'合作方式'}
+                                                notice={notice}
+                                                selected={cooperationMethod}
+                                                setSelected={setCooperationMethod}
+                                            />
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
@@ -248,7 +309,6 @@ export default function PostAchievements({setLoading, notice}) {
         </Container>
     );
 }
-
 
 const useStyles = makeStyles(theme => ({
     paper: {

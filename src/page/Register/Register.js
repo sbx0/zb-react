@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import "../../i18N/i18N"
 
@@ -13,11 +13,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {fetchPost, fetchStatus, fetchStatusAlert, returnStatus} from "../../tools/Network";
+import {fetchStatus, fetchStatusAlert, postUserBaseRegister, returnStatus} from "../../tools/Network";
 import {useHistory, Link} from "react-router-dom";
 
 export default function Register({setLoading, changeActive, notice}) {
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
     const classes = useStyles();
     let history = useHistory();
     const [values, setValues] = useState({
@@ -32,7 +32,7 @@ export default function Register({setLoading, changeActive, notice}) {
 
     async function submitData() {
         setLoading(true);
-        fetchPost('user/base/register', values).then((json) => {
+        postUserBaseRegister(values).then((json) => {
             setLoading(false);
             const status = json['status'];
             if (fetchStatus(status)) {

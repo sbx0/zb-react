@@ -17,26 +17,6 @@ import {
 import UploadAvatar from "../UploadAvatar/UploadAvatar";
 import {useHistory} from "react-router-dom";
 
-const useStyles = makeStyles(theme => ({
-    root: {},
-    details: {
-        display: 'flex'
-    },
-    avatar: {
-        marginLeft: 'auto',
-        height: 100,
-        width: 100,
-        flexShrink: 0,
-        flexGrow: 0
-    },
-    progress: {
-        marginTop: theme.spacing(2)
-    },
-    uploadButton: {
-        marginRight: theme.spacing(2)
-    }
-}));
-
 export default function AccountProfile(
     {
         data,
@@ -122,3 +102,23 @@ export default function AccountProfile(
         </Card>
     );
 };
+
+const useStyles = makeStyles(theme => ({
+    root: {},
+    details: {
+        display: 'flex'
+    },
+    avatar: {
+        marginLeft: 'auto',
+        height: 100,
+        width: 100,
+        flexShrink: 0,
+        flexGrow: 0
+    },
+    progress: {
+        marginTop: theme.spacing(2)
+    },
+    uploadButton: {
+        marginRight: theme.spacing(2)
+    }
+}));

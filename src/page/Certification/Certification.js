@@ -1,32 +1,26 @@
 import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import "../../i18N/i18N"
-
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import {useHistory, useLocation, Link} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {fetchPost, fetchStatus, fetchStatusAlert, returnStatus} from "../../tools/Network";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import InputLabel from '@material-ui/core/InputLabel';
+import {fetchStatus, fetchStatusAlert, postUserCertificationSubmit} from "../../tools/Network";
 import KindSelect from "./components/KindSelect/KindSelect";
 import MarkdownEditor from "./components/MarkdownEditor/MarkdownEditor";
 
 export default function Certification({setLoading, notice}) {
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
     const classes = useStyles();
     let history = useHistory();
-    let location = useLocation();
-    const [kind, setKind] = useState(0)
+    const [kind, setKind] = useState(0);
     const [material, setMaterial] = useState(t("认证申请材料格式示例"));
     const [values, setValues] = useState({
         kind: 0,
@@ -36,20 +30,16 @@ export default function Certification({setLoading, notice}) {
     useEffect(() => {
         values.kind = kind;
         setValues(values);
-    }, [kind])
+    }, [kind]);
 
     useEffect(() => {
         values.material = material;
         setValues(values);
-    }, [material])
-
-    const handleChange = (name) => (event) => {
-        setValues({...values, [name]: event.target.value});
-    };
+    }, [material]);
 
     async function submitData() {
         setLoading(true);
-        fetchPost('user/certification/submit', values).then((json) => {
+        postUserCertificationSubmit(values).then((json) => {
             setLoading(false);
             const status = json['status'];
             notice(t(fetchStatusAlert(status)), status);

@@ -1,27 +1,28 @@
 import React, {useState, useEffect} from 'react';
 
 import {
-    Bar,
     XAxis,
     YAxis,
     CartesianGrid,
     Tooltip,
     ResponsiveContainer,
-    ReferenceLine,
     ComposedChart,
     Line,
 } from 'recharts';
 import Skeleton from '@material-ui/lab/Skeleton';
-import {fetchGet, fetchStatus, fetchStatusAlert} from "../../../../tools/Network";
+import {fetchStatus, fetchStatusAlert, getStaticalDataRecent} from "../../../../tools/Network";
 
 export default function LineChart({notice, day, kind, group, referenceValue}) {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
 
     function loadData() {
-        let url = 'statistical/data/recent?day=' + day + '&kind=' + kind + '&group=' + group;
-        fetchGet(
-            url
+        getStaticalDataRecent(
+            {
+                day: day,
+                kind: kind,
+                group: group,
+            }
         ).then((json) => {
             const status = json['status'];
             if (fetchStatus(status)) {

@@ -1,28 +1,25 @@
 import React, {useState, useEffect} from 'react';
-
 import {useTranslation} from 'react-i18next';
-import "../i18N/i18N"
-
 import {makeStyles} from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from "@material-ui/core/InputLabel";
-import {fetchGet, fetchPost, fetchStatus, fetchStatusAlert} from "../tools/Network";
-import tools from "../tools/Utils";
+import {fetchStatus} from "../tools/Network";
+import "../i18N/i18N"
 
 export default function CommonSelect(
     {
-        para,
+        param,
         active,
         selected,
         setSelected,
-        url,
+        fetch,
         title,
         notice
     }
 ) {
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
     const classes = useStyles();
     const [options, setOptions] = useState([]);
 
@@ -31,21 +28,15 @@ export default function CommonSelect(
     };
 
     useEffect(() => {
-        if (para != '') {
-            let cache = JSON.parse(localStorage.getItem(url));
-            if (cache != null && cache.length > 0) {
-                setOptions(cache);
-            } else {
-                fetchGet(url).then((json) => {
-                    const status = json['status'];
-                    if (fetchStatus(status)) {
-                        setOptions(json["objects"]);
-                        localStorage.setItem(url, JSON.stringify(json["objects"]));
-                    }
-                }).catch((error) => {
-                    notice(error.toString(), -1);
-                });
-            }
+        if (param !== '') {
+            fetch(param).then((json) => {
+                const status = json['status'];
+                if (fetchStatus(status)) {
+                    setOptions(json["objects"]);
+                }
+            }).catch((error) => {
+                notice(error.toString(), -1);
+            });
         }
     }, [active]);
 
@@ -62,7 +53,7 @@ export default function CommonSelect(
                 displayEmpty
             >
                 <MenuItem value="">
-                    <em>请选择</em>
+                    <em>{t('请选择')}</em>
                 </MenuItem>
                 {
                     options.map((one) => (

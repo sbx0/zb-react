@@ -6,13 +6,9 @@ import {
     ResponsiveContainer,
     ComposedChart,
     XAxis, YAxis,
-    LabelList
 } from 'recharts';
 import Skeleton from '@material-ui/lab/Skeleton';
-import {fetchGet, fetchStatus, fetchStatusAlert} from "../../../../tools/Network";
-import Typography from "@material-ui/core/Typography";
-import global from "../../../../tools/Global";
-import LanguageSelect from "../../../../Components/LanguageSelect";
+import {fetchStatus, fetchStatusAlert, getStatisticalUserClient} from "../../../../tools/Network";
 
 export default function PieChart({notice, day, kind, group, referenceValue}) {
     const [data, setData] = useState([]);
@@ -20,10 +16,7 @@ export default function PieChart({notice, day, kind, group, referenceValue}) {
 
     useEffect(() => {
         setLoading(true);
-        let url = 'statistical/user/client';
-        fetchGet(
-            url
-        ).then((json) => {
+        getStatisticalUserClient().then((json) => {
             const status = json['status'];
             if (fetchStatus(status)) {
                 const data = json['objects']['data'];

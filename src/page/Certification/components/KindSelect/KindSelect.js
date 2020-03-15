@@ -7,11 +7,8 @@ import {makeStyles} from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Typography from '@material-ui/core/Typography';
-import Grid from "@material-ui/core/Grid";
-import DemandOne from "../../../Demand/DemandOne";
 import InputLabel from "@material-ui/core/InputLabel";
-import {fetchGet, fetchPost, fetchStatus, fetchStatusAlert} from "../../../../tools/Network";
+import {fetchStatus, getUserCertificationType} from "../../../../tools/Network";
 
 export default function KindSelect({kind, setKind, notice}) {
     const {t, i18n} = useTranslation();
@@ -25,7 +22,7 @@ export default function KindSelect({kind, setKind, notice}) {
     };
 
     useEffect(() => {
-        fetchGet('user/certification/type').then((json) => {
+        getUserCertificationType().then((json) => {
             const status = json['status'];
             if (fetchStatus(status)) {
                 setKinds(json["objects"]);

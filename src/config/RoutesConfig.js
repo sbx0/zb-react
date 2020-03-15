@@ -176,19 +176,19 @@ function RoutesConfig(
                             exact
                             path="/admin"
                         >
-                            <Main notice={notice} setLoading={setLoading}/>
+                            <Main notice={notice}/>
                         </Route>
                         <Route
                             exact
                             path="/admin/review"
                         >
-                            <Review notice={notice} setLoading={setLoading}/>
+                            <Review notice={notice}/>
                         </Route>
                         <Route
                             exact
                             path="/admin/table"
                         >
-                            <Table notice={notice} setLoading={setLoading}/>
+                            <Table notice={notice}/>
                         </Route>
                     </>
                     :

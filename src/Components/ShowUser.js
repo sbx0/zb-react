@@ -1,18 +1,7 @@
 import React, {useEffect, useState} from 'react';
-
-import {useTranslation} from 'react-i18next';
 import "../i18N"
-import {useHistory, Link} from "react-router-dom";
-
-import LanguageSelect from "./LanguageSelect";
-import global from '../tools/Global';
-
 import {makeStyles} from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
-import Typography from '@material-ui/core/Typography';
-import Button from "@material-ui/core/Button";
-import {fetchGet, fetchStatus, fetchStatusAlert} from "../tools/Network";
+import {fetchStatus, fetchStatusAlert, getUserBaseShow} from "../tools/Network";
 import Chip from "@material-ui/core/Chip";
 import Avatar from "@material-ui/core/Avatar";
 
@@ -23,9 +12,9 @@ export default function ShowUser({id, notice, loadActive, data}) {
     useEffect(() => {
         if (data == null) {
             let url = 'user/base/show?id=' + id;
-            fetchGet(
-                url
-            ).then((json) => {
+            getUserBaseShow({
+                id: id
+            }).then((json) => {
                 const status = json['status'];
                 if (fetchStatus(status)) {
                     const object = json['object'];

@@ -1,5 +1,3 @@
-import global from '../tools/Global';
-
 const date_to_time_after = {
     already: '已',
     just: '刚刚',

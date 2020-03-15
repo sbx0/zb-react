@@ -28,6 +28,28 @@ export default function App() {
     const [active, setActive] = useState(false);
     const [user, setUser] = useState(null);
 
+    function notice(msg, type) {
+        setOpen(true);
+        setMsg(msg);
+        switch (type) {
+            case -1:
+                setSeverity("error");
+                break;
+            case 0:
+                setSeverity("success");
+                break;
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                setSeverity("warning");
+                break;
+            default:
+                setSeverity("info");
+        }
+    }
+
     useEffect(() => {
         login();
     }, [active]);
@@ -103,29 +125,6 @@ export default function App() {
             setTheme(LightTheme);
         }
     }, [dark]);
-
-
-    function notice(msg, type) {
-        setOpen(true);
-        setMsg(msg);
-        switch (type) {
-            case -1:
-                setSeverity("error");
-                break;
-            case 0:
-                setSeverity("success");
-                break;
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-                setSeverity("warning");
-                break;
-            default:
-                setSeverity("info");
-        }
-    }
 
     return (
         <ThemeProvider theme={theme}>

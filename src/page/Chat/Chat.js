@@ -1,25 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import "../../i18N"
-import {fetchGet, fetchPost, fetchStatus, fetchStatusAlert} from "../../tools/Network";
 import {useTranslation} from 'react-i18next';
-import {useHistory, useLocation, useParams} from "react-router-dom";
 import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button";
-import {Badge, Card, CardContent, CardHeader, Divider, LinearProgress} from "@material-ui/core";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+import {Divider} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import WebSocket from "../Group/components/WebSocket";
 import {ChatFeed, Message} from "react-chat-ui";
 import TextField from "@material-ui/core/TextField";
 
-export default function ChatPage({user, notice, setLoading}) {
+export default function ChatPage({user, notice}) {
     const classes = useStyles();
     const {t} = useTranslation();
-    let location = useLocation();
-    let history = useHistory();
-    let {id} = useParams();
     const [messages, setMessages] = useState([
         new Message({
             id: 0,

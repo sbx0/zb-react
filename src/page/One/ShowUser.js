@@ -1,30 +1,19 @@
 import React, {useState, useEffect} from 'react';
 import "../../i18N"
-import {fetchGet, fetchStatus, fetchStatusAlert} from "../../tools/Network";
+import {fetchStatus, fetchStatusAlert, getUserBaseShow} from "../../tools/Network";
 import {useTranslation} from 'react-i18next';
-import {useHistory, useLocation} from "react-router-dom";
-import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Button from "@material-ui/core/Button";
-import {Divider, Link, ListItem, ListItemText} from "@material-ui/core";
-import Breadcrumbs from "@material-ui/core/Breadcrumbs";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
 
 export default function ShowUser({id, notice, setLoading}) {
-    const classes = useStyles();
     const {t} = useTranslation();
-    let location = useLocation();
-    let history = useHistory();
-    const [objects, setObjects] = useState([]);
     const [object, setObject] = useState({});
 
     useEffect(() => {
         if (id !== undefined) {
-            let url = 'user/base/show?id=' + id;
-            fetchGet(
-                url
+            getUserBaseShow(
+                {id: id}
             ).then((json) => {
                 const status = json['status'];
                 if (fetchStatus(status)) {
@@ -58,5 +47,3 @@ export default function ShowUser({id, notice, setLoading}) {
         </Grid>
     );
 }
-
-const useStyles = makeStyles(theme => ({}));

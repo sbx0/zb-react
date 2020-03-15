@@ -1,11 +1,10 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useRef} from 'react'
 import AvatarEditor from 'react-avatar-editor'
 import Slider from "@material-ui/core/Slider";
 import {Button} from "@material-ui/core";
 import {useTranslation} from 'react-i18next';
 import "../../../i18N"
-import Dropzone from "react-dropzone";
-import {fetchStatus, fetchStatusAlert, fetchUpload} from "../../../tools/Network";
+import {fetchStatusAlert, postFileUploadAvatar} from "../../../tools/Network";
 
 export default function MyAvatarEditor({file, notice, active, changeActive}) {
     const [scale, setScale] = React.useState(1.0);
@@ -14,17 +13,16 @@ export default function MyAvatarEditor({file, notice, active, changeActive}) {
 
     useEffect(() => {
         console.log(file);
-    }, [file])
+    }, [file]);
 
     function upload() {
         if (setEditorRef.current) {
             // const canvas = setEditorRef.current.getImage();
             const canvas = setEditorRef.current.getImageScaledToCanvas();
-            console.log(canvas)
             canvas.toBlob(function (blob) {
                 let formData = new FormData();
                 formData.append('file', blob, 'avatar.jpg');
-                fetchUpload('file/upload/avatar', formData).then((json) => {
+                postFileUploadAvatar(formData).then((json) => {
                     const status = json['status'];
                     notice(t(fetchStatusAlert(status)), status);
                     changeActive();

@@ -1,24 +1,19 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import "../../../../i18N"
-import {fetchGet, fetchStatus, fetchStatusAlert} from "../../../../tools/Network";
+import {fetchGet, fetchStatusAlert, getUserGroupCreate} from "../../../../tools/Network";
 import {useTranslation} from 'react-i18next';
 import {useHistory, useLocation} from "react-router-dom";
 import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import {Badge, Divider, List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
+import {Badge, Divider} from "@material-ui/core";
 import GroupIcon from "@material-ui/icons/Group";
-import Avatar from "@material-ui/core/Avatar";
-import Chip from "@material-ui/core/Chip";
-import Container from "@material-ui/core/Container";
 import ShowUser from "../../../../Components/ShowUser";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 
 export default function GroupList({notice, setLoading, groups, from, name, searchActive, setSearchActive}) {
     const classes = useStyles();
     const {t} = useTranslation();
-    let location = useLocation();
     let history = useHistory();
 
     useEffect(() => {
@@ -75,9 +70,8 @@ export default function GroupList({notice, setLoading, groups, from, name, searc
                                                             variant="outlined"
                                                             fullWidth
                                                             onClick={() => {
-                                                                let url = 'user/group/create?name=' + name;
-                                                                fetchGet(
-                                                                    url
+                                                                getUserGroupCreate(
+                                                                    {name: name}
                                                                 ).then((json) => {
                                                                     const status = json['status'];
                                                                     notice(t(fetchStatusAlert(status)), status);

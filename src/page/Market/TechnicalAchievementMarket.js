@@ -1,31 +1,24 @@
 import React, {useState, useEffect} from 'react';
-
 import {useTranslation} from 'react-i18next';
-import "../../i18N/"
-
-import {
-    useParams
-} from "react-router-dom";
-
-import {fetchGet, fetchStatus, fetchStatusAlert} from "../../tools/Network";
-
-import {makeStyles} from "@material-ui/core/styles";
+import {useParams} from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import "../../i18N/"
+import {
+    fetchStatus,
+    fetchStatusAlert,
+    getAddressBaseFather,
+    getAddressBaseSon,
+    getAddressBaseSonToFather, getTechnicalAchievementsCooperationMethodList,
+    getTechnicalAchievementsMaturityList,
+    getTechnicalClassificationFather,
+    getTechnicalClassificationSon,
+    getTechnicalClassificationSonToFather
+} from "../../tools/Network";
 import CommonSelect from "../../Components/CommonSelect";
 import TechnicalAchievementList from "./TechnicalAchievementList";
 
-const useStyles = makeStyles(theme => ({
-    mt: {
-        marginTop: '10px'
-    },
-    mb: {
-        marginBottom: '10px'
-    }
-}));
-
 export default function TechnicalAchievementMarket({setLoading, notice}) {
-    const classes = useStyles();
     const {t} = useTranslation();
     let {key} = useParams();
     const [classificationOne, setClassificationOne] = useState('');
@@ -44,10 +37,9 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
     const [lock, setLock] = useState(true);
 
     function classificationSelect(id) {
-        let url = 'technical/classification/sonToFather?sonId=' + id;
-        fetchGet(
-            url
-        ).then((json) => {
+        getTechnicalClassificationSonToFather({
+            sonId: id
+        }).then((json) => {
             const status = json['status'];
             if (fetchStatus(status)) {
                 const objects = json['objects'].reverse();
@@ -64,10 +56,9 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
     }
 
     function addressSelect(id) {
-        let url = 'address/base/sonToFather?sonId=' + id;
-        fetchGet(
-            url
-        ).then((json) => {
+        getAddressBaseSonToFather({
+            sonId: id
+        }).then((json) => {
             const status = json['status'];
             if (fetchStatus(status)) {
                 const objects = json['objects'].reverse();
@@ -85,17 +76,17 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
     }
 
     useEffect(() => {
-        if (key != null && key != undefined) {
+        if (key !== null && key !== undefined) {
             let map = key.split(':');
-            if (map[0] == 'classificationId') {
+            if (map[0] === 'classificationId') {
                 setClassificationId(map[1]);
                 classificationSelect(map[1]);
-            } else if (map[0] == 'addressId') {
+            } else if (map[0] === 'addressId') {
                 setAddressId(map[1]);
                 addressSelect(map[1]);
-            } else if (map[0] == 'maturityId') {
+            } else if (map[0] === 'maturityId') {
                 setMaturity(map[1]);
-            } else if (map[0] == 'cooperationMethodId') {
+            } else if (map[0] === 'cooperationMethodId') {
                 setCooperationMethod(map[1]);
             }
         }
@@ -165,8 +156,8 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                             <Grid container>
                                 <Grid item xs={4}>
                                     <CommonSelect
-                                        para={'father'}
-                                        url={'/address/base/father'}
+                                        param={'father'}
+                                        fetch={getAddressBaseFather}
                                         title={'国家'}
                                         notice={notice}
                                         selected={country}
@@ -175,8 +166,8 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                                 </Grid>
                                 <Grid item xs={4}>
                                     <CommonSelect
-                                        para={country}
-                                        url={'/address/base/son?fatherId=' + country}
+                                        param={country}
+                                        fetch={getAddressBaseSon}
                                         active={provinceActive}
                                         title={'省'}
                                         notice={notice}
@@ -186,8 +177,8 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                                 </Grid>
                                 <Grid item xs={4}>
                                     <CommonSelect
-                                        para={province}
-                                        url={'/address/base/son?fatherId=' + province}
+                                        param={province}
+                                        fetch={getAddressBaseSon}
                                         active={cityActive}
                                         title={'市'}
                                         notice={notice}
@@ -212,8 +203,8 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                             <Grid container>
                                 <Grid item xs={6}>
                                     <CommonSelect
-                                        para={'father'}
-                                        url={'/technical/classification/father'}
+                                        param={'father'}
+                                        fetch={getTechnicalClassificationFather}
                                         title={'技术分类1级'}
                                         notice={notice}
                                         selected={classificationOne}
@@ -222,8 +213,8 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <CommonSelect
-                                        para={classificationOne}
-                                        url={'/technical/classification/son?fatherId=' + classificationOne}
+                                        param={classificationOne}
+                                        fetch={getTechnicalClassificationSon}
                                         title={'技术分类2级'}
                                         active={classificationTwoActive}
                                         notice={notice}
@@ -248,8 +239,8 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                             <Grid container>
                                 <Grid item xs={6}>
                                     <CommonSelect
-                                        para={'list'}
-                                        url={'/technical/achievements/maturity/list'}
+                                        param={'list'}
+                                        fetch={getTechnicalAchievementsMaturityList}
                                         title={'成熟度'}
                                         notice={notice}
                                         selected={maturity}
@@ -258,8 +249,8 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <CommonSelect
-                                        para={'list'}
-                                        url={'/technical/achievements/cooperationMethod/list'}
+                                        param={'list'}
+                                        fetch={getTechnicalAchievementsCooperationMethodList}
                                         title={'合作方式'}
                                         notice={notice}
                                         selected={cooperationMethod}

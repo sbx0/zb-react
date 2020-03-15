@@ -6,7 +6,13 @@ import "../../../i18N"
 
 import {makeStyles} from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
-import {fetchGet, fetchStatus, fetchStatusAlert} from "../../../tools/Network";
+import {
+    fetchGet,
+    fetchStatus,
+    fetchStatusAlert,
+    getUserCertificationCancel,
+    getUserCertificationCheck
+} from "../../../tools/Network";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import ReactMarkdown from "react-markdown";
 import Chip from "@material-ui/core/Chip";
@@ -24,11 +30,8 @@ export default function CertificationCard({notice, setLoading}) {
     let history = useHistory();
 
     function check() {
-        let url = 'user/certification/check';
         setLoading(true);
-        fetchGet(
-            url
-        ).then((json) => {
+        getUserCertificationCheck().then((json) => {
             const status = json['status'];
             if (fetchStatus(status)) {
                 setCertification(json["object"]);
@@ -49,11 +52,8 @@ export default function CertificationCard({notice, setLoading}) {
     }
 
     function handelCancel() {
-        let url = 'user/certification/cancel';
         setLoading(true);
-        fetchGet(
-            url
-        ).then((json) => {
+        getUserCertificationCancel().then((json) => {
             const status = json['status'];
             notice(t(fetchStatusAlert(status)), status);
             setLoading(false);
@@ -156,7 +156,7 @@ function BuildCertificationChip({certification, handelCancel, handelClick}) {
                 onDelete={handelCancel}
                 onClick={handelClick}
                 color="secondary"
-            />
+            />;
         case 1:
             return <Chip
                 icon={<FaceIcon/>}

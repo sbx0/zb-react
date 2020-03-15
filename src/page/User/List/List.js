@@ -1,35 +1,24 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import "../../../i18N"
-import {fetchGet, fetchStatus, fetchStatusAlert} from "../../../tools/Network";
 import {useTranslation} from 'react-i18next';
-import {useHistory, useLocation} from "react-router-dom";
 import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import {
-    Badge,
     Card,
     CardContent,
     CardHeader,
     Divider,
     List,
     ListItem,
-    ListItemIcon,
     ListItemText
 } from "@material-ui/core";
-import GroupIcon from "@material-ui/icons/Group";
 import Avatar from "@material-ui/core/Avatar";
-import Chip from "@material-ui/core/Chip";
-import Container from "@material-ui/core/Container";
-import ShowUser from "../../../Components/ShowUser";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 
 export default function UserList({notice, setLoading, loadActive, users}) {
     const classes = useStyles();
     const {t} = useTranslation();
-    let location = useLocation();
-    let history = useHistory();
 
     return <>
         <div className={classes.paper}>

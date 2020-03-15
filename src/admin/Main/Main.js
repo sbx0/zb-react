@@ -1,52 +1,30 @@
-import React, {useState} from 'react';
-
+import React from 'react';
 import {useTranslation} from 'react-i18next';
-import "../../i18N"
-
-import {
-    Switch,
-    Route,
-    useRouteMatch,
-    useHistory
-} from "react-router-dom";
-
-import Review from "../Review"
-
-
+import {Switch, Route, useRouteMatch, useHistory} from "react-router-dom";
 import {makeStyles} from '@material-ui/core/styles';
-import {useMediaQuery, useTheme} from "@material-ui/core";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-
+import {
+    VerifiedUser as VerifiedUserIcon,
+    TableChart as TableChartIcon,
+} from "@material-ui/icons";
+import {
+    Grid,
+    Card,
+    CardContent,
+    CardHeader,
+    Divider,
+    Button,
+} from '@material-ui/core';
+import {getUserActiveCount} from "../../tools/Network";
+import Review from "../Review"
 import SmallDataCard from "./components/SmallDataCard/SmallDataCard";
-import Button from "@material-ui/core/Button";
-import SchoolIcon from "@material-ui/icons/School";
-import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
-import TableChartIcon from "@material-ui/icons/TableChart";
-import {Card, CardContent, CardHeader, Divider} from "@material-ui/core";
 import LineChart from "../../page/Home/components/LineChart";
 import PieChart from "../../page/Home/components/PieChart";
 
-function Main({notice, setLoading}) {
+export default function Main({notice}) {
     const {t} = useTranslation();
     const classes = useStyles();
-    const theme = useTheme();
     let history = useHistory();
     let match = useRouteMatch();
-    const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
-        defaultMatches: true
-    });
-    const [openSidebar, setOpenSidebar] = useState(false);
-
-    const handleSidebarOpen = () => {
-        setOpenSidebar(true);
-    };
-
-    const handleSidebarClose = () => {
-        setOpenSidebar(false);
-    };
-
-    const shouldOpenSidebar = isDesktop ? true : openSidebar;
 
     return (
         <div className={classes.container}>
@@ -65,9 +43,8 @@ function Main({notice, setLoading}) {
                         >
                             <SmallDataCard
                                 title={'在线人数'}
-                                url={'user/base/active'}
+                                fetch={getUserActiveCount}
                                 notice={notice}
-                                setLoading={setLoading}
                             />
                         </Grid>
                     </Grid>
@@ -99,7 +76,7 @@ function Main({notice, setLoading}) {
                                 fullWidth
                                 size="large"
                             >
-                                {t("通用后台管理")}
+                                {t("后台管理")}
                             </Button>
                         </Grid>
                     </Grid>
@@ -199,5 +176,3 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.text.secondary,
     },
 }));
-
-export default Main;

@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
-import {useHistory, useLocation} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import tools from "../../../../tools/Utils";
 
 const useStyles = makeStyles(theme => ({
@@ -31,7 +31,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function ShowCard({title, img, price, time, desc, url}) {
     const classes = useStyles();
-    let location = useLocation();
     let history = useHistory();
 
     return (

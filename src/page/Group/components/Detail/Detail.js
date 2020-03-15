@@ -1,28 +1,27 @@
 import React, {useState, useEffect} from 'react';
 import "../../../../i18N"
-import {fetchGet, fetchStatus, fetchStatusAlert} from "../../../../tools/Network";
+import {
+    fetchGet,
+    fetchStatus,
+    fetchStatusAlert,
+    getUserGroupCheck, getUserGroupJoin,
+    getUserGroupMember,
+    getUserGroupOne, getUserGroupQuit
+} from "../../../../tools/Network";
 import {useTranslation} from 'react-i18next';
 import {useHistory, useLocation, useParams} from "react-router-dom";
 import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button";
-import {Badge, Card, CardContent, CardHeader, Divider, LinearProgress} from "@material-ui/core";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+import {Card, CardContent, CardHeader, LinearProgress} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-import GroupList from "../List/List";
-import Container from "@material-ui/core/Container";
 import ShowUser from "../../../../Components/ShowUser";
-import GroupIcon from "@material-ui/icons/Group";
 import UserList from "../../../User/List/List";
 import RecentActivity from "../RecentActivity/RecentActivity";
-import WebSocket from "../WebSocket";
 
 export default function GroupDetail({notice, setLoading}) {
     const classes = useStyles();
     const {t} = useTranslation();
-    let location = useLocation();
-    let history = useHistory();
     let {id} = useParams();
     const [group, setGroup] = useState({
         name: '',
@@ -34,9 +33,8 @@ export default function GroupDetail({notice, setLoading}) {
     const [loadActive, setLoadActive] = useState(false);
 
     useEffect(() => {
-        let url = 'user/group/member?id=' + id;
-        fetchGet(
-            url
+        getUserGroupMember(
+            {id: id}
         ).then((json) => {
             const status = json['status'];
             if (fetchStatus(status)) {
@@ -51,10 +49,9 @@ export default function GroupDetail({notice, setLoading}) {
     }, [loadActive]);
 
     useEffect(() => {
-        let url = 'user/group/one?id=' + id;
         setLoading(true);
-        fetchGet(
-            url
+        getUserGroupOne(
+            {id: id}
         ).then((json) => {
             const status = json['status'];
             if (fetchStatus(status)) {
@@ -141,9 +138,8 @@ function CheckButton({id, notice, loadActive, setLoadActive}) {
     const [isJoin, setIsJoin] = useState(false);
 
     useEffect(() => {
-        let url = 'user/group/check?id=' + id;
-        fetchGet(
-            url
+        getUserGroupCheck(
+            {id: id}
         ).then((json) => {
             const status = json['status'];
             if (fetchStatus(status)) {
@@ -180,9 +176,8 @@ function JoinButton({id, notice, loadActive, setLoadActive}) {
         size={"small"}
         onClick={
             () => {
-                let url = 'user/group/join?id=' + id;
-                fetchGet(
-                    url
+                getUserGroupJoin(
+                    {id: id}
                 ).then((json) => {
                     const status = json['status'];
                     if (fetchStatus(status)) {
@@ -213,9 +208,8 @@ function QuitButton({id, notice, loadActive, setLoadActive}) {
         fullWidth
         size={"small"}
         onClick={() => {
-            let url = 'user/group/quit?id=' + id;
-            fetchGet(
-                url
+            getUserGroupQuit(
+                {id: id}
             ).then((json) => {
                 const status = json['status'];
                 if (fetchStatus(status)) {

@@ -1,12 +1,7 @@
-import React, {useState, forwardRef, useEffect, createRef} from 'react';
-
+import React, {forwardRef, createRef, useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import "../../i18N"
-
 import MaterialTable from "material-table";
-
 import {makeStyles} from '@material-ui/core/styles';
-import {useMediaQuery, useTheme} from "@material-ui/core";
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
@@ -22,15 +17,19 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
-import {fetchGet, fetchPost, fetchStatus, fetchStatusAlert} from "../../tools/Network";
-import ReactMarkdown from "react-markdown";
-import Container from "@material-ui/core/Container";
-import CloseIcon from '@material-ui/icons/Close';
 import RefreshIcon from '@material-ui/icons/Refresh';
-import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
+import Select from "@material-ui/core/Select";
+
+import "../../i18N"
+import {
+    fetchStatus,
+    fetchStatusAlert,
+    getAdminDelete,
+    getAdminList, getAttribute,
+    postAdminSave
+} from "../../tools/Network";
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref}/>),
@@ -52,52 +51,33 @@ const tableIcons = {
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref}/>)
 };
 
-
-function Table({notice, setLoading}) {
+export default function Table({notice}) {
     const {t} = useTranslation();
     const classes = useStyles();
-    const theme = useTheme();
     const tableRef = createRef();
-    const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
-        defaultMatches: true
-    });
-    const [openSidebar, setOpenSidebar] = useState(false);
     const [columns, setColumns] = useState([]);
     const [table, setTable] = useState('statistical_user');
-    const [data, setData] = useState([]);
-    const [page, setPage] = useState(1);
-    const [total, setTotal] = useState(1);
-
-    const handleSidebarOpen = () => {
-        setOpenSidebar(true);
-    };
-
-    const handleSidebarClose = () => {
-        setOpenSidebar(false);
-    };
-
-    const shouldOpenSidebar = isDesktop ? true : openSidebar;
 
     const table_columns_data = {
         user_role: {
             name: t("角色表"),
-            url: 'user/role'
+            url: 'user/role/'
         },
         user_role_bind: {
             name: t("角色绑定表"),
-            url: 'user/role/bind'
+            url: 'user/role/bind/'
         },
         user_base: {
             name: t("基础用户表"),
-            url: 'user/base'
+            url: 'user/base/'
         },
         user_info: {
             name: t("用户信息表"),
-            url: 'user/info'
+            url: 'user/info/'
         },
         user_certification: {
             name: t("用户认证表"),
-            url: 'user/certification'
+            url: 'user/certification/'
         },
         statistical_data: {
             name: t("数据统计表"),
@@ -105,43 +85,43 @@ function Table({notice, setLoading}) {
         },
         statistical_user: {
             name: t("用户统计表"),
-            url: 'statistical/user'
+            url: 'statistical/user/'
         },
         file_upload: {
             name: t("上传文件表"),
-            url: 'file/upload'
+            url: 'file/upload/'
         },
         address_base: {
             name: t("基础地区表"),
-            url: 'address/base'
+            url: 'address/base/'
         },
         technical_achievements: {
             name: t("技术成果表"),
-            url: 'technical/achievements'
+            url: 'technical/achievements/'
         },
         technical_achievements_and_address_bind: {
             name: t("技术成果和地区绑定表"),
-            url: 'technical/achievements/address/bind'
+            url: 'technical/achievements/address/bind/'
         },
-        technical_achievements_and_classificaiton_bind: {
+        technical_achievements_and_classification_bind: {
             name: t("技术成果和分类绑定表"),
-            url: 'technical/achievements/classification/bind'
+            url: 'technical/achievements/classification/bind/'
         },
         technical_classification: {
             name: t("技术分类表"),
-            url: 'technical/classification'
+            url: 'technical/classification/'
         },
         technical_requirements: {
             name: t("技术需求表"),
-            url: 'technical/requirements'
+            url: 'technical/requirements/'
         },
         technical_requirements_and_address_bind: {
             name: t("技术需求和地区绑定表"),
-            url: 'technical/requirements/address/bind'
+            url: 'technical/requirements/address/bind/'
         },
-        technical_requirements_and_classificaiton_bind: {
+        technical_requirements_and_classification_bind: {
             name: t("技术需求和分类绑定表"),
-            url: 'technical/requirements/classification/bind'
+            url: 'technical/requirements/classification/bind/'
         },
         option: {
             add: 'save',
@@ -156,12 +136,11 @@ function Table({notice, setLoading}) {
     useEffect(() => {
         buildColumns();
         tableRef.current && tableRef.current.onQueryChange();
-    }, [table])
+    }, [table]);
 
     function buildColumns() {
-        let url = table_columns_data[table].url + '/admin/' + table_columns_data.option.attribute;
-        fetchGet(
-            url
+        getAttribute(
+            table_columns_data[table].url, {}
         ).then((json) => {
             const status = json['status'];
             if (fetchStatus(status)) {
@@ -205,11 +184,11 @@ function Table({notice, setLoading}) {
                         <MenuItem value="address_base">基础地区表</MenuItem>
                         <MenuItem value="technical_achievements">技术成果表</MenuItem>
                         <MenuItem value="technical_achievements_and_address_bind">技术成果和地区绑定表</MenuItem>
-                        <MenuItem value="technical_achievements_and_classificaiton_bind">技术成果和分类绑定表</MenuItem>
+                        <MenuItem value="technical_achievements_and_classification_bind">技术成果和分类绑定表</MenuItem>
                         <MenuItem value="technical_classification">技术分类表</MenuItem>
                         <MenuItem value="technical_requirements">技术需求表</MenuItem>
                         <MenuItem value="technical_requirements_and_address_bind">技术需求和地区绑定表</MenuItem>
-                        <MenuItem value="technical_requirements_and_classificaiton_bind">技术需求和分类绑定表</MenuItem>
+                        <MenuItem value="technical_requirements_and_classification_bind">技术需求和分类绑定表</MenuItem>
                     </Select>
                 </Grid>
                 <Grid item xs={12}>
@@ -239,11 +218,12 @@ function Table({notice, setLoading}) {
                             },
                         }}
                         data={query => new Promise((resolve, reject) => {
-                            let url = table_columns_data[table].url + '/admin/list';
-                            url += '?page=' + (query.page + 1);
-                            url += '&size=' + query.pageSize;
-                            fetchGet(
-                                url
+                            getAdminList(
+                                table_columns_data[table].url,
+                                {
+                                    page: query.page + 1,
+                                    size: query.pageSize,
+                                }
                             ).then((json) => {
                                 const status = json['status'];
                                 const data = json['objects'];
@@ -263,7 +243,10 @@ function Table({notice, setLoading}) {
                         title={table}
                         editable={{
                             onRowAdd: newData => new Promise(resolve => {
-                                fetchPost(table_columns_data[table].url + '/admin/save', newData).then((json) => {
+                                postAdminSave(
+                                    table_columns_data[table].url,
+                                    newData
+                                ).then((json) => {
                                     const status = json['status'];
                                     notice(t(fetchStatusAlert(status)), status);
                                     tableRef.current && tableRef.current.onQueryChange()
@@ -274,7 +257,10 @@ function Table({notice, setLoading}) {
                                 });
                             }),
                             onRowUpdate: (newData, oldData) => new Promise(resolve => {
-                                fetchPost(table_columns_data[table].url + '/admin/save', newData).then((json) => {
+                                postAdminSave(
+                                    table_columns_data[table].url,
+                                    newData
+                                ).then((json) => {
                                     const status = json['status'];
                                     notice(t(fetchStatusAlert(status)), status);
                                     tableRef.current && tableRef.current.onQueryChange()
@@ -285,9 +271,9 @@ function Table({notice, setLoading}) {
                                 });
                             }),
                             onRowDelete: oldData => new Promise(resolve => {
-                                let url = table_columns_data[table].url + '/admin/delete?id=' + oldData["id"];
-                                fetchGet(
-                                    url
+                                getAdminDelete(
+                                    table_columns_data[table].url,
+                                    {id: oldData["id"],}
                                 ).then((json) => {
                                     const status = json['status'];
                                     notice(t(fetchStatusAlert(status)), status);
@@ -327,5 +313,3 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.text.secondary,
     },
 }));
-
-export default Table;

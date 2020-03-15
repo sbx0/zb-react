@@ -1,15 +1,11 @@
 import React, {useState, useEffect} from 'react';
-
 import {useTranslation} from 'react-i18next';
 import "../../i18N/"
-
 import {
     Link as RouterLink,
     useParams
 } from "react-router-dom";
-
-import {fetchGet, fetchStatus, fetchStatusAlert} from "../../tools/Network";
-
+import {fetchStatus, fetchStatusAlert, getTechnicalAchievementOne} from "../../tools/Network";
 import ReactMarkdown from "react-markdown";
 import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/core/styles";
@@ -23,32 +19,6 @@ import tools from "../../tools/Utils";
 import ShowUser from "./ShowUser";
 import {Link} from "@material-ui/core";
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        flexGrow: 1,
-    },
-    paper: {
-        padding: theme.spacing(2),
-    },
-    image: {
-        margin: '0 auto',
-    },
-    img: {
-        margin: '0 auto',
-        display: 'block',
-        minWidth: 260,
-        maxWidth: '90vw',
-        maxHeight: 120,
-        objectFit: 'cover',
-    },
-    mt: {
-        marginTop: '10px'
-    },
-    mb: {
-        marginBottom: '10px'
-    }
-}));
-
 export default function TechnicalAchievementsOne({setLoading, notice}) {
     const classes = useStyles();
     const {t} = useTranslation();
@@ -58,10 +28,9 @@ export default function TechnicalAchievementsOne({setLoading, notice}) {
     });
 
     useEffect(() => {
-        let url = 'technical/achievements/one?id=' + id;
         setLoading(true);
-        fetchGet(
-            url
+        getTechnicalAchievementOne(
+            {id: id}
         ).then((json) => {
             const status = json['status'];
             if (fetchStatus(status)) {
@@ -184,3 +153,29 @@ export default function TechnicalAchievementsOne({setLoading, notice}) {
         </>
     );
 }
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        flexGrow: 1,
+    },
+    paper: {
+        padding: theme.spacing(2),
+    },
+    image: {
+        margin: '0 auto',
+    },
+    img: {
+        margin: '0 auto',
+        display: 'block',
+        minWidth: 260,
+        maxWidth: '90vw',
+        maxHeight: 120,
+        objectFit: 'cover',
+    },
+    mt: {
+        marginTop: '10px'
+    },
+    mb: {
+        marginBottom: '10px'
+    }
+}));

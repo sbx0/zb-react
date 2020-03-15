@@ -14,7 +14,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {fetchPost, fetchStatus, fetchStatusAlert, returnStatus} from "../../tools/Network";
+import {fetchStatus, fetchStatusAlert, postUserBaseLogin} from "../../tools/Network";
 
 export default function Login({setLoading, changeActive, notice}) {
     const {t, i18n} = useTranslation();
@@ -32,7 +32,7 @@ export default function Login({setLoading, changeActive, notice}) {
 
     async function submitData() {
         setLoading(true);
-        fetchPost('user/base/login', values).then((json) => {
+        postUserBaseLogin(values).then((json) => {
             setLoading(false);
             const status = json['status'];
             if (fetchStatus(status)) {

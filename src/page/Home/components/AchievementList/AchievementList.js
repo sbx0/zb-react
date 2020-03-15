@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import "../../../../i18N"
 
-import {fetchGet, fetchStatus, fetchStatusAlert} from '../../../../tools/Network';
+import {fetchGet, fetchStatus, fetchStatusAlert, getTechnicalAchievementList} from '../../../../tools/Network';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Grid from "@material-ui/core/Grid";
@@ -20,14 +20,12 @@ export default function AchievementList({loading, setLoading, notice}) {
     const [direction, setDirection] = useState('DESC');
 
     useEffect(() => {
-        let url = 'technical/achievements/list?page=' + page +
-            '&size=' + size +
-            '&attribute=id' +
-            '&direction=' + direction;
-        setLoading(true);
-        fetchGet(
-            url
-        ).then((json) => {
+        getTechnicalAchievementList({
+            page: page,
+            size: size,
+            attribute: 'id',
+            direction: direction,
+        }).then(json => {
             const status = json['status'];
             setTotalPage(json['total_pages']);
             if (fetchStatus(status)) {

@@ -1,12 +1,8 @@
-import React, {useState, forwardRef, useEffect, createRef} from 'react';
-
+import React, {forwardRef, createRef} from 'react';
 import {useTranslation} from 'react-i18next';
-import "../../i18N"
-
 import MaterialTable from "material-table";
-
+import ReactMarkdown from "react-markdown";
 import {makeStyles} from '@material-ui/core/styles';
-import {useMediaQuery, useTheme} from "@material-ui/core";
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
@@ -22,11 +18,17 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
-import {fetchGet, fetchStatus, fetchStatusAlert} from "../../tools/Network";
-import ReactMarkdown from "react-markdown";
 import Container from "@material-ui/core/Container";
 import CloseIcon from '@material-ui/icons/Close';
 import RefreshIcon from '@material-ui/icons/Refresh';
+
+import "../../i18N"
+import {
+    fetchStatus,
+    fetchStatusAlert,
+    getUserCertificationJudge,
+    getUserCertificationList
+} from "../../tools/Network";
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref}/>),
@@ -48,26 +50,10 @@ const tableIcons = {
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref}/>)
 };
 
-
-function Review({notice, setLoading}) {
+export default function Review({notice}) {
     const {t} = useTranslation();
     const classes = useStyles();
-    const theme = useTheme();
     const tableRef = createRef();
-    const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
-        defaultMatches: true
-    });
-    const [openSidebar, setOpenSidebar] = useState(false);
-
-    const handleSidebarOpen = () => {
-        setOpenSidebar(true);
-    };
-
-    const handleSidebarClose = () => {
-        setOpenSidebar(false);
-    };
-
-    const shouldOpenSidebar = isDesktop ? true : openSidebar;
 
     return (
         <div className={classes.container}>
@@ -106,12 +92,11 @@ function Review({notice, setLoading}) {
                 }}
                 data={query =>
                     new Promise((resolve, reject) => {
-                        let url = 'user/certification/list?status=0';
-                        url += '&page=' + (query.page + 1)
-                        url += '&size=' + query.pageSize
-                        fetchGet(
-                            url
-                        ).then((json) => {
+                        getUserCertificationList({
+                            page: query.page + 1,
+                            size: query.pageSize,
+                            status: 0,
+                        }).then((json) => {
                             const status = json['status'];
                             const data = json['objects'];
                             if (fetchStatus(status)) {
@@ -141,11 +126,10 @@ function Review({notice, setLoading}) {
                         icon: () => <Check/>,
                         tooltip: t("通过"),
                         onClick: (event, rowData) => {
-                            console.log(rowData)
-                            let url = 'user/certification/judge?id=' + rowData.id + "&status=1";
-                            fetchGet(
-                                url
-                            ).then((json) => {
+                            getUserCertificationJudge({
+                                id: rowData.id,
+                                status: 1,
+                            }).then((json) => {
                                 const status = json['status'];
                                 notice(t(fetchStatusAlert(status)), status);
                                 tableRef.current && tableRef.current.onQueryChange()
@@ -158,11 +142,10 @@ function Review({notice, setLoading}) {
                         icon: () => <CloseIcon/>,
                         tooltip: t("驳回"),
                         onClick: (event, rowData) => {
-                            console.log(rowData)
-                            let url = 'user/certification/judge?id=' + rowData.id + "&status=-1";
-                            fetchGet(
-                                url
-                            ).then((json) => {
+                            getUserCertificationJudge({
+                                id: rowData.id,
+                                status: -1,
+                            }).then((json) => {
                                 const status = json['status'];
                                 notice(t(fetchStatusAlert(status)), status);
                                 tableRef.current && tableRef.current.onQueryChange()
@@ -211,5 +194,3 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.text.secondary,
     },
 }));
-
-export default Review;

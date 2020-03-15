@@ -1,23 +1,24 @@
 import React from 'react';
-
 import {
-    LineChart,
-    PieChart,
-} from "./components"
-import {Card, CardContent, CardHeader, Divider, makeStyles} from "@material-ui/core";
-import {useTranslation} from "react-i18next";
-import Grid from "@material-ui/core/Grid";
-import {useHistory} from "react-router-dom";
+    getTechnicalAchievementCount,
+    getUserActiveCount,
+} from "../../tools/Network";
 import SmallDataCard from "../../admin/Main/components/SmallDataCard/SmallDataCard";
-import ShowCard from "./components/ShowCard/ShowCard";
 import AchievementList from "./components/AchievementList/AchievementList";
-import ButtonBase from "@material-ui/core/ButtonBase";
-import SchoolIcon from '@material-ui/icons/School';
-import BusinessIcon from '@material-ui/icons/Business';
-import GroupIcon from '@material-ui/icons/Group';
-import PersonIcon from '@material-ui/icons/Person';
+import {
+    useTranslation,
+} from "react-i18next";
+import {
+    useHistory,
+} from "react-router-dom";
+import {
+    Card,
+    CardHeader,
+    makeStyles,
+    Grid,
+} from "@material-ui/core";
 
-function Home({notice, loading, setLoading}) {
+export default function Home({notice, loading, setLoading}) {
     const {t} = useTranslation();
     let history = useHistory();
     const classes = useStyles();
@@ -33,11 +34,9 @@ function Home({notice, loading, setLoading}) {
                     }}
                 >
                     <SmallDataCard
-                        icon={<SchoolIcon className={classes.icon}/>}
                         title={'技术成果'}
-                        url={'technical/achievements/count'}
+                        fetch={getTechnicalAchievementCount}
                         notice={notice}
-                        setLoading={setLoading}
                     />
                 </Grid>
                 <Grid
@@ -45,11 +44,9 @@ function Home({notice, loading, setLoading}) {
                     xs={3}
                 >
                     <SmallDataCard
-                        icon={<BusinessIcon className={classes.icon}/>}
                         title={'技术需求'}
-                        url={'user/base/active'}
+                        fetch={getUserActiveCount}
                         notice={notice}
-                        setLoading={setLoading}
                     />
                 </Grid>
                 <Grid
@@ -57,11 +54,9 @@ function Home({notice, loading, setLoading}) {
                     xs={3}
                 >
                     <SmallDataCard
-                        icon={<GroupIcon className={classes.icon}/>}
                         title={'在线合作'}
-                        url={'user/base/active'}
+                        fetch={getUserActiveCount}
                         notice={notice}
-                        setLoading={setLoading}
                     />
                 </Grid>
                 <Grid
@@ -69,11 +64,9 @@ function Home({notice, loading, setLoading}) {
                     xs={3}
                 >
                     <SmallDataCard
-                        icon={<PersonIcon className={classes.icon}/>}
                         title={'在线人数'}
-                        url={'user/base/active'}
+                        fetch={getUserActiveCount}
                         notice={notice}
-                        setLoading={setLoading}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -113,5 +106,3 @@ const useStyles = makeStyles((theme) => ({
         margin: '5px auto',
     },
 }));
-
-export default Home;
