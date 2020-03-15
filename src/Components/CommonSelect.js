@@ -13,6 +13,7 @@ import tools from "../tools/Utils";
 
 export default function CommonSelect(
     {
+        para,
         active,
         selected,
         setSelected,
@@ -23,31 +24,28 @@ export default function CommonSelect(
 ) {
     const {t, i18n} = useTranslation();
     const classes = useStyles();
-    const [options, setOptions] = useState([
-        {value: 0, name: "加载中"}
-    ]);
+    const [options, setOptions] = useState([]);
 
     const handleChange = event => {
         setSelected(event.target.value);
     };
 
     useEffect(() => {
-        let cache = JSON.parse(localStorage.getItem(url));
-        if (cache != null && cache.length > 0) {
-            setOptions(cache);
-            let colck = setInterval(() => {
-            }, 100);
-            clearInterval(colck);
-        } else {
-            fetchGet(url).then((json) => {
-                const status = json['status'];
-                if (fetchStatus(status)) {
-                    setOptions(json["objects"]);
-                    localStorage.setItem(url, JSON.stringify(json["objects"]));
-                }
-            }).catch((error) => {
-                notice(error.toString(), -1);
-            });
+        if (para != '') {
+            let cache = JSON.parse(localStorage.getItem(url));
+            if (cache != null && cache.length > 0) {
+                setOptions(cache);
+            } else {
+                fetchGet(url).then((json) => {
+                    const status = json['status'];
+                    if (fetchStatus(status)) {
+                        setOptions(json["objects"]);
+                        localStorage.setItem(url, JSON.stringify(json["objects"]));
+                    }
+                }).catch((error) => {
+                    notice(error.toString(), -1);
+                });
+            }
         }
     }, [active]);
 

@@ -30,6 +30,7 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
+import Grid from "@material-ui/core/Grid";
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref}/>),
@@ -190,119 +191,125 @@ function Table({notice, setLoading}) {
 
     return (
         <div className={classes.container}>
-            <Select value={table} onChange={handleChange}>
-                <MenuItem value="user_role">角色表</MenuItem>
-                <MenuItem value="user_role_bind">角色绑定表</MenuItem>
-                <MenuItem value="user_base">基础用户表</MenuItem>
-                <MenuItem value="user_info">用户信息表</MenuItem>
-                <MenuItem value="user_certification">用户认证表</MenuItem>
-                <MenuItem value="statistical_data">数据统计表</MenuItem>
-                <MenuItem value="statistical_user">用户统计表</MenuItem>
-                <MenuItem value="file_upload">上传文件表</MenuItem>
-                <MenuItem value="address_base">基础地区表</MenuItem>
-                <MenuItem value="technical_achievements">技术成果表</MenuItem>
-                <MenuItem value="technical_achievements_and_address_bind">技术成果和地区绑定表</MenuItem>
-                <MenuItem value="technical_achievements_and_classificaiton_bind">技术成果和分类绑定表</MenuItem>
-                <MenuItem value="technical_classification">技术分类表</MenuItem>
-                <MenuItem value="technical_requirements">技术需求表</MenuItem>
-                <MenuItem value="technical_requirements_and_address_bind">技术需求和地区绑定表</MenuItem>
-                <MenuItem value="technical_requirements_and_classificaiton_bind">技术需求和分类绑定表</MenuItem>
-            </Select>
-            <MaterialTable
-                icons={tableIcons}
-                tableRef={tableRef}
-                columns={columns}
-                localization={{
-                    header: {
-                        actions: t("操作")
-                    },
-                    toolbar: {
-                        searchTooltip: t("搜索"),
-                        searchPlaceholder: t("搜索"),
-                    },
-                    pagination: {
-                        labelRowsSelect: t("行"),
-                        firstAriaLabel: t("首页"),
-                        firstTooltip: t("首页"),
-                        previousAriaLabel: t("上一页"),
-                        previousTooltip: t("上一页"),
-                        nextAriaLabel: t("下一页"),
-                        nextTooltip: t("下一页"),
-                        lastAriaLabel: t("末页"),
-                        lastTooltip: t("末页"),
-                        labelDisplayedRows: '{from}-{to} / {count}',
-                    },
-                }}
-                data={query => new Promise((resolve, reject) => {
-                    let url = table_columns_data[table].url + '/admin/list';
-                    url += '?page=' + (query.page + 1);
-                    url += '&size=' + query.pageSize;
-                    fetchGet(
-                        url
-                    ).then((json) => {
-                        const status = json['status'];
-                        const data = json['objects'];
-                        if (fetchStatus(status)) {
-                            resolve({
-                                data: data,
-                                page: json['page'] - 1,
-                                totalCount: json['total_elements'],
+            <Grid container spacing={1}>
+                <Grid item xs={12}>
+                    <Select value={table} onChange={handleChange}>
+                        <MenuItem value="user_role">角色表</MenuItem>
+                        <MenuItem value="user_role_bind">角色绑定表</MenuItem>
+                        <MenuItem value="user_base">基础用户表</MenuItem>
+                        <MenuItem value="user_info">用户信息表</MenuItem>
+                        <MenuItem value="user_certification">用户认证表</MenuItem>
+                        <MenuItem value="statistical_data">数据统计表</MenuItem>
+                        <MenuItem value="statistical_user">用户统计表</MenuItem>
+                        <MenuItem value="file_upload">上传文件表</MenuItem>
+                        <MenuItem value="address_base">基础地区表</MenuItem>
+                        <MenuItem value="technical_achievements">技术成果表</MenuItem>
+                        <MenuItem value="technical_achievements_and_address_bind">技术成果和地区绑定表</MenuItem>
+                        <MenuItem value="technical_achievements_and_classificaiton_bind">技术成果和分类绑定表</MenuItem>
+                        <MenuItem value="technical_classification">技术分类表</MenuItem>
+                        <MenuItem value="technical_requirements">技术需求表</MenuItem>
+                        <MenuItem value="technical_requirements_and_address_bind">技术需求和地区绑定表</MenuItem>
+                        <MenuItem value="technical_requirements_and_classificaiton_bind">技术需求和分类绑定表</MenuItem>
+                    </Select>
+                </Grid>
+                <Grid item xs={12}>
+                    <MaterialTable
+                        icons={tableIcons}
+                        tableRef={tableRef}
+                        columns={columns}
+                        localization={{
+                            header: {
+                                actions: t("操作")
+                            },
+                            toolbar: {
+                                searchTooltip: t("搜索"),
+                                searchPlaceholder: t("搜索"),
+                            },
+                            pagination: {
+                                labelRowsSelect: t("行"),
+                                firstAriaLabel: t("首页"),
+                                firstTooltip: t("首页"),
+                                previousAriaLabel: t("上一页"),
+                                previousTooltip: t("上一页"),
+                                nextAriaLabel: t("下一页"),
+                                nextTooltip: t("下一页"),
+                                lastAriaLabel: t("末页"),
+                                lastTooltip: t("末页"),
+                                labelDisplayedRows: '{from}-{to} / {count}',
+                            },
+                        }}
+                        data={query => new Promise((resolve, reject) => {
+                            let url = table_columns_data[table].url + '/admin/list';
+                            url += '?page=' + (query.page + 1);
+                            url += '&size=' + query.pageSize;
+                            fetchGet(
+                                url
+                            ).then((json) => {
+                                const status = json['status'];
+                                const data = json['objects'];
+                                if (fetchStatus(status)) {
+                                    resolve({
+                                        data: data,
+                                        page: json['page'] - 1,
+                                        totalCount: json['total_elements'],
+                                    });
+                                } else {
+                                    notice(t(fetchStatusAlert(status)), status);
+                                }
+                            }).catch((error) => {
+                                notice(error.toString(), -1);
                             });
-                        } else {
-                            notice(t(fetchStatusAlert(status)), status);
-                        }
-                    }).catch((error) => {
-                        notice(error.toString(), -1);
-                    });
-                })}
-                title={table}
-                editable={{
-                    onRowAdd: newData => new Promise(resolve => {
-                        fetchPost(table_columns_data[table].url + '/admin/save', newData).then((json) => {
-                            const status = json['status'];
-                            notice(t(fetchStatusAlert(status)), status);
-                            tableRef.current && tableRef.current.onQueryChange()
-                        }).catch((error) => {
-                            notice(error.toString(), -1);
-                        }).finally(() => {
-                            resolve();
-                        });
-                    }),
-                    onRowUpdate: (newData, oldData) => new Promise(resolve => {
-                        fetchPost(table_columns_data[table].url + '/admin/save', newData).then((json) => {
-                            const status = json['status'];
-                            notice(t(fetchStatusAlert(status)), status);
-                            tableRef.current && tableRef.current.onQueryChange()
-                        }).catch((error) => {
-                            notice(error.toString(), -1);
-                        }).finally(() => {
-                            resolve();
-                        });
-                    }),
-                    onRowDelete: oldData => new Promise(resolve => {
-                        let url = table_columns_data[table].url + '/admin/delete?id=' + oldData["id"];
-                        fetchGet(
-                            url
-                        ).then((json) => {
-                            const status = json['status'];
-                            notice(t(fetchStatusAlert(status)), status);
-                            tableRef.current && tableRef.current.onQueryChange()
-                        }).catch((error) => {
-                            notice(error.toString(), -1);
-                        }).finally(() => {
-                            resolve();
-                        });
-                    }),
-                }}
-                actions={[
-                    {
-                        icon: () => <RefreshIcon/>,
-                        tooltip: t("刷新"),
-                        isFreeAction: true,
-                        onClick: () => tableRef.current && tableRef.current.onQueryChange(),
-                    }
-                ]}
-            />
+                        })}
+                        title={table}
+                        editable={{
+                            onRowAdd: newData => new Promise(resolve => {
+                                fetchPost(table_columns_data[table].url + '/admin/save', newData).then((json) => {
+                                    const status = json['status'];
+                                    notice(t(fetchStatusAlert(status)), status);
+                                    tableRef.current && tableRef.current.onQueryChange()
+                                }).catch((error) => {
+                                    notice(error.toString(), -1);
+                                }).finally(() => {
+                                    resolve();
+                                });
+                            }),
+                            onRowUpdate: (newData, oldData) => new Promise(resolve => {
+                                fetchPost(table_columns_data[table].url + '/admin/save', newData).then((json) => {
+                                    const status = json['status'];
+                                    notice(t(fetchStatusAlert(status)), status);
+                                    tableRef.current && tableRef.current.onQueryChange()
+                                }).catch((error) => {
+                                    notice(error.toString(), -1);
+                                }).finally(() => {
+                                    resolve();
+                                });
+                            }),
+                            onRowDelete: oldData => new Promise(resolve => {
+                                let url = table_columns_data[table].url + '/admin/delete?id=' + oldData["id"];
+                                fetchGet(
+                                    url
+                                ).then((json) => {
+                                    const status = json['status'];
+                                    notice(t(fetchStatusAlert(status)), status);
+                                    tableRef.current && tableRef.current.onQueryChange()
+                                }).catch((error) => {
+                                    notice(error.toString(), -1);
+                                }).finally(() => {
+                                    resolve();
+                                });
+                            }),
+                        }}
+                        actions={[
+                            {
+                                icon: () => <RefreshIcon/>,
+                                tooltip: t("刷新"),
+                                isFreeAction: true,
+                                onClick: () => tableRef.current && tableRef.current.onQueryChange(),
+                            }
+                        ]}
+                    />
+                </Grid>
+            </Grid>
         </div>
     );
 }

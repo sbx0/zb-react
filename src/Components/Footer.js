@@ -12,6 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
 
 export default function Footer() {
     const {t} = useTranslation();
@@ -19,8 +20,8 @@ export default function Footer() {
     let history = useHistory();
 
     return (
-        <div className={classes.div}>
-            <Divider variant="middle"/>
+        <Box>
+            <Divider variant="middle" className={classes.divider}/>
             <Grid
                 container
                 justify="center"
@@ -28,27 +29,19 @@ export default function Footer() {
                 align="center"
                 className={classes.divider}
             >
-                <Typography variant="caption" gutterBottom display="block" color="textSecondary">
+                <Typography variant="caption" display="block" color="textSecondary">
                     {t("智贝")} 2019 - 2020<br/>
                     {t("版本")} {global.dev_version}<br/>
                     Power By React<br/>
                     <LanguageSelect/>
                 </Typography>
             </Grid>
-        </div>
+        </Box>
     );
 }
 
 const useStyles = makeStyles(() => ({
-    div: {
-        flexGrow: 1,
-        margin: 10,
-    },
-    center: {
-        paddingTop: 10,
-    },
     divider: {
         marginTop: 10,
-        marginBottom: 10,
     },
 }));

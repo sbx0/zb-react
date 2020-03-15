@@ -19,6 +19,13 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 
 import SmallDataCard from "./components/SmallDataCard/SmallDataCard";
+import Button from "@material-ui/core/Button";
+import SchoolIcon from "@material-ui/icons/School";
+import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
+import TableChartIcon from "@material-ui/icons/TableChart";
+import {Card, CardContent, CardHeader, Divider} from "@material-ui/core";
+import LineChart from "../../page/Home/components/LineChart";
+import PieChart from "../../page/Home/components/PieChart";
 
 function Main({notice, setLoading}) {
     const {t} = useTranslation();
@@ -66,24 +73,111 @@ function Main({notice, setLoading}) {
                     </Grid>
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={6} md={4} lg={3}>
-                            <Paper
-                                className={classes.paper}
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                className={classes.button}
+                                startIcon={<VerifiedUserIcon/>}
                                 onClick={() => {
                                     history.push("/admin/review")
                                 }}
+                                fullWidth
+                                size="large"
                             >
                                 {t("认证审核")}
-                            </Paper>
+                            </Button>
                         </Grid>
                         <Grid item xs={12} sm={6} md={4} lg={3}>
-                            <Paper
-                                className={classes.paper}
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                className={classes.button}
+                                startIcon={<TableChartIcon/>}
                                 onClick={() => {
                                     history.push("/admin/table")
                                 }}
+                                fullWidth
+                                size="large"
                             >
                                 {t("通用后台管理")}
-                            </Paper>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                    <Grid
+                        container
+                        spacing={1}
+                    >
+                        <Grid item sm={6} xs={12}>
+                            <Card>
+                                <CardHeader
+                                    subheader={t("每天更新")}
+                                    title={t("技术成果数")}
+                                />
+                                <Divider/>
+                                <CardContent>
+                                    <LineChart
+                                        notice={notice}
+                                        day={30}
+                                        kind="technicalAchievementsCount"
+                                        group="per_day"
+                                        referenceValue={0}
+                                    />
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                        <Grid item sm={6} xs={12}>
+                            <Card>
+                                <CardHeader
+                                    subheader={t("每小时更新")}
+                                    title={t("访问量")}
+                                />
+                                <Divider/>
+                                <CardContent>
+                                    <LineChart
+                                        notice={notice}
+                                        day={30}
+                                        kind="view"
+                                        group="per_hour"
+                                        referenceValue={0}
+                                    />
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                        <Grid item sm={6} xs={12}>
+                            <Card>
+                                <CardHeader
+                                    subheader={t("每小时更新")}
+                                    title={t("活跃数")}
+                                />
+                                <Divider/>
+                                <CardContent>
+                                    <LineChart
+                                        notice={notice}
+                                        day={30}
+                                        kind="active"
+                                        group="per_hour"
+                                        referenceValue={0}
+                                    />
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                        <Grid item sm={6} xs={12}>
+                            <Card>
+                                <CardHeader
+                                    subheader={t("统计访问用户所使用的客户端")}
+                                    title={t("终端")}
+                                />
+                                <Divider/>
+                                <CardContent>
+                                    <PieChart
+                                        notice={notice}
+                                        day={30}
+                                        kind="active"
+                                        group="per_hour"
+                                        referenceValue={0}
+                                    />
+                                </CardContent>
+                            </Card>
                         </Grid>
                     </Grid>
                 </Route>

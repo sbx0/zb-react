@@ -25,13 +25,13 @@ export default function PostAchievements({setLoading, notice}) {
     let history = useHistory();
     let location = useLocation();
     const [material, setMaterial] = useState('这里简单介绍你的技术成果');
-    const [maturity, setMaturity] = useState(-1);
-    const [country, setCountry] = useState(-1);
-    const [province, setProvince] = useState(-1);
-    const [city, setCity] = useState(-1);
-    const [cooperationMethod, setCooperationMethod] = useState(-1);
-    const [classificationOne, setClassificationOne] = useState(-1);
-    const [classificationTwo, setClassificationTwo] = useState(-1);
+    const [maturity, setMaturity] = useState('');
+    const [country, setCountry] = useState('');
+    const [province, setProvince] = useState('');
+    const [city, setCity] = useState('');
+    const [cooperationMethod, setCooperationMethod] = useState('');
+    const [classificationOne, setClassificationOne] = useState('');
+    const [classificationTwo, setClassificationTwo] = useState('');
     const [classificationTwoActive, setClassificationTwoActive] = useState(false);
     const [provinceActive, setProvinceActive] = useState(false);
     const [cityActive, setCityActive] = useState(false);
@@ -87,7 +87,6 @@ export default function PostAchievements({setLoading, notice}) {
     }, [material]);
 
     useEffect(() => {
-        console.log(values)
     }, [values]);
 
     const handleChange = (name) => (event) => {

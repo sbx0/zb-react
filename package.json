@@ -1,6 +1,6 @@
 {
   "name": "zb-react",
-  "version": "0.0.32",
+  "version": "0.0.33",
   "private": true,
   "dependencies": {
     "@babel/core": "7.7.4",

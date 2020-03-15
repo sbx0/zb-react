@@ -17,6 +17,7 @@ import {ArrowDownward, Money} from "@material-ui/icons";
 import Card from "@material-ui/core/Card";
 import Badge from '@material-ui/core/Badge';
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import ButtonBase from "@material-ui/core/ButtonBase";
 
 export default function SmallDataCard({icon, title, url, notice, setLoading}) {
     const classes = useStyles();
@@ -42,75 +43,40 @@ export default function SmallDataCard({icon, title, url, notice, setLoading}) {
 
     return (
         <Card>
-            <CardContent>
-                <Grid
-                    container
-                    justify="space-between"
-                    alignContent={'center'}
-                >
-                    <Grid item>
-                        <Typography
-                            className={classes.title}
-                            color="textSecondary"
-                            gutterBottom
-                            variant="body2"
-                        >
-                            {t(title)}
-                        </Typography>
-                    </Grid>
-                    <Grid item>
-                        <div className={classes.paper}>
-                            <Badge
-                                badgeContent={data}
-                                color="default"
-                            >
-                                <Avatar className={classes.avatar}>
-                                    {icon}
-                                </Avatar>
-                            </Badge>
-                        </div>
-                    </Grid>
+            <Grid
+                container
+                justify="center"
+                alignContent={'center'}
+                spacing={0}
+            >
+                <Grid item xs={12}>
+                    <Typography
+                        color="textSecondary"
+                        variant="body2"
+                        align={'center'}
+                        className={classes.fullWidth}
+                    >
+                        {t(title)}
+                    </Typography>
                 </Grid>
-            </CardContent>
+                <Grid item xs={12}>
+                    <Typography
+                        color="textPrimary"
+                        variant="h5"
+                        align={'center'}
+                        className={classes.fullWidth}
+                    >
+                        {data}
+                    </Typography>
+                </Grid>
+            </Grid>
         </Card>
     );
 }
 
 const useStyles = makeStyles(theme => ({
-    paper: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    root: {
-        height: '100%'
-    },
-    content: {
-        alignItems: 'center',
-        display: 'flex'
-    },
-    title: {
-        fontWeight: 700
-    },
-    avatar: {
-        backgroundColor: theme.palette.primary.main,
-        height: 55,
-        width: 55
-    },
-    icon: {
-        height: 42,
-        width: 42
-    },
-    difference: {
-        marginTop: theme.spacing(2),
-        display: 'flex',
-        alignItems: 'center'
-    },
-    differenceIcon: {
-        color: theme.palette.error.dark
-    },
-    differenceValue: {
-        color: theme.palette.error.dark,
-        marginRight: theme.spacing(1)
+    fullWidth: {
+        dispaly: 'block',
+        width: '100%'
     }
 }));

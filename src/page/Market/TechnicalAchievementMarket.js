@@ -41,6 +41,7 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
     const [maturity, setMaturity] = useState('');
     const [cooperationMethod, setCooperationMethod] = useState('');
     const [active, setActive] = useState(false);
+    const [lock, setLock] = useState(true);
 
     function classificationSelect(id) {
         let url = 'technical/classification/sonToFather?sonId=' + id;
@@ -92,6 +93,10 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
             } else if (map[0] == 'addressId') {
                 setAddressId(map[1]);
                 addressSelect(map[1]);
+            } else if (map[0] == 'maturityId') {
+                setMaturity(map[1]);
+            } else if (map[0] == 'cooperationMethodId') {
+                setCooperationMethod(map[1]);
             }
         }
         setActive(true);
@@ -100,33 +105,38 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
     useEffect(() => {
         setClassificationTwoActive(!classificationTwoActive);
         if (classificationOne !== '') {
-            setClassificationId(classificationOne);
+            if (!lock)
+                setClassificationId(classificationOne);
         }
     }, [classificationOne]);
 
     useEffect(() => {
         if (classificationTwo !== '') {
-            setClassificationId(classificationTwo);
+            if (!lock)
+                setClassificationId(classificationTwo);
         }
     }, [classificationTwo]);
 
     useEffect(() => {
         if (country !== '') {
-            setAddressId(country);
             setProvinceActive(!provinceActive);
+            if (!lock)
+                setAddressId(country);
         }
     }, [country]);
 
     useEffect(() => {
         if (province !== '') {
-            setAddressId(province);
             setCityActive(!cityActive);
+            if (!lock)
+                setAddressId(province);
         }
     }, [province]);
 
     useEffect(() => {
         if (city !== '') {
-            setAddressId(city);
+            if (!lock)
+                setAddressId(city);
         }
     }, [city]);
 
@@ -155,6 +165,7 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                             <Grid container>
                                 <Grid item xs={4}>
                                     <CommonSelect
+                                        para={'father'}
                                         url={'/address/base/father'}
                                         title={'国家'}
                                         notice={notice}
@@ -164,6 +175,7 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                                 </Grid>
                                 <Grid item xs={4}>
                                     <CommonSelect
+                                        para={country}
                                         url={'/address/base/son?fatherId=' + country}
                                         active={provinceActive}
                                         title={'省'}
@@ -174,6 +186,7 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                                 </Grid>
                                 <Grid item xs={4}>
                                     <CommonSelect
+                                        para={province}
                                         url={'/address/base/son?fatherId=' + province}
                                         active={cityActive}
                                         title={'市'}
@@ -199,6 +212,7 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                             <Grid container>
                                 <Grid item xs={6}>
                                     <CommonSelect
+                                        para={'father'}
                                         url={'/technical/classification/father'}
                                         title={'技术分类1级'}
                                         notice={notice}
@@ -208,6 +222,7 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <CommonSelect
+                                        para={classificationOne}
                                         url={'/technical/classification/son?fatherId=' + classificationOne}
                                         title={'技术分类2级'}
                                         active={classificationTwoActive}
@@ -233,6 +248,7 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                             <Grid container>
                                 <Grid item xs={6}>
                                     <CommonSelect
+                                        para={'list'}
                                         url={'/technical/achievements/maturity/list'}
                                         title={'成熟度'}
                                         notice={notice}
@@ -242,6 +258,7 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                                 </Grid>
                                 <Grid item xs={6}>
                                     <CommonSelect
+                                        para={'list'}
                                         url={'/technical/achievements/cooperationMethod/list'}
                                         title={'合作方式'}
                                         notice={notice}
@@ -255,6 +272,7 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
                 </Grid>
                 <Grid item xs={12}>
                     <TechnicalAchievementList
+                        setLock={setLock}
                         active={active}
                         maturity={maturity}
                         cooperationMethod={cooperationMethod}

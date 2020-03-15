@@ -22,7 +22,8 @@ const useStyles = makeStyles(theme => ({
     img: {
         margin: '0 auto',
         display: 'block',
-        minWidth: 370,
+        minWidth: 260,
+        maxWidth: '80vw',
         maxHeight: 120,
         objectFit: 'cover',
     },

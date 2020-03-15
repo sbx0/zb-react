@@ -9,7 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import Pagination from "@material-ui/lab/Pagination";
 import ShowCard from "../Home/components/ShowCard/ShowCard";
 
-export default function TechnicalAchievementList({active, maturity, cooperationMethod, addressId, classificationId, loading, setLoading, notice}) {
+export default function TechnicalAchievementList({setLock, active, maturity, cooperationMethod, addressId, classificationId, loading, setLoading, notice}) {
     const {t, i18n} = useTranslation();
     const classes = useStyles();
     const [objects, setObjects] = useState([]);
@@ -20,10 +20,6 @@ export default function TechnicalAchievementList({active, maturity, cooperationM
 
     useEffect(() => {
         if (active) {
-            if (classificationId == null) classificationId = '';
-            if (addressId == null) addressId = '';
-            if (cooperationMethod == null) cooperationMethod = -1;
-            if (maturity == null) maturity = -1;
             let url = 'technical/achievements/mybatis/list?page=' + page +
                 '&size=' + size +
                 '&addressId=' + addressId +
@@ -38,6 +34,7 @@ export default function TechnicalAchievementList({active, maturity, cooperationM
                 setTotalPage(json['total_pages']);
                 if (fetchStatus(status)) {
                     setObjects(json['objects']);
+                    setLock(false);
                 } else {
                     notice(t(fetchStatusAlert(status)), status);
                 }

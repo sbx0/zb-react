@@ -4,6 +4,7 @@ import {useTranslation} from 'react-i18next';
 import "../../i18N/"
 
 import {
+    Link as RouterLink,
     useParams
 } from "react-router-dom";
 
@@ -20,6 +21,7 @@ import ShowClassification from "./ShowClassification";
 import Divider from "@material-ui/core/Divider";
 import tools from "../../tools/Utils";
 import ShowUser from "./ShowUser";
+import {Link} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -27,8 +29,6 @@ const useStyles = makeStyles(theme => ({
     },
     paper: {
         padding: theme.spacing(2),
-        margin: 'auto',
-        maxWidth: 500,
     },
     image: {
         margin: '0 auto',
@@ -36,7 +36,8 @@ const useStyles = makeStyles(theme => ({
     img: {
         margin: '0 auto',
         display: 'block',
-        minWidth: 370,
+        minWidth: 260,
+        maxWidth: '90vw',
         maxHeight: 120,
         objectFit: 'cover',
     },
@@ -133,7 +134,13 @@ export default function TechnicalAchievementsOne({setLoading, notice}) {
                                 color="textSecondary"
                                 align="center"
                             >
-                                {object['maturity']}
+                                <Link
+                                    component={RouterLink}
+                                    to={'/market/technical/achievements/maturityId:' + object['maturityId']}
+                                    color={'textSecondary'}
+                                >
+                                    {object['maturity'] != null ? object['maturity'] : '加载中'}
+                                </Link>
                             </Typography>
                         </Grid>
                         <Grid item xs={6}>
@@ -142,15 +149,25 @@ export default function TechnicalAchievementsOne({setLoading, notice}) {
                                 color="textSecondary"
                                 align="center"
                             >
-                                {object['cooperationMethod']}
+                                <Link
+                                    component={RouterLink}
+                                    to={'/market/technical/achievements/cooperationMethodId:' + object['cooperationMethodId']}
+                                    color={'textSecondary'}
+                                >
+                                    {object['cooperationMethod'] != null ? object['cooperationMethod'] : '加载中'}
+                                </Link>
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <Paper>
-                                <ReactMarkdown
-                                    source={object['context']}
-                                    escapeHtml={true}
-                                />
+                            <Paper variant={'outlined'} className={classes.paper}>
+                                <Grid container spacing={1}>
+                                    <Grid item xs={12}>
+                                        <ReactMarkdown
+                                            source={object['context']}
+                                            escapeHtml={true}
+                                        />
+                                    </Grid>
+                                </Grid>
                             </Paper>
                         </Grid>
                         <Grid item xs={12}>
