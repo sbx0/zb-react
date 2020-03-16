@@ -7,7 +7,7 @@ import {
     useParams
 } from "react-router-dom";
 
-import {fetchGet, fetchStatus, fetchStatusAlert} from "../../tools/Network";
+import {fetchStatus, fetchStatusAlert, getDemandNormal} from "../../tools/Network";
 
 import ReactMarkdown from "react-markdown";
 import Typography from "@material-ui/core/Typography";
@@ -18,10 +18,9 @@ export default function DemandDetail({setLoading, notice}) {
     const [demand, setDemand] = useState({});
 
     useEffect(() => {
-        let url = 'demand/normal?id=' + id;
         setLoading(true);
-        fetchGet(
-            url
+        getDemandNormal(
+            {id: id}
         ).then((json) => {
             const status = json['status'];
             if (fetchStatus(status)) {

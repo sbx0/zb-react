@@ -4,7 +4,7 @@ import "../../i18N/i18N"
 
 import i18N from '../../i18N/i18N_zh_CN';
 import tools from '../../tools/Utils';
-import {fetchGet, fetchStatus, fetchStatusAlert} from '../../tools/Network';
+import {fetchStatus, fetchStatusAlert} from '../../tools/Network';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Grid from "@material-ui/core/Grid";
@@ -26,31 +26,27 @@ export default function DemandList({loading, setLoading, notice}) {
     const [direction, setDirection] = useState(i18N.common.fetch.direction);
 
     useEffect(() => {
-        let url = 'demand/normal/list?page=' + (page + 1) +
-            '&size=' + size +
-            '&attribute=time' +
-            '&direction=' + direction;
-        let cache = JSON.parse(localStorage.getItem(url + tools.cacheTimeStamp(1)));
-        if (cache != null && cache.length > 0) setDemands(cache);
-        else {
-            setLoading(true);
-            fetchGet(
-                url
-            ).then((json) => {
-                const status = json['status'];
-                setTotalPage(json['totalPage']);
-                if (fetchStatus(status)) {
-                    setDemands(json.objects);
-                    localStorage.setItem(url + tools.cacheTimeStamp(1), JSON.stringify(json.objects));
-                } else {
-                    notice(t(fetchStatusAlert(status)), status);
-                }
-                setLoading(false);
-            }).catch((error) => {
-                notice(error.toString(), -1);
-                setLoading(false);
-            });
-        }
+        setLoading(true);
+        getDemandNormalList(
+            {
+                page: page + 1,
+                size: size,
+                attribute: 'time',
+                direction: direction,
+            }
+        ).then((json) => {
+            const status = json['status'];
+            setTotalPage(json['totalPage']);
+            if (fetchStatus(status)) {
+                setDemands(json.objects);
+            } else {
+                notice(t(fetchStatusAlert(status)), status);
+            }
+            setLoading(false);
+        }).catch((error) => {
+            notice(error.toString(), -1);
+            setLoading(false);
+        });
     }, [page, size, direction]);
 
     // function load() {

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import "../i18N"
-import {fetchGet, fetchStatus, fetchStatusAlert} from "../tools/Network";
+import {fetchStatus, fetchStatusAlert, getUserBaseNotLogin} from "../tools/Network";
 import {useTranslation} from 'react-i18next';
 import {useHistory, useLocation} from "react-router-dom";
 import {makeStyles} from '@material-ui/core/styles';
@@ -34,10 +34,7 @@ export default function Template({notice, setLoading}) {
     }, [value]);
 
     useEffect(() => {
-        let url = 'user/base/notLogin';
-        fetchGet(
-            url
-        ).then((json) => {
+        getUserBaseNotLogin().then((json) => {
             const status = json['status'];
             notice(t(fetchStatusAlert(status)), status);
         }).catch((error) => {

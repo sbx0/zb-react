@@ -5,7 +5,13 @@ import "../i18N"
 
 import {useHistory, useLocation} from "react-router-dom";
 
-import {fetchGet, fetchStatus, fetchStatusAlert} from "../tools/Network";
+import {
+    fetchStatus,
+    fetchStatusAlert,
+    getUserBaseLogout,
+    getUserBaseHeartbeat,
+    getStatisticalUserReport
+} from "../tools/Network";
 
 import {fade, makeStyles} from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -18,10 +24,12 @@ import AppBar from '@material-ui/core/AppBar';
 import Badge from '@material-ui/core/Badge';
 import FingerprintIcon from '@material-ui/icons/Fingerprint';
 import HomeIcon from '@material-ui/icons/Home';
+import GTranslateRoundedIcon from '@material-ui/icons/GTranslateRounded';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import InputIcon from '@material-ui/icons/Input';
 import AdbIcon from '@material-ui/icons/Adb';
 import ClearIcon from '@material-ui/icons/Clear';
+import GetAppIcon from '@material-ui/icons/GetApp';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
@@ -41,13 +49,14 @@ import Grid from "@material-ui/core/Grid";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import GroupIcon from '@material-ui/icons/Group';
 import PostAddIcon from '@material-ui/icons/PostAdd';
+import NightsStayIcon from '@material-ui/icons/NightsStay';
+import LanguageSelect from "./LanguageSelect";
 
 export default function SearchAppBar(
     {
         user,
         dark,
         setDark,
-        active,
         changeActive,
         setLoading,
         notice
@@ -87,13 +96,10 @@ export default function SearchAppBar(
     }, []);
 
     function report() {
-        let url = 'statistical/user/report';
-        fetchGet(
-            url
-        ).then((json) => {
+        getStatisticalUserReport().then((json) => {
             const status = json['status'];
             if (!fetchStatus(status)) {
-                notice(fetchStatusAlert(status), status);
+                notice(t(fetchStatusAlert(status)), status);
             }
         }).catch((error) => {
             notice(error.toString(), -1);
@@ -101,13 +107,10 @@ export default function SearchAppBar(
     }
 
     function heartbeat() {
-        let url = 'user/base/heartbeat';
-        fetchGet(
-            url
-        ).then((json) => {
+        getUserBaseHeartbeat().then((json) => {
             const status = json['status'];
             if (!fetchStatus(status)) {
-                notice(fetchStatusAlert(status), status);
+                notice(t(fetchStatusAlert(status)), status);
             }
         }).catch((error) => {
             notice(error.toString(), -1);
@@ -116,12 +119,6 @@ export default function SearchAppBar(
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-
-    function clearLocalStorage() {
-        notice(t("已清空缓存"), 0);
-        localStorage.clear();
-    }
 
     const handleProfileMenuOpen = event => {
         setAnchorEl(event.currentTarget);
@@ -214,17 +211,14 @@ export default function SearchAppBar(
                 onClick={
                     () => {
                         handleMobileMenuClose();
-                        let url = 'user/base/logout';
                         setLoading(true);
-                        fetchGet(
-                            url
-                        ).then((json) => {
+                        getUserBaseLogout().then((json) => {
                             const status = json['status'];
                             if (fetchStatus(status)) {
                                 changeActive();
                                 history.push("/login");
                             } else {
-                                notice(fetchStatusAlert(status), status);
+                                notice(t(fetchStatusAlert(status)), status);
                             }
                             setLoading(false);
                         });
@@ -250,110 +244,41 @@ export default function SearchAppBar(
                         onKeyDown={toggleDrawer(false)}
                     >
                         <List>
-                            {
-                                isAdmin ?
-                                    <>
-                                        <ListItem
-                                            button
-                                            onClick={() => {
-                                                history.push("/");
-                                            }}
-                                        >
-                                            <ListItemIcon><InboxIcon/></ListItemIcon>
-                                            <ListItemText primary={t("前台")}/>
-                                        </ListItem>
-                                        <ListItem
-                                            button
-                                            onClick={() => {
-                                                history.push("/admin");
-                                            }}
-                                        >
-                                            <ListItemIcon><HomeIcon/></ListItemIcon>
-                                            <ListItemText primary={t("首页")}/>
-                                        </ListItem>
-                                    </>
-                                    :
-                                    <>
-                                        <ListItem
-                                            button
-                                            onClick={() => {
-                                                history.push("/admin");
-                                            }}
-                                        >
-                                            <ListItemIcon><FingerprintIcon/></ListItemIcon>
-                                            <ListItemText primary={t("后台")}/>
-                                        </ListItem>
-                                        <ListItem
-                                            button
-                                            onClick={() => {
-                                                history.push("/");
-                                            }}
-                                        >
-                                            <ListItemIcon><HomeIcon/></ListItemIcon>
-                                            <ListItemText primary={t("首页")}/>
-                                        </ListItem>
-                                    </>
-                            }
                             <ListItem
                                 button
                                 onClick={() => {
-                                    history.push("/login");
+                                    history.push("/beta");
                                 }}
                             >
-                                <ListItemIcon><VpnKeyIcon/></ListItemIcon>
-                                <ListItemText primary={t("登录")}/>
+                                <ListItemIcon><AdbIcon/></ListItemIcon>
+                                <ListItemText primary={t("开发者选项")}/>
                             </ListItem>
                             <ListItem
                                 button
                                 onClick={() => {
-                                    history.push("/register");
+                                    history.push("/app");
                                 }}
                             >
-                                <ListItemIcon><InputIcon/></ListItemIcon>
-                                <ListItemText primary={t("注册")}/>
+                                <ListItemIcon><GetAppIcon/></ListItemIcon>
+                                <ListItemText primary={t("下载客户端")}/>
+                            </ListItem>
+                            <ListItem
+                                button
+                                onClick={() => {
+                                    setDark(!dark);
+                                    localStorage.setItem("dark", !dark + "");
+                                }}
+                            >
+                                <ListItemIcon><NightsStayIcon/></ListItemIcon>
+                                <ListItemText primary={
+                                    dark ? t('夜间模式') + ' ' + t('已开启') : t('夜间模式') + ' ' + t('已关闭')
+                                }/>
+                            </ListItem>
+                            <ListItem button>
+                                <ListItemIcon><GTranslateRoundedIcon/></ListItemIcon>
+                                <ListItemText primary={<LanguageSelect/>}/>
                             </ListItem>
                         </List>
-                        <Divider/>
-                        <ListItem
-                            button
-                            onClick={() => {
-                                history.push("/beta");
-                            }}
-                        >
-                            <ListItemIcon><AdbIcon/></ListItemIcon>
-                            <ListItemText primary={t("开发者选项")}/>
-                        </ListItem>
-                        <ListItem
-                            button
-                            onClick={clearLocalStorage}
-                        >
-                            <ListItemIcon><ClearIcon/></ListItemIcon>
-                            <ListItemText primary={t("清除缓存")}/>
-                        </ListItem>
-                        <Divider/>
-                        <Grid
-                            container
-                            justify="center"
-                            alignItems="center"
-                            className={classes.paddingBottom}
-                        >
-                            <Typography variant="body2" color="textSecondary">
-                                <FormControlLabel
-                                    control={
-                                        <Switch
-                                            onChange={() => {
-                                                setDark(!dark);
-                                                localStorage.setItem("dark", !dark + "");
-                                            }}
-                                            color="primary"
-                                            checked={dark}
-                                        />
-                                    }
-                                    label={t("夜间模式")}
-                                    labelPlacement="bottom"
-                                />
-                            </Typography>
-                        </Grid>
                     </div>
                 </Drawer>
                 <Toolbar>

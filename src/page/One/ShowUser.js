@@ -11,24 +11,30 @@ export default function ShowUser({id, notice, setLoading}) {
     const [object, setObject] = useState({});
 
     useEffect(() => {
+        let isCancelled = false;
         if (id !== undefined) {
             getUserBaseShow(
                 {id: id}
             ).then((json) => {
-                const status = json['status'];
-                if (fetchStatus(status)) {
-                    if (json['object']['avatar'] !== 'avatar.jpg') {
-                        json['object']['avatar'] = localStorage.getItem("server_config") + json['object']['avatar'];
+                if (!isCancelled) {
+                    const status = json['status'];
+                    if (fetchStatus(status)) {
+                        if (json['object']['avatar'] !== 'avatar.jpg') {
+                            json['object']['avatar'] = localStorage.getItem("server_config") + json['object']['avatar'];
+                        }
+                        setObject(json['object']);
+                    } else {
+                        notice(t(fetchStatusAlert(status)), status);
                     }
-                    setObject(json['object']);
-                } else {
-                    notice(t(fetchStatusAlert(status)), status);
                 }
             }).catch((error) => {
                 notice(error.toString(), -1);
             }).finally(() => {
 
             })
+        }
+        return () => {
+            isCancelled = true;
         }
     }, [id]);
 

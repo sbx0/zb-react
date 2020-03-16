@@ -15,6 +15,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {fetchStatus, fetchStatusAlert, postUserBaseRegister, returnStatus} from "../../tools/Network";
 import {useHistory, Link} from "react-router-dom";
+import global from "../../tools/Global";
 
 export default function Register({setLoading, changeActive, notice}) {
     const {t} = useTranslation();
@@ -37,6 +38,7 @@ export default function Register({setLoading, changeActive, notice}) {
             const status = json['status'];
             if (fetchStatus(status)) {
                 notice(t("注册成功"), status);
+                localStorage.setItem("user_email", values.email);
                 changeActive();
                 history.push("/login");
             } else {
@@ -52,11 +54,9 @@ export default function Register({setLoading, changeActive, notice}) {
         <Container component="main" maxWidth="xs">
             <CssBaseline/>
             <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon/>
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    {t("注册")}
+                <Avatar className={classes.avatar} src={'/logo_app.png'}></Avatar>
+                <Typography variant="h5" display={'inline'}>
+                    {t("智贝")}
                 </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
@@ -134,7 +134,8 @@ const useStyles = makeStyles(theme => ({
     },
     avatar: {
         margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
+        width: 70,
+        height: 70
     },
     form: {
         width: '100%', // Fix IE 11 issue.

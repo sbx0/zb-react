@@ -8,7 +8,7 @@ import {
     useRouteMatch,
     useParams,
 } from "react-router-dom";
-import {fetchGet, fetchStatus, fetchStatusAlert} from "../../tools/Network";
+import {fetchStatus, fetchStatusAlert, getUserBaseInfo, getDemandNormal} from "../../tools/Network";
 import ReactMarkdown from "react-markdown";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Typography from "@material-ui/core/Typography";
@@ -61,11 +61,8 @@ function MyDetail(
     const [userInfo, setUserInfo] = useState({});
 
     useEffect(() => {
-        let url = 'user/base/info';
         setLoading(true);
-        fetchGet(
-            url
-        ).then((json) => {
+        getUserBaseInfo().then((json) => {
             const status = json['status'];
             if (fetchStatus(status)) {
                 setUserInfo(json.object);
@@ -120,10 +117,9 @@ function UserDetail({setLoading, notice}) {
     const [user, setUser] = useState({});
 
     useEffect(() => {
-        let url = 'demand/normal?id=' + userId;
         setLoading(true);
-        fetchGet(
-            url
+        getDemandNormal(
+            {id: userId}
         ).then((json) => {
             const status = json['status'];
             if (fetchStatus(status)) {

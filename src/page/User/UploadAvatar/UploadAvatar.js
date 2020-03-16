@@ -7,26 +7,32 @@ import {fetchStatus, fetchStatusAlert, getUrlUploadFile} from "../../../tools/Ne
 export default function UploadAvatar({notice, changeActive, active}) {
     const {t} = useTranslation();
     const [isUpload, setIsUpload] = useState(false);
-    const [file, setFile] = useState("/avatar.jpg");
+    const [file, setFile] = useState("/avatar.ico");
 
     const onDrop = useCallback(acceptedFiles => {
+        let isCancelled = false;
         let formData = new FormData()
         formData.append('file', acceptedFiles[0]);
         getUrlUploadFile(formData).then((json) => {
-            const status = json['status'];
-            if (fetchStatus(status) || status === 3) {
-                const name = json['name'];
-                const type = json['type'];
-                const user = "user" + json['user'];
-                const filePath = localStorage.getItem("server_config") + "upload/" + user + "/" + type + "/" + name;
-                setFile(filePath);
-                setIsUpload(true);
-            } else {
-                notice(t(fetchStatusAlert(status)), status);
+            if (!isCancelled) {
+                const status = json['status'];
+                if (fetchStatus(status) || status === 3) {
+                    const name = json['name'];
+                    const type = json['type'];
+                    const user = "user" + json['user'];
+                    const filePath = localStorage.getItem("server_config") + "upload/" + user + "/" + type + "/" + name;
+                    setFile(filePath);
+                    setIsUpload(true);
+                } else {
+                    notice(t(fetchStatusAlert(status)), status);
+                }
             }
         }).catch((error) => {
             notice(error.toString(), -1);
         });
+        return () => {
+            isCancelled = true;
+        }
     }, [])
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})

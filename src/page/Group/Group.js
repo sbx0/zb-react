@@ -11,17 +11,23 @@ export default function Group({notice, setLoading}) {
     const [groups, setGroups] = useState([]);
 
     useEffect(() => {
+        let isCancelled = false;
         getUserGroupMy().then((json) => {
-            const status = json['status'];
-            if (fetchStatus(status)) {
-                const objects = json['objects'];
-                setGroups(objects);
-            } else {
-                notice(t(fetchStatusAlert(status)), status);
+            if (!isCancelled) {
+                const status = json['status'];
+                if (fetchStatus(status)) {
+                    const objects = json['objects'];
+                    setGroups(objects);
+                } else {
+                    notice(t(fetchStatusAlert(status)), status);
+                }
             }
         }).catch((error) => {
             notice(error.toString(), -1);
         });
+        return () => {
+            isCancelled = true;
+        }
     }, []);
 
     return (

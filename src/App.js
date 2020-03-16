@@ -15,10 +15,12 @@ import {createMuiTheme} from '@material-ui/core/styles';
 import {ThemeProvider} from '@material-ui/styles';
 import {makeStyles, useMediaQuery} from '@material-ui/core';
 import Container from "@material-ui/core/Container";
-import {fetchGet, fetchStatus, fetchStatusAlert} from "./tools/Network";
+import {fetchStatus, fetchStatusAlert, getUserBaseBasic} from "./tools/Network";
 import GlobalBottomNavigation from "./Components/GlobalBottomNavigation";
+import {useTranslation} from "react-i18next";
 
 export default function App() {
+    const {t} = useTranslation();
     const classes = useStyles();
     const [loading, setLoading] = useState(false);
     const [dark, setDark] = useState(true);
@@ -59,20 +61,17 @@ export default function App() {
     }, [active]);
 
     function login() {
-        let url = 'user/base/basic';
         setLoading(true);
-        fetchGet(
-            url
-        ).then((json) => {
+        getUserBaseBasic().then((json) => {
             const status = json['status'];
             if (fetchStatus(status)) {
                 let user = json["object"];
-                if (user['avatar'] !== 'avatar.jpg') {
+                if (user['avatar'] !== 'avatar.ico') {
                     user['avatar'] = localStorage.getItem("server_config") + user['avatar'];
                 }
                 setUser(json["object"]);
             } else {
-                notice(fetchStatusAlert(status), status);
+                notice(t(fetchStatusAlert(status)), status);
                 setUser(null);
             }
             setLoading(false);
@@ -137,7 +136,6 @@ export default function App() {
                     <SearchAppBar
                         user={user}
                         notice={notice}
-                        active={active}
                         dark={dark}
                         setLoading={setLoading}
                         setDark={setDark}
@@ -180,13 +178,13 @@ const useStyles = makeStyles({
         width: "100%",
         height: "100%",
         minHeight: "100vh",
-        backgroundColor: "#333333",
+        backgroundColor: "#22303f",
     },
     backgroundLight: {
         width: "100%",
         height: "100%",
         minHeight: "100vh",
-        backgroundColor: "#f5f5f5",
+        backgroundColor: "#e2e2e2",
     },
     bottom: {
         height: 56,
@@ -209,8 +207,11 @@ const DarkTheme = createMuiTheme({
     overrides: {
         MuiTypography: {
             root: {
-                color: '#ebebeb',
+                color: '#9caec7',
             },
+            colorTextPrimary: {
+                color: '#bdc7d6'
+            }
         },
         MuiPaper: {
             root: {
@@ -219,9 +220,9 @@ const DarkTheme = createMuiTheme({
         },
         MuiBottomNavigation: {
             root: {
-                background: 'linear-gradient(45deg, #5c6bc0 30%, #5d6691 90%)',
-                border: 0,
-                boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+                backgroundColor: 'rgba(255, 255, 255, 0)',
+                background: 'linear-gradient(45deg, rgba(92, 107, 192, 0.47) 30%, rgba(77, 96, 189, 0.48) 90%)',
+                boxShadow: '0 3px 5px 2px rgba(0, 0, 0, 0.3)',
                 width: '100%',
                 margin: '0 auto',
                 position: 'fixed',
@@ -231,31 +232,44 @@ const DarkTheme = createMuiTheme({
         },
         MuiAppBar: {
             colorPrimary: {
-                backgroundColor: '#3a3a3a'
+                color: '#a9bcd6',
+                backgroundColor: '#18222d'
             }
-        }
+        },
     },
 });
 
 const LightTheme = createMuiTheme({
-    palette: {
-        type: 'light',
-    },
-    overrides: {
-        MuiBottomNavigation: {
-            root: {
-                boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-                width: '100%',
-                margin: '0 auto',
-                position: 'fixed',
-                bottom: 0,
-                right: 0,
-            },
+        palette: {
+            type: 'light',
         },
-        MuiAppBar: {
-            colorPrimary: {
-                backgroundColor: '#4a5ecc'
+        overrides: {
+            MuiBottomNavigation: {
+                root: {
+                    backgroundColor: 'rgba(255, 255, 255, 0)',
+                    background: 'linear-gradient(45deg, rgba(255, 255, 255, 0.83) 30%, rgba(255, 255, 255, 0.82) 90%)',
+                    boxShadow: '0 3px 5px 2px rgba(0, 0, 0, 0.3)',
+                    width: '100%',
+                    margin: '0 auto',
+                    position: 'fixed',
+                    bottom: 0,
+                    right: 0,
+                },
+            },
+            MuiAppBar: {
+                colorPrimary: {
+                    backgroundColor: '#4a5ecc'
+                }
+            },
+            //.MuiTypography-colorTextSecondary
+            MuiPaper: {
+                elevation1: {
+                    boxShadow: '0 2px 3px rgba(0,0,0,.1)',
+                },
+            },
+            MuiTypography: {
+                colorTextSecondary: 'rgb(51, 51, 51)'
             }
-        }
-    },
-});
+        },
+    })
+;

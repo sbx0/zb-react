@@ -11,15 +11,18 @@ export default function ShowClassification({id, notice, setLoading}) {
     const [objects, setObjects] = useState([]);
 
     useEffect(() => {
+        let isCancelled = false;
         if (id !== undefined) {
             getTechnicalClassificationSonToFather(
                 {sonId: id,}
             ).then((json) => {
-                const status = json['status'];
-                if (fetchStatus(status)) {
-                    setObjects(json['objects'].reverse());
-                } else {
-                    notice(t(fetchStatusAlert(status)), status);
+                if (!isCancelled) {
+                    const status = json['status'];
+                    if (fetchStatus(status)) {
+                        setObjects(json['objects'].reverse());
+                    } else {
+                        notice(t(fetchStatusAlert(status)), status);
+                    }
                 }
             }).catch((error) => {
                 notice(error.toString(), -1);
@@ -27,6 +30,9 @@ export default function ShowClassification({id, notice, setLoading}) {
 
             })
         }
+        return () => {
+            isCancelled = true;
+        };
     }, [id]);
 
     return (

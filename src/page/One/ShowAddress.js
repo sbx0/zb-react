@@ -11,21 +11,27 @@ export default function ShowAddress({id, notice, setLoading}) {
     const [objects, setObjects] = useState([]);
 
     useEffect(() => {
+        let isCancelled = false;
         if (id !== undefined) {
             getAddressBaseSonToFather({
                 sonId: id
             }).then((json) => {
-                const status = json['status'];
-                if (fetchStatus(status)) {
-                    setObjects(json['objects'].reverse());
-                } else {
-                    notice(t(fetchStatusAlert(status)), status);
+                if (!isCancelled) {
+                    const status = json['status'];
+                    if (fetchStatus(status)) {
+                        setObjects(json['objects'].reverse());
+                    } else {
+                        notice(t(fetchStatusAlert(status)), status);
+                    }
                 }
             }).catch((error) => {
                 notice(error.toString(), -1);
             }).finally(() => {
 
             })
+        }
+        return () => {
+            isCancelled = true;
         }
     }, [id]);
 

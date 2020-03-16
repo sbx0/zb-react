@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import "../../i18N"
 
-import {fetchGet, fetchStatus, fetchStatusAlert, getTechnicalAchievementListMybatis} from '../../tools/Network';
+import {fetchStatus, fetchStatusAlert, getTechnicalAchievementListMybatis} from '../../tools/Network';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Grid from "@material-ui/core/Grid";
@@ -18,6 +18,7 @@ export default function TechnicalAchievementList({userId, attribute, direction, 
     const [size, setSize] = useState(10);
 
     useEffect(() => {
+        let isCancelled = false;
         if (active) {
             setLoading(true);
             getTechnicalAchievementListMybatis({
@@ -31,13 +32,15 @@ export default function TechnicalAchievementList({userId, attribute, direction, 
                 direction: direction,
                 userId: userId,
             }).then((json) => {
-                const status = json['status'];
-                setTotalPage(json['total_pages']);
-                if (fetchStatus(status)) {
-                    setObjects(json['objects']);
-                    setLock(false);
-                } else {
-                    notice(t(fetchStatusAlert(status)), status);
+                if (!isCancelled) {
+                    const status = json['status'];
+                    setTotalPage(json['total_pages']);
+                    if (fetchStatus(status)) {
+                        setObjects(json['objects']);
+                        setLock(false);
+                    } else {
+                        notice(t(fetchStatusAlert(status)), status);
+                    }
                 }
             }).catch((error) => {
                 notice(error.toString(), -1);
@@ -45,6 +48,9 @@ export default function TechnicalAchievementList({userId, attribute, direction, 
                 setLoading(false);
             });
         }
+        return () => {
+            isCancelled = true;
+        };
     }, [attribute, direction, active, maturity, cooperationMethod, page, classificationId, addressId]);
 
     return (

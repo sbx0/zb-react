@@ -21,10 +21,15 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Divider from "@material-ui/core/Divider";
 import BrightnessAutoIcon from '@material-ui/icons/BrightnessAuto';
 import DeveloperModeIcon from '@material-ui/icons/DeveloperMode';
+import {useHistory} from "react-router-dom";
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import ClearIcon from '@material-ui/icons/Clear';
+import FingerprintIcon from '@material-ui/icons/Fingerprint';
 
 export default function Beta({notice, setLoading}) {
     const classes = useStyles();
     const {t} = useTranslation();
+    let history = useHistory();
     const [serverConfig, setServerConfig] = useState(localStorage.getItem("server_config"));
     const [autoDarkMode, setAutoDarkMode] = useState(() => {
         let autoDarkMode = localStorage.getItem("auto_dark_mode");
@@ -90,6 +95,29 @@ export default function Beta({notice, setLoading}) {
                                     checked={autoDarkMode}
                                 />
                             </ListItemSecondaryAction>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemIcon>
+                                <ClearIcon/>
+                            </ListItemIcon>
+                            <ListItemText
+                                primary={t("清除") + ' Local Storage'}
+                                onClick={() => {
+                                    notice(t("已清空缓存"), 0);
+                                    localStorage.clear();
+                                }}
+                            />
+                        </ListItem>
+                        <ListItem>
+                            <ListItemIcon>
+                                <FingerprintIcon/>
+                            </ListItemIcon>
+                            <ListItemText
+                                primary={t("前往后台")}
+                                onClick={() => {
+                                    history.push("/admin");
+                                }}
+                            />
                         </ListItem>
                     </List>
                 </Grid>

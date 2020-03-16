@@ -49,17 +49,19 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
         {name: '降序', value: 'DESC'},
     ];
 
-    function classificationSelect(id) {
+    function classificationSelect(id, isCancelled) {
         getTechnicalClassificationSonToFather({
             sonId: id
         }).then((json) => {
-            const status = json['status'];
-            if (fetchStatus(status)) {
-                const objects = json['objects'].reverse();
-                setClassificationOne(objects[0]['id']);
-                if (objects.length > 1) setClassificationTwo(objects[1]['id']);
-            } else {
-                notice(t(fetchStatusAlert(status)), status);
+            if (!isCancelled) {
+                const status = json['status'];
+                if (fetchStatus(status)) {
+                    const objects = json['objects'].reverse();
+                    setClassificationOne(objects[0]['id']);
+                    if (objects.length > 1) setClassificationTwo(objects[1]['id']);
+                } else {
+                    notice(t(fetchStatusAlert(status)), status);
+                }
             }
         }).catch((error) => {
             notice(error.toString(), -1);
@@ -68,18 +70,20 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
         })
     }
 
-    function addressSelect(id) {
+    function addressSelect(id, isCancelled) {
         getAddressBaseSonToFather({
             sonId: id
         }).then((json) => {
-            const status = json['status'];
-            if (fetchStatus(status)) {
-                const objects = json['objects'].reverse();
-                setCountry(objects[0]['id']);
-                if (objects.length > 1) setProvince(objects[1]['id']);
-                if (objects.length > 2) setCity(objects[2]['id']);
-            } else {
-                notice(t(fetchStatusAlert(status)), status);
+            if (!isCancelled) {
+                const status = json['status'];
+                if (fetchStatus(status)) {
+                    const objects = json['objects'].reverse();
+                    setCountry(objects[0]['id']);
+                    if (objects.length > 1) setProvince(objects[1]['id']);
+                    if (objects.length > 2) setCity(objects[2]['id']);
+                } else {
+                    notice(t(fetchStatusAlert(status)), status);
+                }
             }
         }).catch((error) => {
             notice(error.toString(), -1);
@@ -89,14 +93,15 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
     }
 
     useEffect(() => {
+        let isCancelled = false;
         if (key !== null && key !== undefined) {
             let map = key.split(':');
             if (map[0] === 'classificationId') {
                 setClassificationId(map[1]);
-                classificationSelect(map[1]);
+                classificationSelect(map[1], isCancelled);
             } else if (map[0] === 'addressId') {
                 setAddressId(map[1]);
-                addressSelect(map[1]);
+                addressSelect(map[1], isCancelled);
             } else if (map[0] === 'maturityId') {
                 setMaturity(map[1]);
             } else if (map[0] === 'cooperationMethodId') {
@@ -106,6 +111,9 @@ export default function TechnicalAchievementMarket({setLoading, notice}) {
             }
         }
         setActive(true);
+        return () => {
+            isCancelled = true;
+        };
     }, []);
 
     useEffect(() => {

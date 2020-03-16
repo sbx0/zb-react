@@ -21,7 +21,7 @@ export default function MyAvatarEditor({file, notice, active, changeActive}) {
             const canvas = setEditorRef.current.getImageScaledToCanvas();
             canvas.toBlob(function (blob) {
                 let formData = new FormData();
-                formData.append('file', blob, 'avatar.jpg');
+                formData.append('file', blob, 'avatar.ico');
                 postFileUploadAvatar(formData).then((json) => {
                     const status = json['status'];
                     notice(t(fetchStatusAlert(status)), status);

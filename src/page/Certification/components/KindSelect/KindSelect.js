@@ -22,14 +22,20 @@ export default function KindSelect({kind, setKind, notice}) {
     };
 
     useEffect(() => {
+        let isCancelled = false;
         getUserCertificationType().then((json) => {
-            const status = json['status'];
-            if (fetchStatus(status)) {
-                setKinds(json["objects"]);
+            if (!isCancelled) {
+                const status = json['status'];
+                if (fetchStatus(status)) {
+                    setKinds(json["objects"]);
+                }
             }
         }).catch((error) => {
             notice(error.toString(), -1);
         });
+        return () => {
+            isCancelled = true;
+        };
     }, []);
 
     return (

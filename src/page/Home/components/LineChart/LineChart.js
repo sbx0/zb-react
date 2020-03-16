@@ -11,12 +11,15 @@ import {
 } from 'recharts';
 import Skeleton from '@material-ui/lab/Skeleton';
 import {fetchStatus, fetchStatusAlert, getStaticalDataRecent} from "../../../../tools/Network";
+import {useTranslation} from "react-i18next";
 
 export default function LineChart({notice, day, kind, group, referenceValue}) {
+    const {t} = useTranslation();
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
 
     function loadData() {
+        let isCancelled = false;
         getStaticalDataRecent(
             {
                 day: day,
@@ -24,16 +27,20 @@ export default function LineChart({notice, day, kind, group, referenceValue}) {
                 group: group,
             }
         ).then((json) => {
-            const status = json['status'];
-            if (fetchStatus(status)) {
-                const data = json['objects']['data'];
-                setData(data);
-            } else {
-                notice(fetchStatusAlert(status), status);
+            if (!isCancelled) {
+                const status = json['status'];
+                if (fetchStatus(status)) {
+                    const data = json['objects']['data'];
+                    setData(data);
+                } else {
+                    notice(t(fetchStatusAlert(status)), status);
+                }
             }
-        }).catch((error) => {
-            notice(error.toString(), -1);
+        }).finally(() => {
         });
+        return () => {
+            isCancelled = true;
+        };
     }
 
     useEffect(() => {

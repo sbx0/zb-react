@@ -29,21 +29,27 @@ export default function TechnicalAchievementsOne({setLoading, notice}) {
     });
 
     useEffect(() => {
+        let isCancelled = false;
         setLoading(true);
         getTechnicalAchievementOne(
             {id: id}
         ).then((json) => {
-            const status = json['status'];
-            if (fetchStatus(status)) {
-                setObject(json["object"]);
-            } else {
-                notice(t(fetchStatusAlert(status)), status);
+            if (!isCancelled) {
+                const status = json['status'];
+                if (fetchStatus(status)) {
+                    setObject(json["object"]);
+                } else {
+                    notice(t(fetchStatusAlert(status)), status);
+                }
             }
         }).catch((error) => {
             notice(error.toString(), -1);
         }).finally(() => {
             setLoading(false);
         })
+        return () => {
+            isCancelled = true;
+        }
     }, [id]);
 
     return (

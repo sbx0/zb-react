@@ -7,22 +7,28 @@ export default function CommonUpload({notice, setFileUrl}) {
     const {t} = useTranslation();
 
     const onDrop = useCallback(acceptedFiles => {
+        let isCancelled = false;
         let formData = new FormData();
         formData.append('file', acceptedFiles[0]);
         getUrlUploadFile(formData).then((json) => {
-            const status = json['status'];
-            if (fetchStatus(status) || status === 3) {
-                const name = json['name'];
-                const type = json['type'];
-                const user = "user" + json['user'];
-                const filePath = localStorage.getItem("server_config") + "upload/" + user + "/" + type + "/" + name;
-                setFileUrl(filePath);
-            } else {
-                notice(t(fetchStatusAlert(status)), status);
+            if (!isCancelled) {
+                const status = json['status'];
+                if (fetchStatus(status) || status === 3) {
+                    const name = json['name'];
+                    const type = json['type'];
+                    const user = "user" + json['user'];
+                    const filePath = localStorage.getItem("server_config") + "upload/" + user + "/" + type + "/" + name;
+                    setFileUrl(filePath);
+                } else {
+                    notice(t(fetchStatusAlert(status)), status);
+                }
             }
         }).catch((error) => {
             notice(error.toString(), -1);
         });
+        return () => {
+            isCancelled = true;
+        }
     }, []);
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});

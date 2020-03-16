@@ -26,6 +26,13 @@ export default function Login({setLoading, changeActive, notice}) {
         password: '',
     });
 
+    useEffect(() => {
+        let userEmail = localStorage.getItem("user_email");
+        if (userEmail != null && userEmail != undefined) {
+            setValues({...values, ['email']: userEmail});
+        }
+    }, []);
+
     const handleChange = (name) => (event) => {
         setValues({...values, [name]: event.target.value});
     };
@@ -33,9 +40,9 @@ export default function Login({setLoading, changeActive, notice}) {
     async function submitData() {
         setLoading(true);
         postUserBaseLogin(values).then((json) => {
-            setLoading(false);
             const status = json['status'];
             if (fetchStatus(status)) {
+                localStorage.setItem("user_email", values.email);
                 changeActive();
                 history.push("/");
             } else {
@@ -43,19 +50,18 @@ export default function Login({setLoading, changeActive, notice}) {
             }
         }).catch((error) => {
             notice(error.toString(), -1);
+        }).finally(() => {
             setLoading(false);
-        });
+        })
     }
 
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline/>
             <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon/>
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    {t("登录")}
+                <Avatar className={classes.avatar} src={'/logo_app.png'}></Avatar>
+                <Typography variant="h5" display={'inline'}>
+                    {t("智贝")}
                 </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
@@ -97,6 +103,7 @@ export default function Login({setLoading, changeActive, notice}) {
                         color="primary"
                         className={classes.submit}
                         onClick={() => submitData()}
+                        size={'large'}
                     >
                         {t("登录")}
                     </Button>
@@ -123,7 +130,8 @@ const useStyles = makeStyles(theme => ({
     },
     avatar: {
         margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
+        width: 70,
+        height: 70
     },
     form: {
         width: '100%', // Fix IE 11 issue.

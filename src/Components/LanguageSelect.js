@@ -32,17 +32,17 @@ export default function LanguageSelect() {
                 <MenuItem value="de">Deutsch</MenuItem>
                 <MenuItem value="jp">日本語</MenuItem>
             </Select>
-            {
-                language !== "zh-CN" ?
-                    <Typography variant="inherit">{t("翻译来自Google Translate")}</Typography> : <></>
-            }
+            {/*{*/}
+            {/*    language !== "zh-CN" ?*/}
+            {/*        <Typography variant="caption">{t("翻译来自Google Translate")}</Typography> : <></>*/}
+            {/*}*/}
         </FormControl>
     );
 }
 
 const useStyles = makeStyles(theme => ({
     formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
+        // width: '100%',
+        textAlign: 'left'
     },
 }));

@@ -13,16 +13,24 @@ export default function SmallDataCard({title, fetch, notice}) {
     const [data, setData] = useState(0);
 
     useEffect(() => {
+        let isCancelled = false;
         fetch().then((json) => {
-            const status = json['status'];
-            if (fetchStatus(status)) {
-                setData(json['object']);
-            } else {
-                notice(t(fetchStatusAlert(status)), status);
+            if (!isCancelled) {
+                const status = json['status'];
+                if (fetchStatus(status)) {
+                    setData(json['object']);
+                } else {
+                    notice(t(fetchStatusAlert(status)), status);
+                }
             }
         }).catch((error) => {
             notice(error.toString(), -1);
+        }).finally(() => {
+
         });
+        return () => {
+            isCancelled = true;
+        };
     }, []);
 
     return (

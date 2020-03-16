@@ -28,16 +28,22 @@ export default function CommonSelect(
     };
 
     useEffect(() => {
+        let isCancelled = false;
         if (param !== '') {
             fetch(param).then((json) => {
-                const status = json['status'];
-                if (fetchStatus(status)) {
-                    setOptions(json["objects"]);
+                if (!isCancelled) {
+                    const status = json['status'];
+                    if (fetchStatus(status)) {
+                        setOptions(json["objects"]);
+                    }
                 }
             }).catch((error) => {
                 notice(error.toString(), -1);
             });
         }
+        return () => {
+            isCancelled = true;
+        };
     }, [active]);
 
     return (

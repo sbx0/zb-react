@@ -9,25 +9,33 @@ import {
 } from 'recharts';
 import Skeleton from '@material-ui/lab/Skeleton';
 import {fetchStatus, fetchStatusAlert, getStatisticalUserClient} from "../../../../tools/Network";
+import {useTranslation} from "react-i18next";
 
 export default function PieChart({notice, day, kind, group, referenceValue}) {
+    const {t} = useTranslation();
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        let isCancelled = false;
         setLoading(true);
         getStatisticalUserClient().then((json) => {
-            const status = json['status'];
-            if (fetchStatus(status)) {
-                const data = json['objects']['data'];
-                setData(data);
-                setLoading(false);
-            } else {
-                notice(fetchStatusAlert(status), status);
+            if (!isCancelled) {
+                const status = json['status'];
+                if (fetchStatus(status)) {
+                    const data = json['objects']['data'];
+                    setData(data);
+                    setLoading(false);
+                } else {
+                    notice(t(fetchStatusAlert(status)), status);
+                }
             }
         }).catch((error) => {
             notice(error.toString(), -1);
         });
+        return () => {
+            isCancelled = true;
+        };
     }, []);
 
     return <>

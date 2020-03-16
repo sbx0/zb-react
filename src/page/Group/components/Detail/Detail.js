@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import "../../../../i18N"
 import {
-    fetchGet,
     fetchStatus,
     fetchStatusAlert,
     getUserGroupCheck, getUserGroupJoin,
@@ -33,37 +32,49 @@ export default function GroupDetail({notice, setLoading}) {
     const [loadActive, setLoadActive] = useState(false);
 
     useEffect(() => {
+        let isCancelled = false;
         getUserGroupMember(
             {id: id}
         ).then((json) => {
-            const status = json['status'];
-            if (fetchStatus(status)) {
-                setUsers(json["objects"]);
-            } else {
-                notice(t(fetchStatusAlert(status)), status);
+            if (!isCancelled) {
+                const status = json['status'];
+                if (fetchStatus(status)) {
+                    setUsers(json["objects"]);
+                } else {
+                    notice(t(fetchStatusAlert(status)), status);
+                }
             }
         }).catch((error) => {
             notice(error.toString(), -1);
         }).finally(() => {
         })
+        return () => {
+            isCancelled = true;
+        }
     }, [loadActive]);
 
     useEffect(() => {
+        let isCancelled = false;
         setLoading(true);
         getUserGroupOne(
             {id: id}
         ).then((json) => {
-            const status = json['status'];
-            if (fetchStatus(status)) {
-                setGroup(json["object"]);
-            } else {
-                notice(t(fetchStatusAlert(status)), status);
+            if (!isCancelled) {
+                const status = json['status'];
+                if (fetchStatus(status)) {
+                    setGroup(json["object"]);
+                } else {
+                    notice(t(fetchStatusAlert(status)), status);
+                }
             }
         }).catch((error) => {
             notice(error.toString(), -1);
         }).finally(() => {
             setLoading(false);
         })
+        return () => {
+            isCancelled = true;
+        };
     }, [loadActive]);
 
     return <>
@@ -138,19 +149,25 @@ function CheckButton({id, notice, loadActive, setLoadActive}) {
     const [isJoin, setIsJoin] = useState(false);
 
     useEffect(() => {
+        let isCancelled = false;
         getUserGroupCheck(
             {id: id}
         ).then((json) => {
-            const status = json['status'];
-            if (fetchStatus(status)) {
-                setIsJoin(true);
-            } else {
-                setIsJoin(false);
+            if (!isCancelled) {
+                const status = json['status'];
+                if (fetchStatus(status)) {
+                    setIsJoin(true);
+                } else {
+                    setIsJoin(false);
+                }
             }
         }).catch((error) => {
             notice(error.toString(), -1);
         }).finally(() => {
         })
+        return () => {
+            isCancelled = true;
+        }
     }, [loadActive]);
     return <>
         {
@@ -166,9 +183,6 @@ function CheckButton({id, notice, loadActive, setLoadActive}) {
 function JoinButton({id, notice, loadActive, setLoadActive}) {
     const classes = useStyles();
     const {t} = useTranslation();
-
-    useEffect(() => {
-    }, []);
 
     return <Button
         variant="outlined"

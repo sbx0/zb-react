@@ -32,6 +32,7 @@ import PostAchievements from "../page/Post/PostAchievements";
 import Post from "../page/Post/Post";
 import TechnicalAchievementsOne from "../page/One/TechnicalAchievementsOne";
 import TechnicalAchievementMarket from "../page/Market/TechnicalAchievementMarket";
+import ClientApp from "../page/Download/ClientApp";
 
 function RoutesConfig(
     {
@@ -43,10 +44,6 @@ function RoutesConfig(
         changeActive
     }
 ) {
-    useEffect(() => {
-        console.log('routes change')
-    }, []);
-
     return (
         <Switch>
             <Redirect
@@ -54,6 +51,12 @@ function RoutesConfig(
                 from="/"
                 to="/home"
             />
+            <Route
+                exact
+                path="/app"
+            >
+                <ClientApp notice={notice}/>
+            </Route>
             <Route
                 exact
                 path="/home"

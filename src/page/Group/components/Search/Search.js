@@ -5,7 +5,7 @@ import "../../../../i18N"
 
 import {useHistory, useLocation} from "react-router-dom";
 
-import {fetchGet, fetchStatus, fetchStatusAlert, getUserGroupList} from "../../../../tools/Network";
+import {fetchStatus, fetchStatusAlert, getUserGroupList} from "../../../../tools/Network";
 
 import {makeStyles} from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
@@ -32,20 +32,26 @@ export default function GroupSearch({notice, setLoading}) {
     }
 
     useEffect(() => {
+        let isCancelled = false;
         getUserGroupList(
             name === '' ? {page: 1,} : {page: 1, name: name}
         ).then((json) => {
-            const status = json['status'];
-            if (fetchStatus(status)) {
-                const objects = json['objects'];
-                setGroups(objects);
-                setGroup(null);
-            } else {
-                notice(t(fetchStatusAlert(status)), status);
+            if (!isCancelled) {
+                const status = json['status'];
+                if (fetchStatus(status)) {
+                    const objects = json['objects'];
+                    setGroups(objects);
+                    setGroup(null);
+                } else {
+                    notice(t(fetchStatusAlert(status)), status);
+                }
             }
         }).catch((error) => {
             notice(error.toString(), -1);
         });
+        return () => {
+            isCancelled = true;
+        };
     }, [searchActive]);
 
 

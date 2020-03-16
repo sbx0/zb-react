@@ -15,30 +15,33 @@ export default function Footer() {
     const classes = useStyles();
 
     return (
-        <Box>
-            <Divider variant="middle" className={classes.divider}/>
-            <Grid
-                container
-                justify="center"
-                alignItems="center"
-                align="center"
-                className={classes.divider}
-            >
-                <Typography variant="caption" display="block" color="textSecondary">
-                    {t("智贝")}<br/>
-                    {t("线上技术对接与交流平台")}<br/>
-                    {global.dev_time} {t("版本")} {global.dev_version}<br/>
-                    {t("您可以在")} <Link href={'https://github.com/sbx0/zb-react'}>Github</Link> {t("查看详细开发记录")}<br/>
-                    Power By React<br/>
-                    <LanguageSelect/>
-                </Typography>
-            </Grid>
-        </Box>
+        <>
+            <Box mb={2} mt={2}>
+                <Divider variant="middle" className={classes.divider}/>
+            </Box>
+            <Box mb={2}>
+                <Grid
+                    container
+                    justify="center"
+                    alignItems="center"
+                    align="center"
+                >
+                    <Typography variant="caption" display="block">
+                        {t("智贝")}<br/>
+                        {t("线上技术对接与交流平台")}<br/>
+                        {global.dev_time} {t("版本")} {global.dev_version}<br/>
+                        {t("您可以在")} <Link href={'https://github.com/sbx0/zb-react'}>Github</Link> {t("查看详细开发记录")}<br/>
+                        Power By React<br/>
+                        {'Copyright © '}
+                        <Link color="inherit" href="https://blog.sbx0.cn/">
+                            sbx0.cn
+                        </Link>{' '}
+                        {new Date().getFullYear()}
+                    </Typography>
+                </Grid>
+            </Box>
+        </>
     );
 }
 
-const useStyles = makeStyles(() => ({
-    divider: {
-        marginTop: 10,
-    },
-}));
+const useStyles = makeStyles(() => ({}));
