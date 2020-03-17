@@ -33,6 +33,7 @@ import Post from "../page/Post/Post";
 import TechnicalAchievementsOne from "../page/One/TechnicalAchievementsOne";
 import TechnicalAchievementMarket from "../page/Market/TechnicalAchievementMarket";
 import ClientApp from "../page/Download/ClientApp";
+import About from "../page/About/About";
 
 function RoutesConfig(
     {
@@ -56,6 +57,12 @@ function RoutesConfig(
                 path="/app"
             >
                 <ClientApp notice={notice}/>
+            </Route>
+            <Route
+                exact
+                path="/about"
+            >
+                <About notice={notice}/>
             </Route>
             <Route
                 exact

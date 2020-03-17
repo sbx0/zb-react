@@ -1,6 +1,5 @@
 const global = {
-    dev_version: '0.0.36',
-    dev_time: '2020.03.17',
+    dev_version: '0.0.37',
     server_config: 'https://zb.sbx0.cn/',
     common: {
         fetch: {

@@ -9,17 +9,21 @@ import "../i18N"
 import LanguageSelect from "./LanguageSelect";
 import global from '../tools/Global';
 import Link from "@material-ui/core/Link";
+import {useHistory} from "react-router-dom";
 
 export default function Footer() {
     const {t} = useTranslation();
     const classes = useStyles();
+    let history = useHistory();
 
     return (
         <>
-            <Box mb={2} mt={2}>
-                <Divider variant="middle" className={classes.divider}/>
-            </Box>
-            <Box mb={2}>
+            <Box
+                pt={2}
+                onClick={() => {
+                    history.push("/about");
+                }}
+            >
                 <Grid
                     container
                     justify="center"
@@ -27,16 +31,18 @@ export default function Footer() {
                     align="center"
                 >
                     <Typography variant="caption" display="block">
-                        {t("智贝")}<br/>
-                        {t("线上技术对接与交流平台")}<br/>
-                        {global.dev_time} {t("版本")} {global.dev_version}<br/>
-                        {t("您可以在")} <Link href={'https://github.com/sbx0/zb-react'}>Github</Link> {t("查看详细开发记录")}<br/>
-                        Power By React<br/>
-                        {'Copyright © '}
+                        <Typography variant="body1">
+                            {t("智贝")}<br/>
+                        </Typography>
+                        <Typography variant="body2">
+                            {t("线上技术对接与交流平台")}<br/>
+                        </Typography>
                         <Link color="inherit" href="https://blog.sbx0.cn/">
                             sbx0.cn
                         </Link>{' '}
-                        {new Date().getFullYear()}
+                        2019 - {new Date().getFullYear()}<br/><br/>
+                        {t("版本")} {global.dev_version}<br/>
+                        Power By React
                     </Typography>
                 </Grid>
             </Box>

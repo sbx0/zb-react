@@ -43,8 +43,7 @@ const useStyles = makeStyles(theme => ({
         padding: theme.spacing(8, 0, 6),
     },
     cardHeader: {
-        backgroundColor:
-            theme.palette.type === 'dark' ? theme.palette.grey[700] : theme.palette.grey[200],
+        backgroundColor: theme.palette.type === 'dark' ? theme.palette.grey[700] : theme.palette.grey[200],
     },
     cardPricing: {
         display: 'flex',
@@ -131,59 +130,55 @@ export default function ClientApp() {
             <Container maxWidth="md" component="main">
                 <Grid container spacing={5} alignItems="flex-end">
                     {tiers.map(tier => (
-                        <>
-                            {
-                                isDesktop || (!isDesktop && tier.title === '安卓版') ?
-                                    <Grid item key={tier.title} xs={12} sm={tier.title === '平板版' ? 12 : 6} md={4}>
-                                        <Card>
-                                            <CardHeader
-                                                title={tier.title}
-                                                subheader={tier.subheader}
-                                                titleTypographyProps={{align: 'center'}}
-                                                subheaderTypographyProps={{align: 'center'}}
-                                                action={tier.title === '网页版' ? <StarIcon/> : null}
-                                                className={classes.cardHeader}
-                                            />
-                                            <CardContent>
-                                                <div className={classes.cardPricing}>
-                                                    <Typography component="h2" variant="h3" color="textPrimary">
-                                                        {tier.price}
-                                                    </Typography>
-                                                    <Typography variant="h6" color="textSecondary">
-                                                        &nbsp;MB
-                                                    </Typography>
-                                                </div>
-                                                <ul>
-                                                    {tier.description.map(line => (
-                                                        <Typography component="li" variant="subtitle1" align="center"
-                                                                    key={line}>
-                                                            {line}
-                                                        </Typography>
-                                                    ))}
-                                                </ul>
-                                            </CardContent>
-                                            <CardActions>
-                                                <Button
-                                                    fullWidth
-                                                    variant={tier.buttonVariant}
-                                                    color="primary"
-                                                    onClick={() => {
-                                                        if (tier.url !== '/') {
-                                                            window.open(tier.url);
-                                                        } else {
-                                                            history.push('/');
-                                                        }
-                                                    }}
-                                                >
-                                                    {tier.buttonText}
-                                                </Button>
-                                            </CardActions>
-                                        </Card>
-                                    </Grid>
-                                    :
-                                    <></>
-                            }
-                        </>
+                        isDesktop || (!isDesktop && tier.title === '安卓版') ?
+                            <Grid item key={tier.title} xs={12} sm={tier.title === '平板版' ? 12 : 6} md={4}>
+                                <Card>
+                                    <CardHeader
+                                        title={tier.title}
+                                        subheader={tier.subheader}
+                                        titleTypographyProps={{align: 'center'}}
+                                        subheaderTypographyProps={{align: 'center'}}
+                                        action={tier.title === '网页版' ? <StarIcon/> : null}
+                                        className={classes.cardHeader}
+                                    />
+                                    <CardContent>
+                                        <div className={classes.cardPricing}>
+                                            <Typography component="h2" variant="h3" color="textPrimary">
+                                                {tier.price}
+                                            </Typography>
+                                            <Typography variant="h6" color="textSecondary">
+                                                &nbsp;MB
+                                            </Typography>
+                                        </div>
+                                        <ul>
+                                            {tier.description.map(line => (
+                                                <Typography component="li" variant="subtitle1" align="center"
+                                                            key={line}>
+                                                    {line}
+                                                </Typography>
+                                            ))}
+                                        </ul>
+                                    </CardContent>
+                                    <CardActions>
+                                        <Button
+                                            fullWidth
+                                            variant={tier.buttonVariant}
+                                            color="primary"
+                                            onClick={() => {
+                                                if (tier.url !== '/') {
+                                                    window.open(tier.url);
+                                                } else {
+                                                    history.push('/');
+                                                }
+                                            }}
+                                        >
+                                            {tier.buttonText}
+                                        </Button>
+                                    </CardActions>
+                                </Card>
+                            </Grid>
+                            :
+                            <Box key={tier.title}></Box>
                     ))}
                 </Grid>
             </Container>
