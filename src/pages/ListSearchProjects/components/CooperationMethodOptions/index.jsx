@@ -6,18 +6,18 @@ import StandardFormRow from "@/pages/ListSearchProjects/components/StandardFormR
 
 const FormItem = Form.Item;
 
-const MaturityOptions = (
+const CooperationMethodOptions = (
   {
     dispatch,
     listSearchProjects: {
-      maturityList = [],
+      cooperationMethodList = [],
     }, loading
   }) => {
 
   const [fatherIds, setFatherIds] = useState([]);
   useEffect(() => {
     dispatch({
-      type: 'listSearchProjects/maturity',
+      type: 'listSearchProjects/cooperationMethod',
       payload: {},
     });
   }, []);
@@ -35,7 +35,7 @@ const MaturityOptions = (
 
   return (
     <>
-      <FormItem {...formItemLayout} label="成熟度" name="maturity">
+      <FormItem {...formItemLayout} label="合作方式" name="cooperationMethod">
         <Select
           placeholder="点击筛选"
           style={{
@@ -44,8 +44,8 @@ const MaturityOptions = (
           }}
         >
           {
-            maturityList.map((one, index) => (
-              <Option key={'maturity' + index} value={one.value}>{one.name}</Option>
+            cooperationMethodList.map((one, index) => (
+              <Option key={'cooperationMethod' + index} value={one.value}>{one.name}</Option>
             ))
           }
         </Select>
@@ -57,4 +57,4 @@ const MaturityOptions = (
 export default connect(({listSearchProjects, loading}) => ({
   listSearchProjects,
   loading: loading.models.listSearchProjects,
-}))(MaturityOptions);
+}))(CooperationMethodOptions);

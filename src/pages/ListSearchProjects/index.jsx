@@ -4,6 +4,7 @@ import {connect} from 'dva';
 import moment from 'moment';
 import AvatarList from './components/AvatarList';
 import ClassificationOptions from './components/ClassificationOptions';
+import CooperationMethodOptions from './components/CooperationMethodOptions';
 import MaturityOptions from './components/MaturityOptions';
 import AddressOptions from './components/AddressOptions';
 import StandardFormRow from './components/StandardFormRow';
@@ -115,18 +116,7 @@ const ListSearchProjects = (
                 <MaturityOptions/>
               </Col>
               <Col lg={8} md={10} sm={10} xs={24}>
-                <FormItem {...formItemLayout} label="好评度" name="rate">
-                  <Select
-                    placeholder="不限"
-                    style={{
-                      maxWidth: 200,
-                      width: '100%',
-                    }}
-                  >
-                    <Option value="good">优秀</Option>
-                    <Option value="normal">普通</Option>
-                  </Select>
-                </FormItem>
+                <CooperationMethodOptions/>
               </Col>
             </Row>
           </StandardFormRow>
