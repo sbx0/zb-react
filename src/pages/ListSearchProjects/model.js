@@ -5,6 +5,7 @@ import {
   getAddressFather,
   getTechnicalAchievementsMaturityList,
   getTechnicalAchievementsCooperationMethodList,
+  getTechnicalAttributeList,
   getAddressSons
 } from './service';
 
@@ -18,6 +19,7 @@ const Model = {
     addressSonList: [],
     maturityList: [],
     cooperationMethodList: [],
+    attributeList: [],
   },
   effects: {
     * fetch({payload}, {call, put}) {
@@ -69,6 +71,13 @@ const Model = {
         payload: Array.isArray(response.objects) ? response.objects : [],
       });
     },
+    * attribute({payload}, {call, put}) {
+      const response = yield call(getTechnicalAttributeList, payload);
+      yield put({
+        type: 'setAttribute',
+        payload: Array.isArray(response.objects) ? response.objects : [],
+      });
+    },
   },
   reducers: {
     queryList(state, action) {
@@ -91,6 +100,9 @@ const Model = {
     },
     setCooperationMethod(state, action) {
       return {...state, cooperationMethodList: action.payload};
+    },
+    setAttribute(state, action) {
+      return {...state, attributeList: action.payload};
     },
   },
 };

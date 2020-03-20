@@ -21,6 +21,10 @@ export async function getTechnicalAchievementsMaturityList() {
   return request.get('/technical/achievements/maturity/list');
 }
 
+export async function getTechnicalAttributeList() {
+  return request.get('/technical/achievements/attribute');
+}
+
 export async function getTechnicalAchievementsCooperationMethodList() {
   return request.get('/technical/achievements/cooperationMethod/list');
 }

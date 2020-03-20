@@ -5,6 +5,7 @@ import moment from 'moment';
 import AvatarList from './components/AvatarList';
 import ClassificationOptions from './components/ClassificationOptions';
 import CooperationMethodOptions from './components/CooperationMethodOptions';
+import AttributeOptions from './components/AttributeOptions';
 import MaturityOptions from './components/MaturityOptions';
 import AddressOptions from './components/AddressOptions';
 import StandardFormRow from './components/StandardFormRow';
@@ -112,11 +113,28 @@ const ListSearchProjects = (
           <ClassificationOptions/>
           <StandardFormRow title="其它选项" grid last>
             <Row gutter={16}>
-              <Col lg={8} md={10} sm={10} xs={24}>
+              <Col lg={5} md={10} sm={10} xs={24}>
                 <MaturityOptions/>
               </Col>
-              <Col lg={8} md={10} sm={10} xs={24}>
+              <Col lg={5} md={10} sm={10} xs={24}>
                 <CooperationMethodOptions/>
+              </Col>
+              <Col lg={5} md={10} sm={10} xs={24}>
+                <AttributeOptions/>
+              </Col>
+              <Col lg={5} md={10} sm={10} xs={24}>
+                <FormItem {...formItemLayout} label="方向" name="attribute">
+                  <Select
+                    placeholder="降序"
+                    style={{
+                      maxWidth: 200,
+                      width: '100%',
+                    }}
+                  >
+                    <Option value="DESC">降序</Option>
+                    <Option value="ASC">升序</Option>
+                  </Select>
+                </FormItem>
               </Col>
             </Row>
           </StandardFormRow>
