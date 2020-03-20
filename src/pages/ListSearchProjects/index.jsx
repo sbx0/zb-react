@@ -105,15 +105,8 @@ const ListSearchProjects = (
             });
           }}
         >
-          <StandardFormRow
-            title="所属类目"
-            block
-            style={{
-              paddingBottom: 11,
-            }}
-          >
+
             <ClassificationOptions/>
-          </StandardFormRow>
           <StandardFormRow title="其它选项" grid last>
             <Row gutter={16}>
               <Col lg={8} md={10} sm={10} xs={24}>

@@ -1,10 +1,11 @@
-import {queryFakeList, technicalClassificationFather} from './service';
+import {queryFakeList, getTechnicalClassificationSons, getTechnicalClassificationFather} from './service';
 
 const Model = {
   namespace: 'listSearchProjects',
   state: {
     list: [],
-    classificationList: [],
+    technicalClassificationFatherList: [],
+    technicalClassificationSonList: [],
   },
   effects: {
     * fetch({payload}, {call, put}) {
@@ -14,10 +15,17 @@ const Model = {
         payload: Array.isArray(response) ? response : [],
       });
     },
-    * classification({payload}, {call, put}) {
-      const response = yield call(technicalClassificationFather, payload);
+    * technicalClassificationFather({payload}, {call, put}) {
+      const response = yield call(getTechnicalClassificationFather, payload);
       yield put({
-        type: 'queryClassificationList',
+        type: 'setTechnicalClassificationFather',
+        payload: Array.isArray(response.objects) ? response.objects : [],
+      });
+    },
+    * technicalClassificationSons({payload}, {call, put}) {
+      const response = yield call(getTechnicalClassificationSons, payload);
+      yield put({
+        type: 'setTechnicalClassificationSons',
         payload: Array.isArray(response.objects) ? response.objects : [],
       });
     },
@@ -26,8 +34,11 @@ const Model = {
     queryList(state, action) {
       return {...state, list: action.payload};
     },
-    queryClassificationList(state, action) {
-      return {...state, classificationList: action.payload};
+    setTechnicalClassificationFather(state, action) {
+      return {...state, technicalClassificationFatherList: action.payload};
+    },
+    setTechnicalClassificationSons(state, action) {
+      return {...state, technicalClassificationSonList: action.payload};
     },
   },
 };
