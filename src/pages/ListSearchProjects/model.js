@@ -1,4 +1,10 @@
-import {queryFakeList, getTechnicalClassificationSons, getTechnicalClassificationFather} from './service';
+import {
+  queryFakeList,
+  getTechnicalClassificationSons,
+  getTechnicalClassificationFather,
+  getAddressFather,
+  getAddressSons
+} from './service';
 
 const Model = {
   namespace: 'listSearchProjects',
@@ -6,6 +12,8 @@ const Model = {
     list: [],
     technicalClassificationFatherList: [],
     technicalClassificationSonList: [],
+    addressFatherList: [],
+    addressSonList: [],
   },
   effects: {
     * fetch({payload}, {call, put}) {
@@ -29,6 +37,20 @@ const Model = {
         payload: Array.isArray(response.objects) ? response.objects : [],
       });
     },
+    * addressFather({payload}, {call, put}) {
+      const response = yield call(getAddressFather, payload);
+      yield put({
+        type: 'setAddressFather',
+        payload: Array.isArray(response.objects) ? response.objects : [],
+      });
+    },
+    * addressSons({payload}, {call, put}) {
+      const response = yield call(getAddressSons, payload);
+      yield put({
+        type: 'setAddressSons',
+        payload: Array.isArray(response.objects) ? response.objects : [],
+      });
+    },
   },
   reducers: {
     queryList(state, action) {
@@ -39,6 +61,12 @@ const Model = {
     },
     setTechnicalClassificationSons(state, action) {
       return {...state, technicalClassificationSonList: action.payload};
+    },
+    setAddressFather(state, action) {
+      return {...state, addressFatherList: action.payload};
+    },
+    setAddressSons(state, action) {
+      return {...state, addressSonList: action.payload};
     },
   },
 };

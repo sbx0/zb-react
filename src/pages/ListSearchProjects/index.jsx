@@ -4,6 +4,7 @@ import {connect} from 'dva';
 import moment from 'moment';
 import AvatarList from './components/AvatarList';
 import ClassificationOptions from './components/ClassificationOptions';
+import AddressOptions from './components/AddressOptions';
 import StandardFormRow from './components/StandardFormRow';
 import TagSelect from './components/TagSelect';
 import styles from './style.less';
@@ -105,8 +106,8 @@ const ListSearchProjects = (
             });
           }}
         >
-
-            <ClassificationOptions/>
+          <AddressOptions/>
+          <ClassificationOptions/>
           <StandardFormRow title="其它选项" grid last>
             <Row gutter={16}>
               <Col lg={8} md={10} sm={10} xs={24}>
