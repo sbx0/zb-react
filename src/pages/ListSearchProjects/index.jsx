@@ -1,19 +1,28 @@
-import { Card, Col, Form, List, Row, Select, Typography } from 'antd';
-import React, { useEffect } from 'react';
-import { connect } from 'dva';
+import {Card, Col, Form, List, Row, Select, Typography} from 'antd';
+import React, {useEffect} from 'react';
+import {connect} from 'dva';
 import moment from 'moment';
 import AvatarList from './components/AvatarList';
+import ClassificationOptions from './components/ClassificationOptions';
 import StandardFormRow from './components/StandardFormRow';
 import TagSelect from './components/TagSelect';
 import styles from './style.less';
 
-const { Option } = Select;
+const {Option} = Select;
 const FormItem = Form.Item;
-const { Paragraph } = Typography;
+const {Paragraph} = Typography;
 
 const getKey = (id, index) => `${id}-${index}`;
 
-const ListSearchProjects = ({ dispatch, listSearchProjects: { list = [] }, loading }) => {
+const ListSearchProjects = (
+  {
+    dispatch,
+    listSearchProjects: {
+      list = [],
+      classificationList = [],
+    },
+    loading
+  }) => {
   useEffect(() => {
     dispatch({
       type: 'listSearchProjects/fetch',
@@ -37,7 +46,7 @@ const ListSearchProjects = ({ dispatch, listSearchProjects: { list = [] }, loadi
       dataSource={list}
       renderItem={item => (
         <List.Item>
-          <Card className={styles.card} hoverable cover={<img alt={item.title} src={item.cover} />}>
+          <Card className={styles.card} hoverable cover={<img alt={item.title} src={item.cover}/>}>
             <Card.Meta
               title={<a>{item.title}</a>}
               description={
@@ -103,22 +112,7 @@ const ListSearchProjects = ({ dispatch, listSearchProjects: { list = [] }, loadi
               paddingBottom: 11,
             }}
           >
-            <FormItem name="category">
-              <TagSelect expandable>
-                <TagSelect.Option value="cat1">类目一</TagSelect.Option>
-                <TagSelect.Option value="cat2">类目二</TagSelect.Option>
-                <TagSelect.Option value="cat3">类目三</TagSelect.Option>
-                <TagSelect.Option value="cat4">类目四</TagSelect.Option>
-                <TagSelect.Option value="cat5">类目五</TagSelect.Option>
-                <TagSelect.Option value="cat6">类目六</TagSelect.Option>
-                <TagSelect.Option value="cat7">类目七</TagSelect.Option>
-                <TagSelect.Option value="cat8">类目八</TagSelect.Option>
-                <TagSelect.Option value="cat9">类目九</TagSelect.Option>
-                <TagSelect.Option value="cat10">类目十</TagSelect.Option>
-                <TagSelect.Option value="cat11">类目十一</TagSelect.Option>
-                <TagSelect.Option value="cat12">类目十二</TagSelect.Option>
-              </TagSelect>
-            </FormItem>
+            <ClassificationOptions/>
           </StandardFormRow>
           <StandardFormRow title="其它选项" grid last>
             <Row gutter={16}>
@@ -158,7 +152,7 @@ const ListSearchProjects = ({ dispatch, listSearchProjects: { list = [] }, loadi
   );
 };
 
-export default connect(({ listSearchProjects, loading }) => ({
+export default connect(({listSearchProjects, loading}) => ({
   listSearchProjects,
   loading: loading.models.listSearchProjects,
 }))(ListSearchProjects);

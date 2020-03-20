@@ -1,7 +1,11 @@
-import request from '@/utils/request';
+import request, {mock} from '@/utils/request';
+
+export async function technicalClassificationFather(p, d) {
+  return request.get('/technical/classification/father', {params: p, data: d});
+}
 
 export async function queryFakeList(params) {
-  return request('/api/fake_list', {
+  return mock('/api/fake_list', {
     params,
   });
 }
