@@ -17,6 +17,10 @@ export async function getTechnicalClassificationFather() {
   return request.get('/technical/classification/father');
 }
 
+export async function getTechnicalAchievementsMaturityList() {
+  return request.get('/technical/achievements/maturity/list');
+}
+
 export async function getAddressFather() {
   return request.get('/address/base/son?fatherId=0');
 }

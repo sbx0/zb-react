@@ -3,6 +3,7 @@ import {
   getTechnicalClassificationSons,
   getTechnicalClassificationFather,
   getAddressFather,
+  getTechnicalAchievementsMaturityList,
   getAddressSons
 } from './service';
 
@@ -14,6 +15,7 @@ const Model = {
     technicalClassificationSonList: [],
     addressFatherList: [],
     addressSonList: [],
+    maturityList: [],
   },
   effects: {
     * fetch({payload}, {call, put}) {
@@ -51,6 +53,13 @@ const Model = {
         payload: Array.isArray(response.objects) ? response.objects : [],
       });
     },
+    * maturity({payload}, {call, put}) {
+      const response = yield call(getTechnicalAchievementsMaturityList, payload);
+      yield put({
+        type: 'setMaturity',
+        payload: Array.isArray(response.objects) ? response.objects : [],
+      });
+    },
   },
   reducers: {
     queryList(state, action) {
@@ -67,6 +76,9 @@ const Model = {
     },
     setAddressSons(state, action) {
       return {...state, addressSonList: action.payload};
+    },
+    setMaturity(state, action) {
+      return {...state, maturityList: action.payload};
     },
   },
 };
