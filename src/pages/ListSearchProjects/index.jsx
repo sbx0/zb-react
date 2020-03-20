@@ -22,7 +22,7 @@ const ListSearchProjects = (
   {
     dispatch,
     listSearchProjects: {
-      list = [],
+      technicalAchievementsList = [],
       classificationList = [],
     },
     loading
@@ -31,11 +31,11 @@ const ListSearchProjects = (
     dispatch({
       type: 'listSearchProjects/fetch',
       payload: {
-        count: 8,
+        values: {}
       },
     });
   }, []);
-  const cardList = list && (
+  const cardList = technicalAchievementsList && (
     <List
       rowKey="id"
       loading={loading}
@@ -47,12 +47,12 @@ const ListSearchProjects = (
         sm: 2,
         xs: 1,
       }}
-      dataSource={list}
+      dataSource={technicalAchievementsList}
       renderItem={item => (
         <List.Item>
-          <Card className={styles.card} hoverable cover={<img alt={item.title} src={item.cover}/>}>
+          <Card className={styles.card} hoverable cover={<img alt={item.name} src={item.cover}/>}>
             <Card.Meta
-              title={<a>{item.title}</a>}
+              title={<a>{item.name}</a>}
               description={
                 <Paragraph
                   className={styles.item}
@@ -60,22 +60,22 @@ const ListSearchProjects = (
                     rows: 2,
                   }}
                 >
-                  {item.subDescription}
+                  {item.content}
                 </Paragraph>
               }
             />
             <div className={styles.cardItemContent}>
-              <span>{moment(item.updatedAt).fromNow()}</span>
+              <span>{moment(item.postTime).fromNow()}</span>
               <div className={styles.avatarList}>
-                <AvatarList size="small">
-                  {item.members.map((member, i) => (
-                    <AvatarList.Item
-                      key={getKey(item.id, i)}
-                      src={member.avatar}
-                      tips={member.name}
-                    />
-                  ))}
-                </AvatarList>
+                {/*<AvatarList size="small">*/}
+                {/*  {item.members.map((member, i) => (*/}
+                {/*    <AvatarList.Item*/}
+                {/*      key={getKey(item.id, i)}*/}
+                {/*      src={member.avatar}*/}
+                {/*      tips={member.name}*/}
+                {/*    />*/}
+                {/*  ))}*/}
+                {/*</AvatarList>*/}
               </div>
             </div>
           </Card>
@@ -98,13 +98,11 @@ const ListSearchProjects = (
       <Card bordered={false}>
         <Form
           layout="inline"
-          onValuesChange={() => {
-            // 表单项变化时请求数据
-            // 模拟查询表单生效
+          onValuesChange={(changedValues, allValues) => {
             dispatch({
               type: 'listSearchProjects/fetch',
               payload: {
-                count: 8,
+                values: allValues
               },
             });
           }}

@@ -6,13 +6,13 @@ import {
   getTechnicalAchievementsMaturityList,
   getTechnicalAchievementsCooperationMethodList,
   getTechnicalAttributeList,
+  getTechnicalAchievementsList,
   getAddressSons
 } from './service';
 
 const Model = {
   namespace: 'listSearchProjects',
   state: {
-    list: [],
     technicalClassificationFatherList: [],
     technicalClassificationSonList: [],
     addressFatherList: [],
@@ -20,13 +20,14 @@ const Model = {
     maturityList: [],
     cooperationMethodList: [],
     attributeList: [],
+    technicalAchievementsList: [],
   },
   effects: {
     * fetch({payload}, {call, put}) {
-      const response = yield call(queryFakeList, payload);
+      const response = yield call(getTechnicalAchievementsList, payload);
       yield put({
-        type: 'queryList',
-        payload: Array.isArray(response) ? response : [],
+        type: 'setTechnicalAchievementsList',
+        payload: Array.isArray(response.objects) ? response.objects : [],
       });
     },
     * technicalClassificationFather({payload}, {call, put}) {
@@ -80,8 +81,8 @@ const Model = {
     },
   },
   reducers: {
-    queryList(state, action) {
-      return {...state, list: action.payload};
+    setTechnicalAchievementsList(state, action) {
+      return {...state, technicalAchievementsList: action.payload};
     },
     setTechnicalClassificationFather(state, action) {
       return {...state, technicalClassificationFatherList: action.payload};
