@@ -108,6 +108,30 @@ export default {
           authority: ['admin', 'user'],
           routes: [
             {
+              name: '分步表单',
+              icon: 'smile',
+              path: '/alipay',
+              component: './user/AlipayStep',
+            },
+            {
+              name: '个人中心',
+              icon: 'smile',
+              path: '/accountcenter',
+              component: './user/AccountCenter',
+            },
+            {
+              name: '个人设置',
+              icon: 'smile',
+              path: '/accountsettings',
+              component: './user/AccountSettings',
+            },
+            {
+              name: '搜索列表（项目）',
+              icon: 'smile',
+              path: '/listsearchprojects',
+              component: './ListSearchProjects',
+            },
+            {
               name: 'welcome',
               icon: 'smile',
               path: '/',
