@@ -1,5 +1,9 @@
 import request from '@/utils/request';
 
+export async function whoami() {
+  return request.get('/user/role/whoami');
+}
+
 export async function logout() {
   return request.get('/user/base/logout');
 }

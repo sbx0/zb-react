@@ -4,6 +4,7 @@ import {
   login as accountLogin,
   register as accountRegister,
   logout as accountLogout,
+  whoami,
 } from '@/services/login';
 import {cs, ol} from '@/services/status';
 import {setAuthority} from '@/utils/authority';
@@ -18,11 +19,12 @@ const Model = {
   effects: {
     * login({payload}, {call, put}) {
       const response = yield call(accountLogin, payload);
-      yield put({
-        type: 'changeLoginStatus',
-        payload: response,
-      }); // Login
+      const response2 = yield call(whoami, payload);
       if (cs(response.status)) {
+        yield put({
+          type: 'changeLoginStatus',
+          payload: response2,
+        }); // Login
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         let {redirect} = params;
@@ -40,7 +42,6 @@ const Model = {
         }
         if (redirect === '/user/register') {
           window.location.href = '/';
-          return;
         } else {
           router.replace(redirect || '/');
         }
@@ -97,7 +98,8 @@ const Model = {
   },
   reducers: {
     changeLoginStatus(state, {payload}) {
-      setAuthority(payload.currentAuthority);
+      console.log('setAuthority(payload.objects)',payload.objects)
+      setAuthority(payload.objects);
       return {...state, status: payload.status, type: payload.type};
     },
   },

@@ -105,37 +105,48 @@ export default {
         {
           path: '/',
           component: '../layouts/BasicLayout',
-          authority: ['admin', 'user'],
+          // authority: ['admin', 'initial'],
           routes: [
-            {
-              name: '分步表单',
-              icon: 'smile',
-              path: '/alipay',
-              component: './user/AlipayStep',
-            },
-            {
-              name: '个人中心',
-              icon: 'smile',
-              path: '/accountcenter',
-              component: './user/AccountCenter',
-            },
-            {
-              name: '个人设置',
-              icon: 'smile',
-              path: '/accountsettings',
-              component: './user/AccountSettings',
-            },
-            {
-              name: '搜索列表（项目）',
-              icon: 'smile',
-              path: '/listsearchprojects',
-              component: './ListSearchProjects',
-            },
             {
               name: 'welcome',
               icon: 'smile',
               path: '/',
               component: './user/DashboardWorkplace',
+            },
+            {
+              name: 'achievements',
+              icon: 'smile',
+              path: '/achievements',
+              component: './ListSearchProjects',
+            },
+            {
+              name: 'my',
+              icon: 'smile',
+              path: '/my',
+              authority: ['initial'],
+              routes: [
+                {
+                  name: 'index',
+                  icon: 'smile',
+                  path: '/my/index',
+                  authority: ['initial'],
+                  component: './user/AccountCenter',
+                },
+                {
+                  name: 'setting',
+                  icon: 'smile',
+                  path: '/my/setting',
+                  authority: ['initial'],
+                  component: './user/AccountSettings',
+                },
+                {
+                  name: 'alipay',
+                  icon: 'smile',
+                  path: '/my/alipay',
+                  authority: ['initial'],
+                  component: './user/AlipayStep',
+                },
+              ],
             },
             {
               path: '/admin',
@@ -152,12 +163,6 @@ export default {
                   authority: ['admin'],
                 },
               ],
-            },
-            {
-              name: 'list.table-list',
-              icon: 'table',
-              path: '/list',
-              component: './ListTableList',
             },
             {
               component: './404',
