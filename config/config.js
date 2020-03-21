@@ -108,6 +108,12 @@ export default {
           // authority: ['admin', 'initial'],
           routes: [
             {
+              name: '基础表单',
+              icon: 'smile',
+              path: '/postform',
+              component: './user/PostForm',
+            },
+            {
               name: 'welcome',
               icon: 'smile',
               path: '/',
