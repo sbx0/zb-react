@@ -27,6 +27,7 @@ import styles from './style.less';
 import {
   Pagination
 } from 'antd';
+import Link from 'umi/link';
 
 const {
   Option
@@ -39,31 +40,33 @@ const {
 const getKey = (id, index) => `${id}-${index}`;
 
 const ListSearchProjects = ({
-    dispatch,
-    listSearchProjects: {
-      technicalAchievementsList = [],
-      classificationList = [],
-      total
-    },
-    loading
-  }) => {
+                              dispatch,
+                              listSearchProjects: {
+                                technicalAchievementsList = [],
+                                classificationList = [],
+                                total
+                              },
+                              loading
+                            }) => {
 
-    const [values,setValues] = useState({
-      page:1,
-      size:9,
+  const [values, setValues] = useState({
+    page: 1,
+    size: 9,
+    attribute: 'id',
+    direction: 'DESC',
+  });
+
+  useEffect(() => {
+    dispatch({
+      type: 'listSearchProjects/fetch',
+      payload: {
+        values: values
+      },
     });
+  }, []);
 
-    useEffect(() => {
-      dispatch({
-        type: 'listSearchProjects/fetch',
-        payload: {
-          values: values
-        },
-      });
-    }, []);
-
-    const cardList = technicalAchievementsList && (
-        <List
+  const cardList = technicalAchievementsList && (
+    <List
       rowKey="id"
       loading={loading}
       grid={{
@@ -77,27 +80,39 @@ const ListSearchProjects = ({
       dataSource={technicalAchievementsList}
       renderItem={item => (
         <List.Item>
-          <Card className={styles.card} hoverable cover={<img alt={item.name} src={item.cover}/>
-      } >
-      <Card.Meta
-              title={<a>{item.name}</a>}
-              description={
-                <Paragraph
-                  className={styles.item}
-                  ellipsis={{
-                    rows: 2,
-                  }}
-                >
-                  {item.content}
-                </Paragraph>
+          <Link to={
+            {
+              pathname: '/achievement/one',
+              query: {
+                id: item.id,
+                userId: item.userId,
+                addressId: item.addressId,
+                classificationId: item.classificationId
               }
-            />
-            <div className={styles.cardItemContent}>
-              <span>{moment(item.postTime).fromNow()}</span>
-              <div className={styles.avatarList}>
+            }
+          }>
+            <Card className={styles.card} hoverable cover={<img alt={item.name} src={item.cover}/>}>
+              <Card.Meta
+                title={<a>{item.name}</a>}
+                description={
+                  <Paragraph
+                    className={styles.item}
+                    ellipsis={{
+                      rows: 2,
+                    }}
+                  >
+                    {item.context.substr(0, 40).trim() + '...'}
+                  </Paragraph>
+                }
+              />
+              <div className={styles.cardItemContent}>
+                <span>{moment(item.postTime).fromNow()}</span>
+                <div className={styles.avatarList}>
+                  <span>{item.price}￥</span>
+                </div>
               </div>
-            </div>
-          </Card>
+            </Card>
+          </Link>
         </List.Item>
       )}
     />
@@ -112,17 +127,19 @@ const ListSearchProjects = ({
       },
     },
   };
+
   function onShowSizeChange(current, pageSize) {
     values.page = current;
     values.size = pageSize;
     setPage(values);
     dispatch({
-              type: 'listSearchProjects/fetch',
-              payload: {
-                values: values
-              },
-            });
+      type: 'listSearchProjects/fetch',
+      payload: {
+        values: values
+      },
+    });
   }
+
   return (
     <div className={styles.coverCardList}>
       <Card bordered={false}>
@@ -132,7 +149,7 @@ const ListSearchProjects = ({
             dispatch({
               type: 'listSearchProjects/fetch',
               payload: {
-                values: Object.assign(values,allValues)
+                values: Object.assign(values, allValues)
               },
             });
           }}
@@ -153,7 +170,7 @@ const ListSearchProjects = ({
               <Col lg={5} md={10} sm={10} xs={24}>
                 <FormItem {...formItemLayout} label="方向" name="direction">
                   <Select
-                    placeholder="降序"
+                    placeholder="请选择"
                     style={{
                       maxWidth: 200,
                       width: '100%',
@@ -172,7 +189,7 @@ const ListSearchProjects = ({
       <div>
         <Pagination
           showSizeChanger
-          onChange={(page,pageSize)=>{
+          onChange={(page, pageSize) => {
             values.page = page;
             values.size = pageSize;
             setValues(values);

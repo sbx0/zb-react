@@ -23,7 +23,6 @@ const ClassificationOptions = (
   }, []);
 
   useEffect(() => {
-    console.log('fatherIds', fatherIds)
     dispatch({
       type: 'listSearchProjects/technicalClassificationSons',
       payload: {

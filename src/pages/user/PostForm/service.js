@@ -1,7 +1,6 @@
 import request from '@/utils/request';
 
 export async function postTechnicalAchievements(p) {
-  console.log('postTechnicalAchievements p', p)
   const formData = new FormData();
   let addressIds = [];
   let classificationIds = [];

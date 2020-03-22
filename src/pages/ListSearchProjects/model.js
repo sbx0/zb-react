@@ -9,6 +9,8 @@ import {
   getTechnicalAchievementsList,
   getAddressSons
 } from './service';
+import router from 'umi/router';
+import {routerRedux} from 'dva/router';
 
 const Model = {
   namespace: 'listSearchProjects',
@@ -21,9 +23,15 @@ const Model = {
     cooperationMethodList: [],
     attributeList: [],
     technicalAchievementsList: [],
-    total:0
+    total:0,
+    tab:'',
+    id:'',
+    userId:'',
   },
   effects: {
+    * goToAchievement({payload}, {call, put}) {
+       yield put(routerRedux.replace('/achievement/one/'+payload.id));
+    },
     * fetch({payload}, {call, put}) {
       const response = yield call(getTechnicalAchievementsList, payload);
       yield put({

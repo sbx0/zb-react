@@ -1,7 +1,6 @@
 import request, {mock} from '@/utils/request';
 
 export async function getTechnicalAchievementsList(p) {
-  console.log('getTechnicalAchievementsList p', p, p)
   const formData = new FormData();
   formData.append('userId', 0);
   let addressIds = [];
@@ -18,7 +17,6 @@ export async function getTechnicalAchievementsList(p) {
       }
     );
   }
-  console.log('addressIds',addressIds)
   if (addressIds.length > 0) {
     addressIds = [...new Set(addressIds)];
     formData.append('addressId', addressIds);
@@ -31,7 +29,6 @@ export async function getTechnicalAchievementsList(p) {
 }
 
 export async function getTechnicalClassificationSons(p) {
-  console.log(p);
   const formData = new FormData();
   if (p) {
     Object.keys(p).forEach(
