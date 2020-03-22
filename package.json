@@ -29,7 +29,7 @@
     "test:all": "node ./tests/run-tests.js",
     "test:component": "umi test ./src/components",
     "tsc": "tsc",
-    "ui": "umi ui"
+    "ui": "cross-env HOST=192.168.0.100 umi ui"
   },
   "husky": {
     "hooks": {

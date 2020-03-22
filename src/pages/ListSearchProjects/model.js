@@ -21,6 +21,7 @@ const Model = {
     cooperationMethodList: [],
     attributeList: [],
     technicalAchievementsList: [],
+    total:0
   },
   effects: {
     * fetch({payload}, {call, put}) {
@@ -28,6 +29,10 @@ const Model = {
       yield put({
         type: 'setTechnicalAchievementsList',
         payload: Array.isArray(response.objects) ? response.objects : [],
+      });
+            yield put({
+        type: 'setTotal',
+        payload: response.total,
       });
     },
     * technicalClassificationFather({payload}, {call, put}) {
@@ -105,6 +110,9 @@ const Model = {
     setAttribute(state, action) {
       return {...state, attributeList: action.payload};
     },
+    setTotal(state,action) {
+       return {...state, total: action.payload};
+    }
   },
 };
 export default Model;

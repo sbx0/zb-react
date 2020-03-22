@@ -22,7 +22,7 @@ const {TextArea} = Input;
 const PostForm = props => {
   const {submitting} = props;
   const [form] = Form.useForm();
-  const [file, setFile] = useState("https://gw.alipayobjects.com/zos/rmsportal/iZBVOIhGJiAnhplqjvZW.png");
+  const [file, setFile] = useState("https:\/\/gw.alipayobjects.com/zos/rmsportal/iZBVOIhGJiAnhplqjvZW.png");
   const [price, setPrice] = useState(0.00);
   const [upload, setUpload] = useState(false);
   const [showPublicUsers, setShowPublicUsers] = React.useState(false);
@@ -81,6 +81,10 @@ const PostForm = props => {
     if (publicType) setShowPublicUsers(publicType === '2');
   };
 
+  function onShowSizeChange(current, pageSize) {
+    console.log(current, pageSize);
+  }
+
   return (
     <PageHeaderWrapper content={<FormattedMessage id="发布成果"/>}>
       <Card bordered={false}>
@@ -90,7 +94,7 @@ const PostForm = props => {
             marginTop: 8,
           }}
           form={form}
-          name="发布成果"
+          name={'发布成果'}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           onValuesChange={onValuesChange}
@@ -143,37 +147,10 @@ const PostForm = props => {
               })}
             />
           </FormItem>
-          {/*<FormItem*/}
-          {/*  {...formItemLayout}*/}
-          {/*  label={<FormattedMessage id="userandpostform.date.label" />}*/}
-          {/*  name="date"*/}
-          {/*  rules={[*/}
-          {/*    {*/}
-          {/*      required: true,*/}
-          {/*      message: formatMessage({*/}
-          {/*        id: 'userandpostform.date.required',*/}
-          {/*      }),*/}
-          {/*    },*/}
-          {/*  ]}*/}
-          {/*>*/}
-          {/*  <RangePicker*/}
-          {/*    style={{*/}
-          {/*      width: '100%',*/}
-          {/*    }}*/}
-          {/*    placeholder={[*/}
-          {/*      formatMessage({*/}
-          {/*        id: 'userandpostform.placeholder.start',*/}
-          {/*      }),*/}
-          {/*      formatMessage({*/}
-          {/*        id: 'userandpostform.placeholder.end',*/}
-          {/*      }),*/}
-          {/*    ]}*/}
-          {/*  />*/}
-          {/*</FormItem>*/}
           <FormItem
             {...formItemLayout}
             label={<FormattedMessage id="简介"/>}
-            name="context"
+            name={'context'}
             rules={[
               {
                 required: true,
@@ -197,10 +174,7 @@ const PostForm = props => {
             {...formItemLayout}
             label={
               <span>
-                <FormattedMessage id="价格"/>
-                {/*<em className={styles.optional}>*/}
-                {/*  <FormattedMessage id="userandpostform.form.optional" />*/}
-                {/*</em>*/}
+                <FormattedMessage id={'价格'}/>
               </span>
             }
             name="price"
@@ -216,53 +190,6 @@ const PostForm = props => {
             />
             <span className="ant-form-text">￥</span>
           </FormItem>
-          {/*<FormItem*/}
-          {/*  {...formItemLayout}*/}
-          {/*  label={<FormattedMessage id="userandpostform.public.label" />}*/}
-          {/*  help={<FormattedMessage id="userandpostform.label.help" />}*/}
-          {/*  name="publicType"*/}
-          {/*>*/}
-          {/*  <div>*/}
-          {/*    <Radio.Group>*/}
-          {/*      <Radio value="1">*/}
-          {/*        <FormattedMessage id="userandpostform.radio.public" />*/}
-          {/*      </Radio>*/}
-          {/*      <Radio value="2">*/}
-          {/*        <FormattedMessage id="userandpostform.radio.partially-public" />*/}
-          {/*      </Radio>*/}
-          {/*      <Radio value="3">*/}
-          {/*        <FormattedMessage id="userandpostform.radio.private" />*/}
-          {/*      </Radio>*/}
-          {/*    </Radio.Group>*/}
-          {/*    <FormItem*/}
-          {/*      style={{*/}
-          {/*        marginBottom: 0,*/}
-          {/*      }}*/}
-          {/*      name="publicUsers"*/}
-          {/*    >*/}
-          {/*      <Select*/}
-          {/*        mode="multiple"*/}
-          {/*        placeholder={formatMessage({*/}
-          {/*          id: 'userandpostform.publicUsers.placeholder',*/}
-          {/*        })}*/}
-          {/*        style={{*/}
-          {/*          margin: '8px 0',*/}
-          {/*          display: showPublicUsers ? 'block' : 'none',*/}
-          {/*        }}*/}
-          {/*      >*/}
-          {/*        <Option value="1">*/}
-          {/*          <FormattedMessage id="userandpostform.option.A" />*/}
-          {/*        </Option>*/}
-          {/*        <Option value="2">*/}
-          {/*          <FormattedMessage id="userandpostform.option.B" />*/}
-          {/*        </Option>*/}
-          {/*        <Option value="3">*/}
-          {/*          <FormattedMessage id="userandpostform.option.C" />*/}
-          {/*        </Option>*/}
-          {/*      </Select>*/}
-          {/*    </FormItem>*/}
-          {/*  </div>*/}
-          {/*</FormItem>*/}
           <FormItem
             {...submitFormLayout}
             style={{
@@ -272,13 +199,6 @@ const PostForm = props => {
             <Button type="primary" htmlType="submit" loading={submitting}>
               <FormattedMessage id="userandpostform.form.submit"/>
             </Button>
-            {/*<Button*/}
-            {/*  style={{*/}
-            {/*    marginLeft: 8,*/}
-            {/*  }}*/}
-            {/*>*/}
-            {/*  <FormattedMessage id="userandpostform.form.save" />*/}
-            {/*</Button>*/}
           </FormItem>
         </Form>
       </Card>

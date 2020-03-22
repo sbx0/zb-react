@@ -1,6 +1,19 @@
-import {Card, Col, Form, List, Row, Select, Typography} from 'antd';
-import React, {useEffect} from 'react';
-import {connect} from 'dva';
+import {
+  Card,
+  Col,
+  Form,
+  List,
+  Row,
+  Select,
+  Typography
+} from 'antd';
+import React, {
+  useEffect,
+  useState
+} from 'react';
+import {
+  connect
+} from 'dva';
 import moment from 'moment';
 import AvatarList from './components/AvatarList';
 import ClassificationOptions from './components/ClassificationOptions';
@@ -11,32 +24,46 @@ import AddressOptions from './components/AddressOptions';
 import StandardFormRow from './components/StandardFormRow';
 import TagSelect from './components/TagSelect';
 import styles from './style.less';
+import {
+  Pagination
+} from 'antd';
 
-const {Option} = Select;
+const {
+  Option
+} = Select;
 const FormItem = Form.Item;
-const {Paragraph} = Typography;
+const {
+  Paragraph
+} = Typography;
 
 const getKey = (id, index) => `${id}-${index}`;
 
-const ListSearchProjects = (
-  {
+const ListSearchProjects = ({
     dispatch,
     listSearchProjects: {
       technicalAchievementsList = [],
       classificationList = [],
+      total
     },
     loading
   }) => {
-  useEffect(() => {
-    dispatch({
-      type: 'listSearchProjects/fetch',
-      payload: {
-        values: {}
-      },
+
+    const [values,setValues] = useState({
+      page:1,
+      size:9,
     });
-  }, []);
-  const cardList = technicalAchievementsList && (
-    <List
+
+    useEffect(() => {
+      dispatch({
+        type: 'listSearchProjects/fetch',
+        payload: {
+          values: values
+        },
+      });
+    }, []);
+
+    const cardList = technicalAchievementsList && (
+        <List
       rowKey="id"
       loading={loading}
       grid={{
@@ -50,8 +77,9 @@ const ListSearchProjects = (
       dataSource={technicalAchievementsList}
       renderItem={item => (
         <List.Item>
-          <Card className={styles.card} hoverable cover={<img alt={item.name} src={item.cover}/>}>
-            <Card.Meta
+          <Card className={styles.card} hoverable cover={<img alt={item.name} src={item.cover}/>
+      } >
+      <Card.Meta
               title={<a>{item.name}</a>}
               description={
                 <Paragraph
@@ -67,15 +95,6 @@ const ListSearchProjects = (
             <div className={styles.cardItemContent}>
               <span>{moment(item.postTime).fromNow()}</span>
               <div className={styles.avatarList}>
-                {/*<AvatarList size="small">*/}
-                {/*  {item.members.map((member, i) => (*/}
-                {/*    <AvatarList.Item*/}
-                {/*      key={getKey(item.id, i)}*/}
-                {/*      src={member.avatar}*/}
-                {/*      tips={member.name}*/}
-                {/*    />*/}
-                {/*  ))}*/}
-                {/*</AvatarList>*/}
               </div>
             </div>
           </Card>
@@ -93,6 +112,17 @@ const ListSearchProjects = (
       },
     },
   };
+  function onShowSizeChange(current, pageSize) {
+    values.page = current;
+    values.size = pageSize;
+    setPage(values);
+    dispatch({
+              type: 'listSearchProjects/fetch',
+              payload: {
+                values: values
+              },
+            });
+  }
   return (
     <div className={styles.coverCardList}>
       <Card bordered={false}>
@@ -102,7 +132,7 @@ const ListSearchProjects = (
             dispatch({
               type: 'listSearchProjects/fetch',
               payload: {
-                values: allValues
+                values: Object.assign(values,allValues)
               },
             });
           }}
@@ -121,7 +151,7 @@ const ListSearchProjects = (
                 <AttributeOptions/>
               </Col>
               <Col lg={5} md={10} sm={10} xs={24}>
-                <FormItem {...formItemLayout} label="方向" name="attribute">
+                <FormItem {...formItemLayout} label="方向" name="direction">
                   <Select
                     placeholder="降序"
                     style={{
@@ -139,6 +169,27 @@ const ListSearchProjects = (
         </Form>
       </Card>
       <div className={styles.cardList}>{cardList}</div>
+      <div>
+        <Pagination
+          showSizeChanger
+          onChange={(page,pageSize)=>{
+            values.page = page;
+            values.size = pageSize;
+            setValues(values);
+            dispatch({
+              type: 'listSearchProjects/fetch',
+              payload: {
+                values: values
+              },
+            });
+          }}
+          onShowSizeChange={onShowSizeChange}
+          defaultCurrent={1}
+          current={values.page}
+          defaultPageSize={values.size}
+          total={total}
+        />
+      </div>
     </div>
   );
 };

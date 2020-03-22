@@ -4,10 +4,6 @@ export async function getTechnicalAchievementsList(p) {
   console.log('getTechnicalAchievementsList p', p, p)
   const formData = new FormData();
   formData.append('userId', 0);
-  formData.append('attribute', 'id');
-  formData.append('direction', 'DESC');
-  formData.append('page', 1);
-  formData.append('size', 10);
   let addressIds = [];
   let classificationIds = [];
   if (p.values) {
