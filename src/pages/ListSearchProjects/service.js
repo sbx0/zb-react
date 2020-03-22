@@ -10,14 +10,15 @@ export async function getTechnicalAchievementsList(p) {
     Object.keys(p.values).forEach(
       (key) => {
         if (key === 'classificationFather' || key === 'classificationSon')
-          classificationIds.push(p.values[key]);
+          classificationIds = p.values[key]
         else if (key === 'addressFather' || key === 'addressSon')
-          addressIds.push(p.values[key]);
+          addressIds = p.values[key]
         else
           formData.append(key, p.values[key]);
       }
     );
   }
+  console.log('addressIds',addressIds)
   if (addressIds.length > 0) {
     addressIds = [...new Set(addressIds)];
     formData.append('addressId', addressIds);
