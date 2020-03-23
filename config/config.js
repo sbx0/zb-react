@@ -109,10 +109,16 @@ export default {
           // authority: ['admin', 'initial'],
           routes: [
             {
-              name: '发布需求',
+              name: '发布成果',
               icon: 'smile',
               path: '/postform',
               component: './user/PostForm',
+            },
+            {
+              name: '发布需求',
+              icon: 'smile',
+              path: '/requirement/post',
+              component: './TechnicalRequirementsPost',
             },
             {
               name: '详情页',
@@ -129,22 +135,22 @@ export default {
               hideInMenu: true
             },
             {
-              name: 'welcome',
-              icon: 'smile',
-              path: '/',
-              component: './user/DashboardWorkplace',
-            },
-            {
               name: 'achievements',
               icon: 'smile',
               path: '/achievements',
               component: './ListSearchProjects',
             },
             {
-              name: '技术需求发布',
+              name: '需求市场',
               icon: 'smile',
               path: '/requirements',
               component: './TechnicalRequirementsListPage',
+            },
+            {
+              name: 'welcome',
+              icon: 'smile',
+              path: '/',
+              component: './user/DashboardWorkplace',
             },
             {
               name: 'my',

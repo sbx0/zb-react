@@ -26,6 +26,7 @@ app.model({ namespace: 'login', ...(require('F:/Workspace/React/zb-ant/src/model
 app.model({ namespace: 'setting', ...(require('F:/Workspace/React/zb-ant/src/models/setting.js').default) });
 app.model({ namespace: 'technicalRequirementsListModel', ...(require('F:/Workspace/React/zb-ant/src/models/technicalRequirementsListModel.js').default) });
 app.model({ namespace: 'technicalRequirementsOneModel', ...(require('F:/Workspace/React/zb-ant/src/models/technicalRequirementsOneModel.js').default) });
+app.model({ namespace: 'technicalRequirementsPostModel', ...(require('F:/Workspace/React/zb-ant/src/models/technicalRequirementsPostModel.js').default) });
 app.model({ namespace: 'user', ...(require('F:/Workspace/React/zb-ant/src/models/user.js').default) });
   return app;
 }
