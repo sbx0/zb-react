@@ -39,9 +39,9 @@ const {
 
 const getKey = (id, index) => `${id}-${index}`;
 
-const ListSearchProjects = ({
+const TechnicalRequirementsListPage = ({
                               dispatch,
-                              listSearchProjects: {
+                              technicalRequirementsListModel: {
                                 technicalAchievementsList = [],
                                 classificationList = [],
                                 total
@@ -58,7 +58,7 @@ const ListSearchProjects = ({
 
   useEffect(() => {
     dispatch({
-      type: 'listSearchProjects/fetch',
+      type: 'technicalRequirementsListModel/fetch',
       payload: {
         values: values
       },
@@ -82,7 +82,7 @@ const ListSearchProjects = ({
         <List.Item>
           <Link to={
             {
-              pathname: '/achievement/one',
+              pathname: '/requirement/one',
               query: {
                 id: item.id,
                 userId: item.userId,
@@ -108,7 +108,7 @@ const ListSearchProjects = ({
               <div className={styles.cardItemContent}>
                 <span>{moment(item.postTime).fromNow()}</span>
                 <div className={styles.avatarList}>
-                  <span>{item.price}￥</span>
+                  <span>{item.budget}￥</span>
                 </div>
               </div>
             </Card>
@@ -133,7 +133,7 @@ const ListSearchProjects = ({
     values.size = pageSize;
     setValues(values);
     dispatch({
-      type: 'listSearchProjects/fetch',
+      type: 'technicalRequirementsListModel/fetch',
       payload: {
         values: values
       },
@@ -147,7 +147,7 @@ const ListSearchProjects = ({
           layout="inline"
           onValuesChange={(changedValues, allValues) => {
             dispatch({
-              type: 'listSearchProjects/fetch',
+              type: 'technicalRequirementsListModel/fetch',
               payload: {
                 values: Object.assign(values, allValues)
               },
@@ -194,7 +194,7 @@ const ListSearchProjects = ({
             values.size = pageSize;
             setValues(values);
             dispatch({
-              type: 'listSearchProjects/fetch',
+              type: 'technicalRequirementsListModel/fetch',
               payload: {
                 values: values
               },
@@ -211,7 +211,7 @@ const ListSearchProjects = ({
   );
 };
 
-export default connect(({listSearchProjects, loading}) => ({
-  listSearchProjects,
-  loading: loading.models.listSearchProjects,
-}))(ListSearchProjects);
+export default connect(({technicalRequirementsListModel, loading}) => ({
+  technicalRequirementsListModel,
+  loading: loading.models.technicalRequirementsListModel,
+}))(TechnicalRequirementsListPage);

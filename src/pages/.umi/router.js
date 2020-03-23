@@ -121,6 +121,21 @@ const routes = [
             exact: true,
           },
           {
+            name: '详情页',
+            icon: 'smile',
+            path: '/requirement/one',
+            component: __IS_BROWSER
+              ? _dvaDynamic({
+                  component: () =>
+                    import(/* webpackChunkName: "p__TechnicalRequirementOne" */ '../TechnicalRequirementOne'),
+                  LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+                    .default,
+                })
+              : require('../TechnicalRequirementOne').default,
+            hideInMenu: true,
+            exact: true,
+          },
+          {
             name: 'welcome',
             icon: 'smile',
             path: '/',
@@ -162,6 +177,20 @@ const routes = [
                     .default,
                 })
               : require('../ListSearchProjects').default,
+            exact: true,
+          },
+          {
+            name: '技术需求发布',
+            icon: 'smile',
+            path: '/requirements',
+            component: __IS_BROWSER
+              ? _dvaDynamic({
+                  component: () =>
+                    import(/* webpackChunkName: "p__TechnicalRequirementsListPage" */ '../TechnicalRequirementsListPage'),
+                  LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+                    .default,
+                })
+              : require('../TechnicalRequirementsListPage').default,
             exact: true,
           },
           {

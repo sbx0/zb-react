@@ -122,6 +122,13 @@ export default {
               hideInMenu: true
             },
             {
+              name: '详情页',
+              icon: 'smile',
+              path: '/requirement/one',
+              component: './TechnicalRequirementOne',
+              hideInMenu: true
+            },
+            {
               name: 'welcome',
               icon: 'smile',
               path: '/',
@@ -132,6 +139,12 @@ export default {
               icon: 'smile',
               path: '/achievements',
               component: './ListSearchProjects',
+            },
+            {
+              name: '技术需求发布',
+              icon: 'smile',
+              path: '/requirements',
+              component: './TechnicalRequirementsListPage',
             },
             {
               name: 'my',
