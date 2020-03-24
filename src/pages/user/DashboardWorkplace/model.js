@@ -1,5 +1,6 @@
 import {queryCurrent, fakeChartData, queryActivities, queryProjectNotice} from './service';
-import {getMy} from '@/services/projectService';
+import {getMy, handleProject} from '@/services/projectService';
+import {getWallet} from '@/services/user';
 
 const Model = {
   namespace: 'userAndDashboardWorkplace',
@@ -8,10 +9,14 @@ const Model = {
     projectNotice: [],
     activities: [],
     radarData: [],
-    projects: []
+    projects: [],
+    wallet: 0,
   },
   effects: {
     * init(_, {put}) {
+      yield put({
+        type: 'fetchWallet',
+      });
       yield put({
         type: 'fetchUserCurrent',
       });
@@ -23,6 +28,21 @@ const Model = {
       });
       yield put({
         type: 'fetchChart',
+      });
+    },
+
+    * getHandleProject({payload}, {call, put}) {
+      const response = yield call(handleProject, payload);
+      yield put({
+        type: 'fetchProjectList',
+      });
+    },
+
+    * fetchWallet(_, {call, put}) {
+      const response = yield call(getWallet);
+      yield put({
+        type: 'saveWallet',
+        payload: response.object.money,
       });
     },
 
@@ -77,6 +97,10 @@ const Model = {
   reducers: {
     save(state, {payload}) {
       return {...state, ...payload};
+    },
+
+    saveWallet(state, action) {
+      return {...state, wallet: action.payload};
     },
 
     saveProjects(state, action) {

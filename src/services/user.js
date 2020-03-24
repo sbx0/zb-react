@@ -1,5 +1,9 @@
 import request from '@/utils/request';
 
+export async function getWallet() {
+  return request.get('/wallet/base/my');
+}
+
 export async function active(p, d) {
   return request.get('/user/base/active', {params: p, data: d});
 }

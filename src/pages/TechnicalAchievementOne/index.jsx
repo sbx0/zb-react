@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {Card, Carousel, Col, Row, Spin, List, Avatar, Button} from 'antd';
+import React, {useEffect, useState} from 'react';
+import {Form, Carousel, Col, Row, Spin, List, Avatar, Button, Modal, InputNumber, Input} from 'antd';
 import {connect} from 'dva';
 import {Typography, Divider} from 'antd';
 import styles from "@/pages/ListSearchProjects/style.less";
@@ -16,6 +16,10 @@ const TechnicalAchievementOne = ({
                                      relative
                                    }, loading, location, dispatch
                                  }) => {
+
+  const [visible, setVisible] = useState(false);
+  const [payMoney, setPayMoney] = useState(100);
+  const [payContext, setPayContext] = useState("");
 
   useEffect(() => {
     dispatch({
@@ -48,6 +52,33 @@ const TechnicalAchievementOne = ({
       {text}
     </span>
   );
+
+
+  const handleOk = e => {
+    console.log(e);
+    dispatch({
+      type: 'achievement/applyProject',
+      payload: {
+        id: one.id,
+        quote: payMoney,
+        context: payContext
+      },
+    });
+    setVisible(false)
+  };
+
+  function onChange(value) {
+    setPayMoney(value);
+  }
+
+  function onChangeContext(value) {
+    setPayContext(value.target.value);
+  }
+
+  const handleCancel = e => {
+    console.log(e);
+    setVisible(false)
+  };
 
   return loading ?
     <div style={{
@@ -138,14 +169,35 @@ const TechnicalAchievementOne = ({
               block
               onClick={
                 () => {
-                  dispatch({
-                    type: 'achievement/applyProject',
-                    payload: {
-                      id: one.id
-                    },
-                  })
+                  setVisible(true);
                 }}
             >点击发送合作申请</Button>
+            <Modal
+              title="确认"
+              visible={visible}
+              onOk={handleOk}
+              onCancel={handleCancel}
+            >
+              <div style={{'textAlign': 'center'}}>
+                <Paragraph style={{
+                  fontSize: 18,
+                }}>
+                  你需要付款才能提交申请
+                </Paragraph>
+                <Paragraph style={{
+                  fontSize: 15,
+                }}>
+                  只有申请被接受付款才会生效，否则将会在7天后退回您的账户。
+                </Paragraph>
+                <Paragraph style={{
+                  fontSize: 15,
+                }}>
+                  金额：
+                  <InputNumber min={100} max={one.price} defaultValue={3} onChange={onChange} block addonAfter="元"/>
+                </Paragraph>
+                <Input addonBefore={"留言"} onChange={onChangeContext}/>
+              </div>
+            </Modal>
           </Col>
           <Col span={5}></Col>
         </Row>

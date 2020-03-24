@@ -1,4 +1,4 @@
-import {Avatar, Card, Col, List, Skeleton, Row, Statistic} from 'antd';
+import {Avatar, Card, Col, List, Skeleton, Row, Statistic, Button} from 'antd';
 import React, {Component} from 'react';
 import {Link} from 'umi';
 import {PageHeaderWrapper} from '@ant-design/pro-layout';
@@ -58,28 +58,27 @@ const PageHeaderContent = ({currentUser}) => {
       </div>
       <div className={styles.content}>
         <div className={styles.contentTitle}>
-          早安，
+          你好，
           {currentUser.name}
-          ，祝你开心每一天！
         </div>
         <div>
-          {currentUser.title} |{currentUser.group}
+          祝你开心每一天！
         </div>
       </div>
     </div>
   );
 };
 
-const ExtraContent = () => (
+const ExtraContent = ({wallet}) => (
   <div className={styles.extraContent}>
     <div className={styles.statItem}>
-      <Statistic title="项目数" value={56}/>
+      <Statistic title="余额" value={wallet}/>
     </div>
     <div className={styles.statItem}>
-      <Statistic title="团队内排名" value={8} suffix="/ 24"/>
+      <Statistic title="成果数" value={8} suffix="/ 1"/>
     </div>
     <div className={styles.statItem}>
-      <Statistic title="项目访问" value={2223}/>
+      <Statistic title="需求数" value={0}/>
     </div>
   </div>
 );
@@ -136,6 +135,7 @@ class DashboardWorkplace extends Component {
     const {
       projects = [],
       currentUser,
+      wallet,
       activities,
       projectNotice,
       projectLoading,
@@ -150,9 +150,78 @@ class DashboardWorkplace extends Component {
     return (
       <PageHeaderWrapper
         content={<PageHeaderContent currentUser={currentUser}/>}
-        extraContent={<ExtraContent/>}
+        extraContent={<ExtraContent wallet={wallet}/>}
       >
         <Row gutter={24}>
+          <Col xl={16} lg={24} md={24} sm={24} xs={24}>
+            <Card
+              className={styles.projectList}
+              style={{
+                marginBottom: 24,
+              }}
+              title="发出的申请"
+              bordered={false}
+              extra={<Link to="/">全部申请</Link>}
+              loading={projectLoading}
+              bodyStyle={{
+                padding: 0,
+              }}
+            >
+              {projects.map(item => (
+                <Card.Grid className={styles.projectGrid} key={item.id}>
+                  <Card
+                    bodyStyle={{
+                      padding: 0,
+                    }}
+                    bordered={false}
+                  >
+                    <Card.Meta
+                      title={
+                        <div className={styles.cardTitle}>
+                          <Link to={item.id}>申请费 {item.quote} 元 申请项目《{item.name}》</Link>
+                        </div>
+                      }
+                      description={item.context}
+                    />
+                    <div className={styles.projectItemContent}>
+                      <Link to={item.memberLink}>{'申请人' + item.applicantId}</Link>
+                      {item.createTime && (
+                        <span className={styles.datetime} title={item.createTime}>
+                          {moment(item.createTime).fromNow()}
+                        </span>
+                      )}
+                    </div>
+                    <div>
+                      <Button
+                        onClick={() => {
+                          const {dispatch} = this.props;
+                          dispatch({
+                            type: 'userAndDashboardWorkplace/getHandleProject',
+                            payload: {
+                              id: item.id,
+                              type: 1
+                            }
+                          });
+                        }}
+                      >允许</Button>
+                      <Button
+                        onClick={() => {
+                          const {dispatch} = this.props;
+                          dispatch({
+                            type: 'userAndDashboardWorkplace/getHandleProject',
+                            payload: {
+                              id: item.id,
+                              type: 2
+                            }
+                          });
+                        }}
+                      >驳回</Button>
+                    </div>
+                  </Card>
+                </Card.Grid>
+              ))}
+            </Card>
+          </Col>
           <Col xl={16} lg={24} md={24} sm={24} xs={24}>
             <Card
               className={styles.projectList}
@@ -178,12 +247,82 @@ class DashboardWorkplace extends Component {
                     <Card.Meta
                       title={
                         <div className={styles.cardTitle}>
-                          <Link to={item.id}>{item.name}</Link>
+                          <Link to={item.id}>申请费 {item.quote} 元 申请项目《{item.name}》</Link>
                         </div>
                       }
+                      description={item.context}
                     />
                     <div className={styles.projectItemContent}>
-                      <Link to={item.memberLink}>{'申请人'+item.applicantId}</Link>
+                      <Link to={item.memberLink}>{'申请人' + item.applicantId}</Link>
+                      {item.createTime && (
+                        <span className={styles.datetime} title={item.createTime}>
+                          {moment(item.createTime).fromNow()}
+                        </span>
+                      )}
+                    </div>
+                    <div>
+                      <Button
+                        onClick={() => {
+                          const {dispatch} = this.props;
+                          dispatch({
+                            type: 'userAndDashboardWorkplace/getHandleProject',
+                            payload: {
+                              id: item.id,
+                              type: 1
+                            }
+                          });
+                        }}
+                      >允许</Button>
+                      <Button
+                        onClick={() => {
+                          const {dispatch} = this.props;
+                          dispatch({
+                            type: 'userAndDashboardWorkplace/getHandleProject',
+                            payload: {
+                              id: item.id,
+                              type: 2
+                            }
+                          });
+                        }}
+                      >驳回</Button>
+                    </div>
+                  </Card>
+                </Card.Grid>
+              ))}
+            </Card>
+          </Col>
+          <Col xl={16} lg={24} md={24} sm={24} xs={24}>
+            <Card
+              className={styles.projectList}
+              style={{
+                marginBottom: 24,
+              }}
+              title="项目"
+              bordered={false}
+              extra={<Link to="/">全部项目</Link>}
+              loading={projectLoading}
+              bodyStyle={{
+                padding: 0,
+              }}
+            >
+              {projects.map(item => (
+                <Card.Grid className={styles.projectGrid} key={item.id}>
+                  <Card
+                    bodyStyle={{
+                      padding: 0,
+                    }}
+                    bordered={false}
+                  >
+                    <Card.Meta
+                      title={
+                        <div className={styles.cardTitle}>
+                          <Link to={item.id}>申请费 {item.quote} 元 申请项目《{item.name}》</Link>
+                        </div>
+                      }
+                      description={item.context}
+                    />
+                    <div className={styles.projectItemContent}>
+                      <Link to={item.memberLink}>{'申请人' + item.applicantId}</Link>
                       {item.createTime && (
                         <span className={styles.datetime} title={item.createTime}>
                           {moment(item.createTime).fromNow()}
@@ -203,7 +342,7 @@ class DashboardWorkplace extends Component {
 
 export default connect(
   ({
-     userAndDashboardWorkplace: {currentUser, projectNotice, activities, radarData,projects},
+     userAndDashboardWorkplace: {currentUser, projectNotice, activities, radarData, projects, wallet},
      loading,
    }) => ({
     currentUser,
@@ -211,6 +350,7 @@ export default connect(
     activities,
     radarData,
     projects,
+    wallet,
     currentUserLoading: loading.effects['userAndDashboardWorkplace/fetchUserCurrent'],
     projectLoading: loading.effects['userAndDashboardWorkplace/fetchProjectList'],
     activitiesLoading: loading.effects['userAndDashboardWorkplace/fetchActivitiesList'],
