@@ -84,7 +84,7 @@ const routes = [
           : require('../../layouts/BasicLayout').default,
         routes: [
           {
-            name: '发布需求',
+            name: 'achievements.post',
             icon: 'smile',
             path: '/postform',
             component: __IS_BROWSER
@@ -106,7 +106,21 @@ const routes = [
             exact: true,
           },
           {
-            name: '详情页',
+            name: 'requirements.post',
+            icon: 'smile',
+            path: '/requirement/post',
+            component: __IS_BROWSER
+              ? _dvaDynamic({
+                  component: () =>
+                    import(/* webpackChunkName: "p__TechnicalRequirementsPost" */ '../TechnicalRequirementsPost'),
+                  LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+                    .default,
+                })
+              : require('../TechnicalRequirementsPost').default,
+            exact: true,
+          },
+          {
+            name: 'achievements.one',
             icon: 'smile',
             path: '/achievement/one',
             component: __IS_BROWSER
@@ -121,7 +135,7 @@ const routes = [
             exact: true,
           },
           {
-            name: '详情页',
+            name: 'requirements',
             icon: 'smile',
             path: '/requirement/one',
             component: __IS_BROWSER
@@ -133,28 +147,6 @@ const routes = [
                 })
               : require('../TechnicalRequirementOne').default,
             hideInMenu: true,
-            exact: true,
-          },
-          {
-            name: 'welcome',
-            icon: 'smile',
-            path: '/',
-            component: __IS_BROWSER
-              ? _dvaDynamic({
-                  app: require('@tmp/dva').getApp(),
-                  models: () => [
-                    import(/* webpackChunkName: 'p__user__DashboardWorkplace__model.js' */ 'F:/Workspace/React/zb-ant/src/pages/user/DashboardWorkplace/model.js').then(
-                      m => {
-                        return { namespace: 'model', ...m.default };
-                      },
-                    ),
-                  ],
-                  component: () =>
-                    import(/* webpackChunkName: "p__user__DashboardWorkplace" */ '../user/DashboardWorkplace'),
-                  LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
-                    .default,
-                })
-              : require('../user/DashboardWorkplace').default,
             exact: true,
           },
           {
@@ -180,7 +172,7 @@ const routes = [
             exact: true,
           },
           {
-            name: '技术需求发布',
+            name: 'requirements',
             icon: 'smile',
             path: '/requirements',
             component: __IS_BROWSER
@@ -191,6 +183,28 @@ const routes = [
                     .default,
                 })
               : require('../TechnicalRequirementsListPage').default,
+            exact: true,
+          },
+          {
+            name: 'welcome',
+            icon: 'smile',
+            path: '/',
+            component: __IS_BROWSER
+              ? _dvaDynamic({
+                  app: require('@tmp/dva').getApp(),
+                  models: () => [
+                    import(/* webpackChunkName: 'p__user__DashboardWorkplace__model.js' */ 'F:/Workspace/React/zb-ant/src/pages/user/DashboardWorkplace/model.js').then(
+                      m => {
+                        return { namespace: 'model', ...m.default };
+                      },
+                    ),
+                  ],
+                  component: () =>
+                    import(/* webpackChunkName: "p__user__DashboardWorkplace" */ '../user/DashboardWorkplace'),
+                  LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+                    .default,
+                })
+              : require('../user/DashboardWorkplace').default,
             exact: true,
           },
           {

@@ -134,6 +134,7 @@ class DashboardWorkplace extends Component {
 
   render() {
     const {
+      projects = [],
       currentUser,
       activities,
       projectNotice,
@@ -158,15 +159,15 @@ class DashboardWorkplace extends Component {
               style={{
                 marginBottom: 24,
               }}
-              title="进行中的项目"
+              title="申请"
               bordered={false}
-              extra={<Link to="/">全部项目</Link>}
+              extra={<Link to="/">全部申请</Link>}
               loading={projectLoading}
               bodyStyle={{
                 padding: 0,
               }}
             >
-              {projectNotice.map(item => (
+              {projects.map(item => (
                 <Card.Grid className={styles.projectGrid} key={item.id}>
                   <Card
                     bodyStyle={{
@@ -177,89 +178,21 @@ class DashboardWorkplace extends Component {
                     <Card.Meta
                       title={
                         <div className={styles.cardTitle}>
-                          <Avatar size="small" src={item.logo}/>
-                          <Link to={item.href}>{item.title}</Link>
+                          <Link to={item.id}>{item.name}</Link>
                         </div>
                       }
-                      description={item.description}
                     />
                     <div className={styles.projectItemContent}>
-                      <Link to={item.memberLink}>{item.member || ''}</Link>
-                      {item.updatedAt && (
-                        <span className={styles.datetime} title={item.updatedAt}>
-                          {moment(item.updatedAt).fromNow()}
+                      <Link to={item.memberLink}>{'申请人'+item.applicantId}</Link>
+                      {item.createTime && (
+                        <span className={styles.datetime} title={item.createTime}>
+                          {moment(item.createTime).fromNow()}
                         </span>
                       )}
                     </div>
                   </Card>
                 </Card.Grid>
               ))}
-            </Card>
-            <Card
-              bodyStyle={{
-                padding: 0,
-              }}
-              bordered={false}
-              className={styles.activeCard}
-              title="动态"
-              loading={activitiesLoading}
-            >
-              <List
-                loading={activitiesLoading}
-                renderItem={item => this.renderActivities(item)}
-                dataSource={activities}
-                className={styles.activitiesList}
-                size="large"
-              />
-            </Card>
-          </Col>
-          <Col xl={8} lg={24} md={24} sm={24} xs={24}>
-            <Card
-              style={{
-                marginBottom: 24,
-              }}
-              title="快速开始 / 便捷导航"
-              bordered={false}
-              bodyStyle={{
-                padding: 0,
-              }}
-            >
-              <EditableLinkGroup onAdd={() => {
-              }} links={links} linkElement={Link}/>
-            </Card>
-            <Card
-              style={{
-                marginBottom: 24,
-              }}
-              bordered={false}
-              title="XX 指数"
-              loading={radarData.length === 0}
-            >
-              <div className={styles.chart}>
-                <Radar hasLegend height={343} data={radarData}/>
-              </div>
-            </Card>
-            <Card
-              bodyStyle={{
-                paddingTop: 12,
-                paddingBottom: 12,
-              }}
-              bordered={false}
-              title="团队"
-              loading={projectLoading}
-            >
-              <div className={styles.members}>
-                <Row gutter={48}>
-                  {projectNotice.map(item => (
-                    <Col span={12} key={`members-item-${item.id}`}>
-                      <Link to={item.href}>
-                        <Avatar src={item.logo} size="small"/>
-                        <span className={styles.member}>{item.member}</span>
-                      </Link>
-                    </Col>
-                  ))}
-                </Row>
-              </div>
             </Card>
           </Col>
         </Row>
@@ -270,15 +203,16 @@ class DashboardWorkplace extends Component {
 
 export default connect(
   ({
-     userAndDashboardWorkplace: {currentUser, projectNotice, activities, radarData},
+     userAndDashboardWorkplace: {currentUser, projectNotice, activities, radarData,projects},
      loading,
    }) => ({
     currentUser,
     projectNotice,
     activities,
     radarData,
+    projects,
     currentUserLoading: loading.effects['userAndDashboardWorkplace/fetchUserCurrent'],
-    projectLoading: loading.effects['userAndDashboardWorkplace/fetchProjectNotice'],
+    projectLoading: loading.effects['userAndDashboardWorkplace/fetchProjectList'],
     activitiesLoading: loading.effects['userAndDashboardWorkplace/fetchActivitiesList'],
   }),
 )(DashboardWorkplace);

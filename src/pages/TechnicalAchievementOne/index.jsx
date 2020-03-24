@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Card, Carousel, Col, Row, Spin, List, Avatar} from 'antd';
+import {Card, Carousel, Col, Row, Spin, List, Avatar, Button} from 'antd';
 import {connect} from 'dva';
 import {Typography, Divider} from 'antd';
 import styles from "@/pages/ListSearchProjects/style.less";
@@ -130,7 +130,26 @@ const TechnicalAchievementOne = ({
           </Col>
           <Col span={2}></Col>
         </Row>
-        <Row>
+        <Row style={{paddingTop: 50}}>
+          <Col span={5}></Col>
+          <Col span={14}>
+            <Button
+              size={'large'}
+              block
+              onClick={
+                () => {
+                  dispatch({
+                    type: 'achievement/applyProject',
+                    payload: {
+                      id: one.id
+                    },
+                  })
+                }}
+            >点击发送合作申请</Button>
+          </Col>
+          <Col span={5}></Col>
+        </Row>
+        <Row style={{paddingTop: 150}}>
           <Col span={2}></Col>
           <Col span={20}>
             <Paragraph style={{
@@ -147,31 +166,26 @@ const TechnicalAchievementOne = ({
               size="large"
               dataSource={relative}
               renderItem={item => (
-                <List.Item
-                  key={item.id}
-                  extra={
-                    <img
-                      width={272}
-                      alt={item.name}
-                      src={item.cover}
-                      onClick={
-                        () => {
-                          dispatch({
-                            type: 'achievement/getOne',
-                            payload: {
-                              id: item.id
-                            },
-                          })
-                        }
+                item.id !== one.id ?
+                  <List.Item
+                    key={item.id}
+                    onClick={
+                      () => {
+                        dispatch({
+                          type: 'achievement/getOne',
+                          payload: {
+                            id: item.id
+                          },
+                        })
                       }
+                    }
+                  >
+                    <List.Item.Meta
+                      title={item.name}
                     />
-                  }
-                >
-                  <List.Item.Meta
-                    title={item.name}
-                  />
-                  {item.context.substr(0,200)+'...'}
-                </List.Item>
+                    {item.context.substr(0, 100) + '...'}
+                  </List.Item>
+                  : <></>
               )}
             />
           </Col>

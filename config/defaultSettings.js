@@ -4,7 +4,7 @@ export default {
   "layout": "topmenu",
   "contentWidth": "Fixed",
   "fixedHeader": false,
-  "autoHideHeader": false,
+  "autoHideHeader": true,
   "fixSiderbar": false,
   "menu": {
     "locale": true

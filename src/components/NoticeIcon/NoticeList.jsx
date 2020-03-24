@@ -1,20 +1,21 @@
-import { Avatar, List } from 'antd';
+import {Avatar, List} from 'antd';
 import React from 'react';
 import classNames from 'classnames';
 import styles from './NoticeList.less';
+import {Link} from "umi";
 
 const NoticeList = ({
-  data = [],
-  onClick,
-  onClear,
-  title,
-  onViewMore,
-  emptyText,
-  showClear = true,
-  clearText,
-  viewMoreText,
-  showViewMore = false,
-}) => {
+                      data = [],
+                      onClick,
+                      onClear,
+                      title,
+                      onViewMore,
+                      emptyText,
+                      showClear = true,
+                      clearText,
+                      viewMoreText,
+                      showViewMore = false,
+                    }) => {
   if (!data || data.length === 0) {
     return (
       <div className={styles.notFound}>
@@ -25,6 +26,23 @@ const NoticeList = ({
         <div>{emptyText}</div>
       </div>
     );
+  }
+
+  function linkBuild(link) {
+    let links = link.split('|');
+    switch (links[0]) {
+      case 'project':
+        return <>
+          <Link to={
+            {
+              pathname: 'project/one',
+              query: {
+                id: link[1]
+              }
+            }
+          }>{link[1]}</Link>
+        </>
+    }
   }
 
   return (
@@ -39,7 +57,7 @@ const NoticeList = ({
 
           const leftIcon = item.avatar ? (
             typeof item.avatar === 'string' ? (
-              <Avatar className={styles.avatar} src={item.avatar} />
+              <Avatar className={styles.avatar} src={item.avatar}/>
             ) : (
               <span className={styles.iconElement}>{item.avatar}</span>
             )
@@ -55,14 +73,14 @@ const NoticeList = ({
                 avatar={leftIcon}
                 title={
                   <div className={styles.title}>
-                    {item.title}
-                    <div className={styles.extra}>{item.extra}</div>
+                    {item.sendUserId}
+                    <div className={styles.extra}>{item.link}</div>
                   </div>
                 }
                 description={
                   <div>
-                    <div className={styles.description}>{item.description}</div>
-                    <div className={styles.datetime}>{item.datetime}</div>
+                    <div className={styles.description}>{item.content}</div>
+                    <div className={styles.datetime}>{item.sendTime}</div>
                   </div>
                 }
               />
@@ -91,5 +109,6 @@ const NoticeList = ({
     </div>
   );
 };
-
 export default NoticeList;
+
+

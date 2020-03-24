@@ -1,5 +1,10 @@
 export default {
   'menu.my.setting': '设置',
+  'menu.requirements.post': '发布需求',
+  'menu.requirements.one': '需求详情',
+  'menu.requirements': '需求市场',
+  'menu.achievements.post': '发布成果',
+  'menu.achievements.one': '成果详情',
   'menu.achievements': '成果市场',
   'menu.my': '个人中心',
   'menu.my.index': '个人首页',

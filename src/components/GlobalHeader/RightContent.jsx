@@ -5,6 +5,7 @@ import { connect } from 'dva';
 import Avatar from './AvatarDropdown';
 import HeaderSearch from '../HeaderSearch';
 import SelectLang from '../SelectLang';
+import NoticeIconView from './NoticeIconView';
 import styles from './index.less';
 const ENVTagColor = {
   dev: 'orange',
@@ -57,6 +58,7 @@ const GlobalHeaderRight = props => {
       {/*    <QuestionCircleOutlined />*/}
       {/*  </a>*/}
       {/*</Tooltip>*/}
+      <NoticeIconView/>
       <Avatar />
       {REACT_APP_ENV && (
         <span>

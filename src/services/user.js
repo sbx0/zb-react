@@ -13,5 +13,9 @@ export async function query() {
 }
 
 export async function queryNotices() {
-  return request('/api/notices');
+  return request('/message/base/notice');
+}
+
+export async function getMsg() {
+  return request('/message/base/receive', {params: {page: 1, size: 10}});
 }

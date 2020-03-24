@@ -6,7 +6,7 @@ import moment from 'moment';
 import NoticeIcon from '../NoticeIcon';
 import styles from './index.less';
 
-class GlobalHeaderRight extends Component {
+class NoticeIconView extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
 
@@ -124,9 +124,9 @@ class GlobalHeaderRight extends Component {
           showViewMore
         />
         <NoticeIcon.Tab
-          tabKey="message"
-          count={unreadMsg.message}
-          list={noticeData.message}
+          tabKey="msg"
+          count={unreadMsg.msg}
+          list={noticeData.msg}
           title="消息"
           emptyText="您已读完所有消息"
           showViewMore
@@ -150,4 +150,4 @@ export default connect(({ user, global, loading }) => ({
   fetchingMoreNotices: loading.effects['global/fetchMoreNotices'],
   fetchingNotices: loading.effects['global/fetchNotices'],
   notices: global.notices,
-}))(GlobalHeaderRight);
+}))(NoticeIconView);

@@ -1,8 +1,6 @@
 import {basic, query as queryUsers} from '@/services/user';
 import {notification} from 'antd';
 import {cs, ol} from "@/services/status";
-import {router} from "umi";
-import {stringify} from "querystring";
 
 const UserModel = {
   namespace: 'user',
