@@ -61,16 +61,13 @@ const Step2 = props => {
       <Alert
         closable
         showIcon
-        message="确认转账后，资金将直接打入对方账户，无法退回。"
+        message="确认充值后将会打开支付宝进行充值。"
         style={{
           marginBottom: 24,
         }}
       />
       <Descriptions column={1}>
-        <Descriptions.Item label="付款账户"> {payAccount}</Descriptions.Item>
-        <Descriptions.Item label="收款账户"> {receiverAccount}</Descriptions.Item>
-        <Descriptions.Item label="收款人姓名"> {receiverName}</Descriptions.Item>
-        <Descriptions.Item label="转账金额">
+        <Descriptions.Item label="充值金额">
           <Statistic value={amount} suffix="元" />
         </Descriptions.Item>
       </Descriptions>
@@ -79,25 +76,6 @@ const Step2 = props => {
           margin: '24px 0',
         }}
       />
-      <Form.Item
-        label="支付密码"
-        name="password"
-        required={false}
-        rules={[
-          {
-            required: true,
-            message: '需要支付密码才能进行支付',
-          },
-        ]}
-      >
-        <Input
-          type="password"
-          autoComplete="off"
-          style={{
-            width: '80%',
-          }}
-        />
-      </Form.Item>
       <Form.Item
         style={{
           marginBottom: 8,

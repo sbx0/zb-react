@@ -1,4 +1,4 @@
-import { fakeSubmitForm } from './service';
+import {fakeSubmitForm,recharge, pay} from './service';
 
 const Model = {
   namespace: 'userAndAlipayStep',
@@ -8,12 +8,17 @@ const Model = {
       payAccount: 'ant-design@alipay.com',
       receiverAccount: 'test@example.com',
       receiverName: 'Alex',
-      amount: '500',
+      amount: '1000',
     },
   },
   effects: {
-    *submitStepForm({ payload }, { call, put }) {
-      yield call(fakeSubmitForm, payload);
+    * submitStepForm({payload}, {call, put}) {
+      const response1 = yield call(recharge, payload);
+      console.log('response1',response1)
+      const tradeNo = response1.object
+      const response2 = yield call(pay, tradeNo);
+      console.log('response.object',response2.object);
+      document.write(response2.object);
       yield put({
         type: 'saveStepFormData',
         payload,
@@ -25,12 +30,12 @@ const Model = {
     },
   },
   reducers: {
-    saveCurrentStep(state, { payload }) {
-      return { ...state, current: payload };
+    saveCurrentStep(state, {payload}) {
+      return {...state, current: payload};
     },
 
-    saveStepFormData(state, { payload }) {
-      return { ...state, step: { ...state.step, ...payload } };
+    saveStepFormData(state, {payload}) {
+      return {...state, step: {...state.step, ...payload}};
     },
   },
 };
