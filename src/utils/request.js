@@ -58,7 +58,7 @@ const errorHandler = error => {
 
 const request = extend({
   prefix: sc,
-  // prefix: 'http://192.168.0.100:8085',
+  // prefix: 'http://localhost:8085',
   headers: {
     'Access-Control-Allow-Origin': '*',
   },

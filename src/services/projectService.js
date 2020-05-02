@@ -4,6 +4,18 @@ export async function getMy() {
   return request.get('/application/base/my');
 }
 
+export async function getApplicant() {
+  return request.get('/application/base/applicant');
+}
+
+export async function getIng() {
+  return request.get('/application/base/ing');
+}
+
+export async function getReg() {
+  return request.get('/application/base/reg');
+}
+
 export async function applyProject(p) {
   // id
   console.log('p', p);

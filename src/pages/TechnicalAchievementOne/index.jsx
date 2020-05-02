@@ -90,77 +90,83 @@ const TechnicalAchievementOne = ({
     :
     <div>
       <Row gutter={16}>
-        <Col xs={6}></Col>
-        <Col xs={12}>
+        <Col xs={8}>
           <Carousel>
-            <img alt={one.name} src={one.cover} width={320}/>
+            <img alt={one.name} src={one.cover} width={100}/>
           </Carousel>
         </Col>
-        <Col xs={6}></Col>
+        <Col xs={16}>
+          <Row>
+            <Col xs={24}>
+              <Title style={{
+                textAlign: 'center',
+              }}>
+                {one.name}
+              </Title>
+            </Col>
+            <Col xs={24}>
+              <Row>
+                <Col xs={6}>
+                  <Title level={3} style={{
+                    textAlign: 'center',
+                  }}>
+                    时间：{moment(one.postTime).fromNow()}
+                  </Title>
+                </Col>
+                <Col xs={6}>
+                  <Title level={3} style={{
+                    textAlign: 'center',
+                  }}>
+                    成熟度：{one.maturity}
+                  </Title>
+                </Col>
+                <Col xs={6}>
+                  <Title level={3} style={{
+                    textAlign: 'center',
+                  }}>
+                    合作方式：{one.cooperationMethod}
+                  </Title>
+                </Col>
+                <Col xs={6}>
+                  <Title level={2} style={{
+                    textAlign: 'right',
+                  }}>
+                    预算：{one.price}￥
+                  </Title>
+                </Col>
+              </Row>
+            </Col>
+            <Col xs={24}>
+              <Row>
+                <Col xs={12}>
+                  <Title level={3} style={{
+                    textAlign: 'center',
+                  }}>
+                    地区：{one.addressId}
+                  </Title>
+                </Col>
+                <Col xs={12}>
+                  <Title level={3} style={{
+                    textAlign: 'center',
+                  }}>
+                    分类：{one.classificationId}
+                  </Title>
+                </Col>
+              </Row>
+            </Col>
+            <Col xs={24}>
+              <Paragraph style={{
+                fontSize: '19px',
+              }}>
+                {one.context}
+              </Paragraph>
+            </Col>
+          </Row>
+        </Col>
       </Row>
       <Typography style={{
         paddingTop: '20px',
       }}>
-        <Row>
-          <Col span={24}>
-            <Title style={{
-              textAlign: 'center',
-            }}>{one.name}</Title>
-          </Col>
-          <Col span={6}>
-            <Paragraph style={{
-              textAlign: 'center',
-            }}>
-              时间：{moment(one.postTime).fromNow()}
-            </Paragraph>
-          </Col>
-          <Col span={6}>
-            <Paragraph style={{
-              textAlign: 'center',
-            }}>
-              预算：{one.price}￥
-            </Paragraph>
-          </Col>
-          <Col span={6}>
-            <Paragraph style={{
-              textAlign: 'center',
-            }}>
-              成熟度：{one.maturity}
-            </Paragraph>
-          </Col>
-          <Col span={6}>
-            <Paragraph style={{
-              textAlign: 'center',
-            }}>
-              合作方式：{one.cooperationMethod}
-            </Paragraph>
-          </Col>
-          <Col span={12}>
-            <Paragraph style={{
-              textAlign: 'center',
-            }}>
-              地区：{one.addressId}
-            </Paragraph>
-          </Col>
-          <Col span={12}>
-            <Paragraph style={{
-              textAlign: 'center',
-            }}>
-              分类：{one.classificationId}
-            </Paragraph>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={2}></Col>
-          <Col span={20}>
-            <Paragraph style={{
-              fontSize: '18px',
-            }}>
-              {one.context}
-            </Paragraph>
-          </Col>
-          <Col span={2}></Col>
-        </Row>
         <Row style={{paddingTop: 50}}>
           <Col span={5}></Col>
           <Col span={14}>

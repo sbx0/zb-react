@@ -51,7 +51,7 @@ const TechnicalRequirementsListPage = ({
 
   const [values, setValues] = useState({
     page: 1,
-    size: 9,
+    size: 20,
     attribute: 'id',
     direction: 'DESC',
   });

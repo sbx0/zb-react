@@ -134,10 +134,18 @@ class DashboardWorkplace extends Component {
   render() {
     const {
       projects = [],
+      mys = [],
+      applicants = [],
+      ings = [],
+      regs = [],
       currentUser,
       wallet,
       activities,
       projectNotice,
+      mysLoading,
+      applicantsLoading,
+      ingsLoading,
+      regsLoading,
       projectLoading,
       activitiesLoading,
       radarData,
@@ -153,7 +161,63 @@ class DashboardWorkplace extends Component {
         extraContent={<ExtraContent wallet={wallet}/>}
       >
         <Row gutter={24}>
-          <Col xl={16} lg={24} md={24} sm={24} xs={24}>
+          <Col xl={24} lg={24} md={24} sm={24} xs={24}>
+            <Card
+              className={styles.projectList}
+              style={{
+                marginBottom: 24,
+              }}
+              title="收到的申请"
+              bordered={false}
+              loading={mysLoading}
+              bodyStyle={{
+                padding: 0,
+              }}
+            >
+              <List
+                itemLayout="horizontal"
+                dataSource={mys}
+                renderItem={item => (
+                  <List.Item
+                    actions={[
+                      <a
+                        onClick={() => {
+                          const {dispatch} = this.props;
+                          dispatch({
+                            type: 'userAndDashboardWorkplace/getHandleProject',
+                            payload: {
+                              id: item.id,
+                              type: 1
+                            }
+                          });
+                        }}
+                      >允许</a>,
+                      <a
+                        onClick={() => {
+                          const {dispatch} = this.props;
+                          dispatch({
+                            type: 'userAndDashboardWorkplace/getHandleProject',
+                            payload: {
+                              id: item.id,
+                              type: 2
+                            }
+                          });
+                        }}
+                      >拒绝</a>
+                    ]}
+                  >
+                    <List.Item.Meta
+                      avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                      title={<a href="https://ant.design">申请费 {item.quote} 元 申请项目《{item.name}》</a>}
+                      description={item.context}
+                    />
+                    <div>{moment(item.createTime).fromNow()}</div>
+                  </List.Item>
+                )}
+              />
+            </Card>
+          </Col>
+          <Col xl={24} lg={24} md={24} sm={24} xs={24}>
             <Card
               className={styles.projectList}
               style={{
@@ -161,177 +225,128 @@ class DashboardWorkplace extends Component {
               }}
               title="发出的申请"
               bordered={false}
-              extra={<Link to="/">全部申请</Link>}
-              loading={projectLoading}
+              loading={applicantsLoading}
               bodyStyle={{
                 padding: 0,
               }}
             >
-              {projects.map(item => (
-                <Card.Grid className={styles.projectGrid} key={item.id}>
-                  <Card
-                    bodyStyle={{
-                      padding: 0,
-                    }}
-                    bordered={false}
+              <List
+                itemLayout="horizontal"
+                dataSource={applicants}
+                renderItem={item => (
+                  <List.Item
+                    actions={[
+                      <a
+                        onClick={() => {
+                          const {dispatch} = this.props;
+                          dispatch({
+                            type: 'userAndDashboardWorkplace/getHandleProject',
+                            payload: {
+                              id: item.id,
+                              type: 3
+                            }
+                          });
+                        }}
+                      >取消</a>
+                    ]}
                   >
-                    <Card.Meta
-                      title={
-                        <div className={styles.cardTitle}>
-                          <Link to={item.id}>申请费 {item.quote} 元 申请项目《{item.name}》</Link>
-                        </div>
-                      }
+                    <List.Item.Meta
+                      avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                      title={<a href="https://ant.design">申请费 {item.quote} 元 申请项目《{item.name}》</a>}
                       description={item.context}
                     />
-                    <div className={styles.projectItemContent}>
-                      <Link to={item.memberLink}>{'申请人' + item.applicantId}</Link>
-                      {item.createTime && (
-                        <span className={styles.datetime} title={item.createTime}>
-                          {moment(item.createTime).fromNow()}
-                        </span>
-                      )}
-                    </div>
-                    <div>
-                      <Button
-                        onClick={() => {
-                          const {dispatch} = this.props;
-                          dispatch({
-                            type: 'userAndDashboardWorkplace/getHandleProject',
-                            payload: {
-                              id: item.id,
-                              type: 1
-                            }
-                          });
-                        }}
-                      >允许</Button>
-                      <Button
-                        onClick={() => {
-                          const {dispatch} = this.props;
-                          dispatch({
-                            type: 'userAndDashboardWorkplace/getHandleProject',
-                            payload: {
-                              id: item.id,
-                              type: 2
-                            }
-                          });
-                        }}
-                      >驳回</Button>
-                    </div>
-                  </Card>
-                </Card.Grid>
-              ))}
+                    <div>{moment(item.createTime).fromNow()}</div>
+                  </List.Item>
+                )}
+              />
             </Card>
           </Col>
-          <Col xl={16} lg={24} md={24} sm={24} xs={24}>
+          <Col xl={24} lg={24} md={24} sm={24} xs={24}>
             <Card
               className={styles.projectList}
               style={{
                 marginBottom: 24,
               }}
-              title="申请"
+              title="合作中"
               bordered={false}
-              extra={<Link to="/">全部申请</Link>}
-              loading={projectLoading}
+              loading={ingsLoading}
               bodyStyle={{
                 padding: 0,
               }}
             >
-              {projects.map(item => (
-                <Card.Grid className={styles.projectGrid} key={item.id}>
-                  <Card
-                    bodyStyle={{
-                      padding: 0,
-                    }}
-                    bordered={false}
+              <List
+                itemLayout="horizontal"
+                dataSource={ings}
+                renderItem={item => (
+                  <List.Item
+                    actions={[
+                      <a
+                        onClick={() => {
+                          const {dispatch} = this.props;
+                          dispatch({
+                            type: 'userAndDashboardWorkplace/getHandleProject',
+                            payload: {
+                              id: item.id,
+                              type: 3
+                            }
+                          });
+                        }}
+                      >结束</a>
+                    ]}
                   >
-                    <Card.Meta
-                      title={
-                        <div className={styles.cardTitle}>
-                          <Link to={item.id}>申请费 {item.quote} 元 申请项目《{item.name}》</Link>
-                        </div>
-                      }
+                    <List.Item.Meta
+                      avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                      title={<a href="https://ant.design">申请费 {item.quote} 元 申请项目《{item.name}》</a>}
                       description={item.context}
                     />
-                    <div className={styles.projectItemContent}>
-                      <Link to={item.memberLink}>{'申请人' + item.applicantId}</Link>
-                      {item.createTime && (
-                        <span className={styles.datetime} title={item.createTime}>
-                          {moment(item.createTime).fromNow()}
-                        </span>
-                      )}
-                    </div>
-                    <div>
-                      <Button
-                        onClick={() => {
-                          const {dispatch} = this.props;
-                          dispatch({
-                            type: 'userAndDashboardWorkplace/getHandleProject',
-                            payload: {
-                              id: item.id,
-                              type: 1
-                            }
-                          });
-                        }}
-                      >允许</Button>
-                      <Button
-                        onClick={() => {
-                          const {dispatch} = this.props;
-                          dispatch({
-                            type: 'userAndDashboardWorkplace/getHandleProject',
-                            payload: {
-                              id: item.id,
-                              type: 2
-                            }
-                          });
-                        }}
-                      >驳回</Button>
-                    </div>
-                  </Card>
-                </Card.Grid>
-              ))}
+                    <div>{moment(item.createTime).fromNow()}</div>
+                  </List.Item>
+                )}
+              />
             </Card>
           </Col>
-          <Col xl={16} lg={24} md={24} sm={24} xs={24}>
+          <Col xl={24} lg={24} md={24} sm={24} xs={24}>
             <Card
               className={styles.projectList}
               style={{
                 marginBottom: 24,
               }}
-              title="项目"
+              title="被拒绝"
               bordered={false}
-              extra={<Link to="/">全部项目</Link>}
-              loading={projectLoading}
+              loading={regsLoading}
               bodyStyle={{
                 padding: 0,
               }}
             >
-              {projects.map(item => (
-                <Card.Grid className={styles.projectGrid} key={item.id}>
-                  <Card
-                    bodyStyle={{
-                      padding: 0,
-                    }}
-                    bordered={false}
+              <List
+                itemLayout="horizontal"
+                dataSource={regs}
+                renderItem={item => (
+                  <List.Item
+                    actions={[
+                      <a
+                        onClick={() => {
+                          const {dispatch} = this.props;
+                          dispatch({
+                            type: 'userAndDashboardWorkplace/getHandleProject',
+                            payload: {
+                              id: item.id,
+                              type: 3
+                            }
+                          });
+                        }}
+                      >删除</a>
+                    ]}
                   >
-                    <Card.Meta
-                      title={
-                        <div className={styles.cardTitle}>
-                          <Link to={item.id}>申请费 {item.quote} 元 申请项目《{item.name}》</Link>
-                        </div>
-                      }
+                    <List.Item.Meta
+                      avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                      title={<a href="https://ant.design">申请费 {item.quote} 元 申请项目《{item.name}》</a>}
                       description={item.context}
                     />
-                    <div className={styles.projectItemContent}>
-                      <Link to={item.memberLink}>{'申请人' + item.applicantId}</Link>
-                      {item.createTime && (
-                        <span className={styles.datetime} title={item.createTime}>
-                          {moment(item.createTime).fromNow()}
-                        </span>
-                      )}
-                    </div>
-                  </Card>
-                </Card.Grid>
-              ))}
+                    <div>{moment(item.createTime).fromNow()}</div>
+                  </List.Item>
+                )}
+              />
             </Card>
           </Col>
         </Row>
@@ -342,7 +357,18 @@ class DashboardWorkplace extends Component {
 
 export default connect(
   ({
-     userAndDashboardWorkplace: {currentUser, projectNotice, activities, radarData, projects, wallet},
+     userAndDashboardWorkplace: {
+       currentUser,
+       projectNotice,
+       activities,
+       radarData,
+       projects,
+       mys,
+       applicants,
+       ings,
+       regs,
+       wallet
+     },
      loading,
    }) => ({
     currentUser,
@@ -350,9 +376,17 @@ export default connect(
     activities,
     radarData,
     projects,
+    mys,
+    applicants,
+    ings,
+    regs,
     wallet,
+    mysLoading: loading.effects['userAndDashboardWorkplace/fetchMyList'],
+    applicantsLoading: loading.effects['userAndDashboardWorkplace/fetchApplicantList'],
+    ingsLoading: loading.effects['userAndDashboardWorkplace/fetchIngList'],
+    regsLoading: loading.effects['userAndDashboardWorkplace/fetchRegList'],
     currentUserLoading: loading.effects['userAndDashboardWorkplace/fetchUserCurrent'],
     projectLoading: loading.effects['userAndDashboardWorkplace/fetchProjectList'],
-    activitiesLoading: loading.effects['userAndDashboardWorkplace/fetchActivitiesList'],
+    activitiesLoading: loading.effects['userAndDashboardWorkplace/fetchActivitiesList']
   }),
 )(DashboardWorkplace);
