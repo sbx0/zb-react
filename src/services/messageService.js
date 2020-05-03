@@ -1,5 +1,9 @@
 import request from '@/utils/request';
 
+export async function read(p) {
+  return request.get('/message/base/read', {params: p});
+}
+
 export async function sendMessage(p) {
   const formData = new FormData();
   Object.keys(p).forEach(

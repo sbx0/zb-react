@@ -108,12 +108,7 @@ class NoticeIconView extends Component {
           this.changeReadState(item);
         }}
         loading={fetchingNotices}
-        clearText="清空"
-        viewMoreText="查看更多"
-        onClear={this.handleNoticeClear}
         onPopupVisibleChange={onNoticeVisibleChange}
-        onViewMore={() => message.info('Click on view more')}
-        clearClose
       >
         <NoticeIcon.Tab
           tabKey="notification"
@@ -131,14 +126,14 @@ class NoticeIconView extends Component {
           emptyText="您已读完所有消息"
           showViewMore
         />
-        <NoticeIcon.Tab
-          tabKey="event"
-          title="待办"
-          emptyText="你已完成所有待办"
-          count={unreadMsg.event}
-          list={noticeData.event}
-          showViewMore
-        />
+        {/*<NoticeIcon.Tab*/}
+        {/*  tabKey="event"*/}
+        {/*  title="待办"*/}
+        {/*  emptyText="你已完成所有待办"*/}
+        {/*  count={unreadMsg.event}*/}
+        {/*  list={noticeData.event}*/}
+        {/*  showViewMore*/}
+        {/*/>*/}
       </NoticeIcon>
     );
   }

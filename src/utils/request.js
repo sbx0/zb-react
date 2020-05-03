@@ -5,11 +5,13 @@
 import {extend} from 'umi-request';
 import {notification} from 'antd';
 
+let server = 'https://zb.sbx0.cn';
+server = 'http://localhost:8085';
+
 let sc = localStorage.getItem("server_config");
 if (sc == null) {
-  localStorage.setItem('server_config', 'https://zb.sbx0.cn');
-  // localStorage.setItem('server_config', 'http://192.168.0.107:8085');
-  sc = 'https://zb.sbx0.cn';
+  localStorage.setItem('server_config', server);
+  sc = server;
 }
 
 const codeMessage = {
@@ -58,7 +60,6 @@ const errorHandler = error => {
 
 const request = extend({
   prefix: sc,
-  // prefix: 'http://localhost:8085',
   headers: {
     'Access-Control-Allow-Origin': '*',
   },
