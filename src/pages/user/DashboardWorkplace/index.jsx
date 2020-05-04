@@ -74,12 +74,12 @@ const ExtraContent = ({wallet}) => (
     <div className={styles.statItem}>
       <Statistic title="余额" value={wallet}/>
     </div>
-    <div className={styles.statItem}>
-      <Statistic title="成果数" value={8} suffix="/ 1"/>
-    </div>
-    <div className={styles.statItem}>
-      <Statistic title="需求数" value={0}/>
-    </div>
+    {/*<div className={styles.statItem}>*/}
+    {/*  <Statistic title="成果数" value={8} suffix="/ 1"/>*/}
+    {/*</div>*/}
+    {/*<div className={styles.statItem}>*/}
+    {/*  <Statistic title="需求数" value={0}/>*/}
+    {/*</div>*/}
   </div>
 );
 
@@ -170,9 +170,6 @@ class DashboardWorkplace extends Component {
               title="收到的申请"
               bordered={false}
               loading={mysLoading}
-              bodyStyle={{
-                padding: 0,
-              }}
             >
               <List
                 itemLayout="horizontal"
@@ -207,9 +204,9 @@ class DashboardWorkplace extends Component {
                     ]}
                   >
                     <List.Item.Meta
-                      avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                      title={<a href="https://ant.design">申请费 {item.quote} 元 申请项目《{item.name}》</a>}
-                      description={item.context}
+                      // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>}
+                      title={<a>申请项目《{item.name}》</a>}
+                      description={'申请费' + item.quote + '元'}
                     />
                     <div>{moment(item.createTime).fromNow()}</div>
                   </List.Item>
@@ -226,9 +223,6 @@ class DashboardWorkplace extends Component {
               title="发出的申请"
               bordered={false}
               loading={applicantsLoading}
-              bodyStyle={{
-                padding: 0,
-              }}
             >
               <List
                 itemLayout="horizontal"
@@ -251,8 +245,8 @@ class DashboardWorkplace extends Component {
                     ]}
                   >
                     <List.Item.Meta
-                      avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                      title={<a href="https://ant.design">申请费 {item.quote} 元 申请项目《{item.name}》</a>}
+                      // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>}
+                      title={<a>申请费 {item.quote} 元 申请项目《{item.name}》</a>}
                       description={item.context}
                     />
                     <div>{moment(item.createTime).fromNow()}</div>
@@ -270,9 +264,6 @@ class DashboardWorkplace extends Component {
               title="合作中"
               bordered={false}
               loading={ingsLoading}
-              bodyStyle={{
-                padding: 0,
-              }}
             >
               <List
                 itemLayout="horizontal"
@@ -295,8 +286,8 @@ class DashboardWorkplace extends Component {
                     ]}
                   >
                     <List.Item.Meta
-                      avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                      title={<a href="https://ant.design">申请费 {item.quote} 元 申请项目《{item.name}》</a>}
+                      // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>}
+                      title={<a>申请费 {item.quote} 元 申请项目《{item.name}》</a>}
                       description={item.context}
                     />
                     <div>{moment(item.createTime).fromNow()}</div>
@@ -314,9 +305,6 @@ class DashboardWorkplace extends Component {
               title="被拒绝"
               bordered={false}
               loading={regsLoading}
-              bodyStyle={{
-                padding: 0,
-              }}
             >
               <List
                 itemLayout="horizontal"
@@ -339,8 +327,8 @@ class DashboardWorkplace extends Component {
                     ]}
                   >
                     <List.Item.Meta
-                      avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                      title={<a href="https://ant.design">申请费 {item.quote} 元 申请项目《{item.name}》</a>}
+                      // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>}
+                      title={<a>申请费 {item.quote} 元 申请项目《{item.name}》</a>}
                       description={item.context}
                     />
                     <div>{moment(item.createTime).fromNow()}</div>

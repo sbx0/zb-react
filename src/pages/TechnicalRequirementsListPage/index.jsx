@@ -159,9 +159,6 @@ const TechnicalRequirementsListPage = ({
           <StandardFormRow title="其它选项" grid last>
             <Row gutter={16}>
               <Col lg={5} md={10} sm={10} xs={24}>
-                <MaturityOptions/>
-              </Col>
-              <Col lg={5} md={10} sm={10} xs={24}>
                 <CooperationMethodOptions/>
               </Col>
               <Col lg={5} md={10} sm={10} xs={24}>

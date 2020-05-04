@@ -23,7 +23,7 @@ const TechnicalRequirementsPost = props => {
   const {submitting} = props;
   const [form] = Form.useForm();
   const [file, setFile] = useState("https:\/\/gw.alipayobjects.com/zos/rmsportal/iZBVOIhGJiAnhplqjvZW.png");
-  const [price, setPrice] = useState(0.00);
+  const [budget, setBudget] = useState(0.00);
   const [upload, setUpload] = useState(false);
   const [showPublicUsers, setShowPublicUsers] = React.useState(false);
   const formItemLayout = {
@@ -63,7 +63,7 @@ const TechnicalRequirementsPost = props => {
   const onFinish = values => {
     const {dispatch} = props;
     values.cover = file
-    values.price = price
+    values.budget = budget
     dispatch({
       type: 'technicalRequirementsPostModel/submitRegularForm',
       payload: {
@@ -103,9 +103,6 @@ const TechnicalRequirementsPost = props => {
           <ClassificationOptions/>
           <StandardFormRow title="其它选项" grid last>
             <Row gutter={16}>
-              <Col lg={5} md={10} sm={10} xs={24}>
-                <MaturityOptions/>
-              </Col>
               <Col lg={5} md={10} sm={10} xs={24}>
                 <CooperationMethodOptions/>
               </Col>
@@ -177,7 +174,7 @@ const TechnicalRequirementsPost = props => {
                 <FormattedMessage id={'预算'}/>
               </span>
             }
-            name="price"
+            name="budget"
           >
             <InputNumber
               placeholder={formatMessage({
@@ -186,7 +183,7 @@ const TechnicalRequirementsPost = props => {
               min={0.00}
               max={9999999999999.00}
               step={0.01}
-              onChange={(value) => setPrice(value)}
+              onChange={(value) => setBudget(value)}
             />
             <span className="ant-form-text">￥</span>
           </FormItem>

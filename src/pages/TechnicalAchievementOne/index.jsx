@@ -142,14 +142,24 @@ const TechnicalAchievementOne = ({
                   <Title level={3} style={{
                     textAlign: 'center',
                   }}>
-                    地区：{one.addressId}
+                    地区：
+                    {
+                      one?.address?.map(one =>
+                        one.name + ' '
+                      )
+                    }
                   </Title>
                 </Col>
                 <Col xs={12}>
                   <Title level={3} style={{
                     textAlign: 'center',
                   }}>
-                    分类：{one.classificationId}
+                    分类：
+                    {
+                      one?.classification?.map(one =>
+                        one.name + ' '
+                      )
+                    }
                   </Title>
                 </Col>
               </Row>

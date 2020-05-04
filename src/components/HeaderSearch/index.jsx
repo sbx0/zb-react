@@ -45,40 +45,40 @@ const HeaderSearch = props => {
         }
       }}
     >
-      <SearchOutlined
-        key="Icon"
-        style={{
-          cursor: 'pointer',
-        }}
-      />
-      <AutoComplete
-        key="AutoComplete"
-        className={inputClass}
-        value={value}
-        style={{
-          height: 28,
-          marginTop: -6,
-        }}
-        options={restProps.options}
-        onChange={setValue}
-      >
-        <Input
-          ref={inputRef}
-          defaultValue={defaultValue}
-          aria-label={placeholder}
-          placeholder={placeholder}
-          onKeyDown={e => {
-            if (e.key === 'Enter') {
-              if (restProps.onSearch) {
-                restProps.onSearch(value);
-              }
-            }
-          }}
-          onBlur={() => {
-            setSearchMode(false);
-          }}
-        />
-      </AutoComplete>
+      {/*<SearchOutlined*/}
+      {/*  key="Icon"*/}
+      {/*  style={{*/}
+      {/*    cursor: 'pointer',*/}
+      {/*  }}*/}
+      {/*/>*/}
+      {/*<AutoComplete*/}
+      {/*  key="AutoComplete"*/}
+      {/*  className={inputClass}*/}
+      {/*  value={value}*/}
+      {/*  style={{*/}
+      {/*    height: 28,*/}
+      {/*    marginTop: -6,*/}
+      {/*  }}*/}
+      {/*  options={restProps.options}*/}
+      {/*  onChange={setValue}*/}
+      {/*>*/}
+      {/*  <Input*/}
+      {/*    ref={inputRef}*/}
+      {/*    defaultValue={defaultValue}*/}
+      {/*    aria-label={placeholder}*/}
+      {/*    placeholder={placeholder}*/}
+      {/*    onKeyDown={e => {*/}
+      {/*      if (e.key === 'Enter') {*/}
+      {/*        if (restProps.onSearch) {*/}
+      {/*          restProps.onSearch(value);*/}
+      {/*        }*/}
+      {/*      }*/}
+      {/*    }}*/}
+      {/*    onBlur={() => {*/}
+      {/*      setSearchMode(false);*/}
+      {/*    }}*/}
+      {/*  />*/}
+      {/*</AutoComplete>*/}
     </div>
   );
 };

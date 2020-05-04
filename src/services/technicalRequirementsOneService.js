@@ -1,5 +1,13 @@
 import request from '@/utils/request';
 
+export async function getClassification(p) {
+  return request.get('/technical/classification/sonToFather', {params: p});
+}
+
+export async function getAddress(p) {
+  return request.get('/address/base/sonToFather', {params: p});
+}
+
 export async function one(p, d) {
   return request.get('/technical/requirements/one', {params: p, data: d});
 }

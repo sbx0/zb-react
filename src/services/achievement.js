@@ -1,5 +1,13 @@
 import request from '@/utils/request';
 
+export async function getClassification(p) {
+  return request.get('/technical/classification/sonToFather', {params: p});
+}
+
+export async function getAddress(p) {
+  return request.get('/address/base/sonToFather', {params: p});
+}
+
 export async function one(p, d) {
   return request.get('/technical/achievements/one', {params: p, data: d});
 }
@@ -19,7 +27,7 @@ export async function getTechnicalAchievementsList(p) {
             aid = json.object
             formData.append('addressId', aid)
           })
-        }else if (key === 'classificationId') {
+        } else if (key === 'classificationId') {
           let sid = p.classificationId
           request.get('/technical/classification/father', {
             data: {
