@@ -14,7 +14,12 @@ import {
     Divider,
     Button,
 } from '@material-ui/core';
-import {getUserActiveCount} from "../../tools/Network";
+import {
+    getApplicationCount,
+    getTechnicalAchievementCount,
+    getTechnicalRequirementCount,
+    getUserActiveCount
+} from "../../tools/Network";
 import Review from "../Review"
 import SmallDataCard from "./components/SmallDataCard/SmallDataCard";
 import LineChart from "../../page/Home/components/LineChart";
@@ -33,22 +38,7 @@ export default function Main({notice}) {
                     <Review/>
                 </Route>
                 <Route path={match.path}>
-                    <Grid
-                        container
-                        spacing={4}
-                    >
-                        <Grid
-                            item
-                            xs={3}
-                        >
-                            <SmallDataCard
-                                title={'在线人数'}
-                                fetch={getUserActiveCount}
-                                notice={notice}
-                            />
-                        </Grid>
-                    </Grid>
-                    <Grid container spacing={3}>
+                    <Grid container spacing={1}>
                         <Grid item xs={12} sm={6} md={4} lg={3}>
                             <Button
                                 variant="contained"
@@ -84,6 +74,54 @@ export default function Main({notice}) {
                         container
                         spacing={1}
                     >
+                        <Grid
+                            item
+                            xs={3}
+                            onClick={() => {
+                                history.push('/market/technical/achievements')
+                            }}
+                        >
+                            <SmallDataCard
+                                title={'技术成果'}
+                                fetch={getTechnicalAchievementCount}
+                                notice={notice}
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            xs={3}
+                        >
+                            <SmallDataCard
+                                title={'技术需求'}
+                                fetch={getTechnicalRequirementCount}
+                                notice={notice}
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            xs={3}
+                        >
+                            <SmallDataCard
+                                title={'在线合作'}
+                                fetch={getApplicationCount}
+                                notice={notice}
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            xs={3}
+                        >
+                            <SmallDataCard
+                                title={'在线人数'}
+                                fetch={getUserActiveCount}
+                                notice={notice}
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid
+                        container
+                        spacing={1}
+                    >
                         <Grid item sm={6} xs={12}>
                             <Card>
                                 <CardHeader
@@ -96,6 +134,42 @@ export default function Main({notice}) {
                                         notice={notice}
                                         day={30}
                                         kind="technicalAchievementsCount"
+                                        group="per_day"
+                                        referenceValue={0}
+                                    />
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                        <Grid item sm={6} xs={12}>
+                            <Card>
+                                <CardHeader
+                                    subheader={t("每天更新")}
+                                    title={t("技术需求数")}
+                                />
+                                <Divider/>
+                                <CardContent>
+                                    <LineChart
+                                        notice={notice}
+                                        day={30}
+                                        kind="technicalRequirementsCount"
+                                        group="per_day"
+                                        referenceValue={0}
+                                    />
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                        <Grid item sm={6} xs={12}>
+                            <Card>
+                                <CardHeader
+                                    subheader={t("每天更新")}
+                                    title={t("技术合作数")}
+                                />
+                                <Divider/>
+                                <CardContent>
+                                    <LineChart
+                                        notice={notice}
+                                        day={30}
+                                        kind="applicationBaseCount"
                                         group="per_day"
                                         referenceValue={0}
                                     />

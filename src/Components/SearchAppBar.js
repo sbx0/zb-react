@@ -149,22 +149,22 @@ export default function SearchAppBar(
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
-            <MenuItem>
-                <IconButton aria-label="show 4 new mails" color="inherit">
-                    <Badge badgeContent={4} color="secondary">
-                        <MailIcon/>
-                    </Badge>
-                </IconButton>
-                <p>{t("消息")}</p>
-            </MenuItem>
-            <MenuItem>
-                <IconButton aria-label="show 11 new notifications" color="inherit">
-                    <Badge badgeContent={11} color="secondary">
-                        <NotificationsIcon/>
-                    </Badge>
-                </IconButton>
-                <p>{t("通知")}</p>
-            </MenuItem>
+            {/*<MenuItem>*/}
+            {/*    <IconButton aria-label="show 4 new mails" color="inherit">*/}
+            {/*        <Badge badgeContent={4} color="secondary">*/}
+            {/*            <MailIcon/>*/}
+            {/*        </Badge>*/}
+            {/*    </IconButton>*/}
+            {/*    <p>{t("消息")}</p>*/}
+            {/*</MenuItem>*/}
+            {/*<MenuItem>*/}
+            {/*    <IconButton aria-label="show 11 new notifications" color="inherit">*/}
+            {/*        <Badge badgeContent={11} color="secondary">*/}
+            {/*            <NotificationsIcon/>*/}
+            {/*        </Badge>*/}
+            {/*    </IconButton>*/}
+            {/*    <p>{t("通知")}</p>*/}
+            {/*</MenuItem>*/}
             <MenuItem onClick={() => {
                 handleMobileMenuClose();
                 history.push("/post");
@@ -179,20 +179,20 @@ export default function SearchAppBar(
                 </IconButton>
                 <p>{t("发布")}</p>
             </MenuItem>
-            <MenuItem onClick={() => {
-                handleMobileMenuClose();
-                history.push("/group");
-            }}>
-                <IconButton
-                    aria-label="account of current user"
-                    aria-controls="primary-search-account-menu"
-                    aria-haspopup="true"
-                    color="inherit"
-                >
-                    <GroupIcon/>
-                </IconButton>
-                <p>{t("群组")}</p>
-            </MenuItem>
+            {/*<MenuItem onClick={() => {*/}
+            {/*    handleMobileMenuClose();*/}
+            {/*    history.push("/group");*/}
+            {/*}}>*/}
+            {/*    <IconButton*/}
+            {/*        aria-label="account of current user"*/}
+            {/*        aria-controls="primary-search-account-menu"*/}
+            {/*        aria-haspopup="true"*/}
+            {/*        color="inherit"*/}
+            {/*    >*/}
+            {/*        <GroupIcon/>*/}
+            {/*    </IconButton>*/}
+            {/*    <p>{t("群组")}</p>*/}
+            {/*</MenuItem>*/}
             <MenuItem onClick={() => {
                 handleMobileMenuClose();
                 history.push("/user");
@@ -299,34 +299,34 @@ export default function SearchAppBar(
                     >
                         {t('智贝')}
                     </Typography>
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon/>
-                        </div>
-                        <InputBase
-                            placeholder={t("搜索")}
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{'aria-label': 'search'}}
-                        />
-                    </div>
+                    {/*<div className={classes.search}>*/}
+                    {/*    <div className={classes.searchIcon}>*/}
+                    {/*        <SearchIcon/>*/}
+                    {/*    </div>*/}
+                    {/*    <InputBase*/}
+                    {/*        placeholder={t("搜索")}*/}
+                    {/*        classes={{*/}
+                    {/*            root: classes.inputRoot,*/}
+                    {/*            input: classes.inputInput,*/}
+                    {/*        }}*/}
+                    {/*        inputProps={{'aria-label': 'search'}}*/}
+                    {/*    />*/}
+                    {/*</div>*/}
                     <div className={classes.grow}/>
                     <div className={classes.sectionDesktop}>
                         {
                             user != null ?
                                 <>
-                                    <IconButton aria-label="show 4 new mails" color="inherit">
-                                        <Badge badgeContent={4} color="secondary">
-                                            <MailIcon/>
-                                        </Badge>
-                                    </IconButton>
-                                    <IconButton aria-label="show 17 new notifications" color="inherit">
-                                        <Badge badgeContent={17} color="secondary">
-                                            <NotificationsIcon/>
-                                        </Badge>
-                                    </IconButton>
+                                    {/*<IconButton aria-label="show 4 new mails" color="inherit">*/}
+                                    {/*    <Badge badgeContent={4} color="secondary">*/}
+                                    {/*        <MailIcon/>*/}
+                                    {/*    </Badge>*/}
+                                    {/*</IconButton>*/}
+                                    {/*<IconButton aria-label="show 17 new notifications" color="inherit">*/}
+                                    {/*    <Badge badgeContent={17} color="secondary">*/}
+                                    {/*        <NotificationsIcon/>*/}
+                                    {/*    </Badge>*/}
+                                    {/*</IconButton>*/}
                                 </>
                                 :
                                 <></>

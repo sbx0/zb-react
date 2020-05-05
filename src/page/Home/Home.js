@@ -1,6 +1,7 @@
 import React from 'react';
 import {
-    getTechnicalAchievementCount,
+    getApplicationCount,
+    getTechnicalAchievementCount, getTechnicalRequirementCount,
     getUserActiveCount,
 } from "../../tools/Network";
 import SmallDataCard from "../../admin/Main/components/SmallDataCard/SmallDataCard";
@@ -26,49 +27,6 @@ export default function Home({notice, loading, setLoading}) {
     return (
         <div className={classes.container}>
             <Grid container spacing={1}>
-                <Grid
-                    item
-                    xs={3}
-                    onClick={() => {
-                        history.push('/market/technical/achievements')
-                    }}
-                >
-                    <SmallDataCard
-                        title={'技术成果'}
-                        fetch={getTechnicalAchievementCount}
-                        notice={notice}
-                    />
-                </Grid>
-                <Grid
-                    item
-                    xs={3}
-                >
-                    <SmallDataCard
-                        title={'技术需求'}
-                        fetch={getUserActiveCount}
-                        notice={notice}
-                    />
-                </Grid>
-                <Grid
-                    item
-                    xs={3}
-                >
-                    <SmallDataCard
-                        title={'在线合作'}
-                        fetch={getUserActiveCount}
-                        notice={notice}
-                    />
-                </Grid>
-                <Grid
-                    item
-                    xs={3}
-                >
-                    <SmallDataCard
-                        title={'在线人数'}
-                        fetch={getUserActiveCount}
-                        notice={notice}
-                    />
-                </Grid>
                 <Grid item xs={12}>
                     <AchievementList
                         notice={notice}

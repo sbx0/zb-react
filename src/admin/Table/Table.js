@@ -99,14 +99,6 @@ export default function Table({notice}) {
             name: t("技术成果表"),
             url: 'technical/achievements/'
         },
-        technical_achievements_and_address_bind: {
-            name: t("技术成果和地区绑定表"),
-            url: 'technical/achievements/address/bind/'
-        },
-        technical_achievements_and_classification_bind: {
-            name: t("技术成果和分类绑定表"),
-            url: 'technical/achievements/classification/bind/'
-        },
         technical_classification: {
             name: t("技术分类表"),
             url: 'technical/classification/'
@@ -114,14 +106,6 @@ export default function Table({notice}) {
         technical_requirements: {
             name: t("技术需求表"),
             url: 'technical/requirements/'
-        },
-        technical_requirements_and_address_bind: {
-            name: t("技术需求和地区绑定表"),
-            url: 'technical/requirements/address/bind/'
-        },
-        technical_requirements_and_classification_bind: {
-            name: t("技术需求和分类绑定表"),
-            url: 'technical/requirements/classification/bind/'
         },
         option: {
             add: 'save',
@@ -183,12 +167,8 @@ export default function Table({notice}) {
                         <MenuItem value="file_upload">上传文件表</MenuItem>
                         <MenuItem value="address_base">基础地区表</MenuItem>
                         <MenuItem value="technical_achievements">技术成果表</MenuItem>
-                        <MenuItem value="technical_achievements_and_address_bind">技术成果和地区绑定表</MenuItem>
-                        <MenuItem value="technical_achievements_and_classification_bind">技术成果和分类绑定表</MenuItem>
                         <MenuItem value="technical_classification">技术分类表</MenuItem>
                         <MenuItem value="technical_requirements">技术需求表</MenuItem>
-                        <MenuItem value="technical_requirements_and_address_bind">技术需求和地区绑定表</MenuItem>
-                        <MenuItem value="technical_requirements_and_classification_bind">技术需求和分类绑定表</MenuItem>
                     </Select>
                 </Grid>
                 <Grid item xs={12}>

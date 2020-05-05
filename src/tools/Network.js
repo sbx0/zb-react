@@ -85,7 +85,7 @@ const headers = {
     'Access-Control-Allow-Origin': '*',
 };
 
-const _fetch = (request, timeout = 5000) => {
+const _fetch = (request, timeout = 200000) => {
     const requestPromise = new Promise((resolve, reject) => {
         request
             .then((data) => {
@@ -185,6 +185,12 @@ export const getTechnicalAchievementListMybatis = (params) => fetchGet(urlTechni
 
 export const urlTechnicalAchievementCount = `technical/achievements/count`;
 export const getTechnicalAchievementCount = (params) => fetchGet(urlTechnicalAchievementCount, params).then((data) => data.json());
+
+export const urlTechnicalRequirementCount = `technical/requirements/count`;
+export const getTechnicalRequirementCount = (params) => fetchGet(urlTechnicalRequirementCount, params).then((data) => data.json());
+
+export const urlApplicationCount = `application/base/count`;
+export const getApplicationCount = (params) => fetchGet(urlApplicationCount, params).then((data) => data.json());
 
 export const urlUserActiveCount = `user/base/active`;
 export const getUserActiveCount = (params) => fetchGet(urlUserActiveCount, params).then((data) => data.json());

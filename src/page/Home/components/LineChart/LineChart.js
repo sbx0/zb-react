@@ -62,22 +62,16 @@ export default function LineChart({notice, day, kind, group, referenceValue}) {
             }
             {
                 loading === false &&
-                <ResponsiveContainer width="100%" height={311}>
+                <ResponsiveContainer height={311}>
                     <ComposedChart
                         data={data}
-                        margin={{
-                            top: 5, right: 20, left: -15, bottom: 0,
-                        }}
                     >
                         <CartesianGrid strokeDasharray="3 3"/>
                         <XAxis
                             hide
                             dataKey="date"
                         />
-                        <YAxis
-                            type={'number'}
-                            unit={''}
-                        />
+                        <YAxis/>
                         {/*<ReferenceLine y={referenceValue} stroke="red" strokeDasharray="3 3"/>*/}
                         <Tooltip isAnimationActive={false}/>
                         <Line
