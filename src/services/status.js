@@ -17,6 +17,12 @@ const statusMessage = {
   6:
     '结果为空',
   7:
-    '暂无权限'
-}
+    '暂无权限',
+  8:
+    '发生异常',
+  9:
+    '超出限制',
+  10:
+    '余额不足',
+};
 export const ol = (status) => statusMessage[status];
