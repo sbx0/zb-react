@@ -8,7 +8,7 @@ import {
 import dynamic from 'umi/dynamic';
 import renderRoutes from 'umi/lib/renderRoutes';
 import history from '@@/history';
-import RendererWrapper0 from 'F:/Workspace/React/zb-ant/src/pages/.umi/LocaleWrapper.jsx';
+import RendererWrapper0 from 'C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/pages/.umi/LocaleWrapper.jsx';
 import { routerRedux, dynamic as _dvaDynamic } from 'dva';
 
 const Router = routerRedux.ConnectedRouter;
@@ -20,7 +20,7 @@ const routes = [
       ? _dvaDynamic({
           component: () =>
             import(/* webpackChunkName: "layouts__UserLayout" */ '../../layouts/UserLayout'),
-          LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+          LoadingComponent: require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/components/PageLoading/index')
             .default,
         })
       : require('../../layouts/UserLayout').default,
@@ -32,7 +32,7 @@ const routes = [
           ? _dvaDynamic({
               component: () =>
                 import(/* webpackChunkName: "p__user__login" */ '../user/login'),
-              LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+              LoadingComponent: require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/components/PageLoading/index')
                 .default,
             })
           : require('../user/login').default,
@@ -45,7 +45,7 @@ const routes = [
           ? _dvaDynamic({
               component: () =>
                 import(/* webpackChunkName: "p__user__register" */ '../user/register'),
-              LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+              LoadingComponent: require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/components/PageLoading/index')
                 .default,
             })
           : require('../user/register').default,
@@ -54,7 +54,7 @@ const routes = [
       {
         component: () =>
           React.createElement(
-            require('F:/Workspace/React/zb-ant/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+            require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
               .default,
             { pagesPath: 'src/pages', hasRoutesInConfig: true },
           ),
@@ -67,7 +67,7 @@ const routes = [
       ? _dvaDynamic({
           component: () =>
             import(/* webpackChunkName: "layouts__SecurityLayout" */ '../../layouts/SecurityLayout'),
-          LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+          LoadingComponent: require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/components/PageLoading/index')
             .default,
         })
       : require('../../layouts/SecurityLayout').default,
@@ -78,7 +78,7 @@ const routes = [
           ? _dvaDynamic({
               component: () =>
                 import(/* webpackChunkName: "layouts__BasicLayout" */ '../../layouts/BasicLayout'),
-              LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+              LoadingComponent: require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/components/PageLoading/index')
                 .default,
             })
           : require('../../layouts/BasicLayout').default,
@@ -91,7 +91,7 @@ const routes = [
               ? _dvaDynamic({
                   app: require('@tmp/dva').getApp(),
                   models: () => [
-                    import(/* webpackChunkName: 'p__user__PostForm__model.js' */ 'F:/Workspace/React/zb-ant/src/pages/user/PostForm/model.js').then(
+                    import(/* webpackChunkName: 'p__user__PostForm__model.js' */ 'C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/pages/user/PostForm/model.js').then(
                       m => {
                         return { namespace: 'model', ...m.default };
                       },
@@ -99,7 +99,7 @@ const routes = [
                   ],
                   component: () =>
                     import(/* webpackChunkName: "p__user__PostForm" */ '../user/PostForm'),
-                  LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+                  LoadingComponent: require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/components/PageLoading/index')
                     .default,
                 })
               : require('../user/PostForm').default,
@@ -113,7 +113,7 @@ const routes = [
               ? _dvaDynamic({
                   component: () =>
                     import(/* webpackChunkName: "p__TechnicalRequirementsPost" */ '../TechnicalRequirementsPost'),
-                  LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+                  LoadingComponent: require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/components/PageLoading/index')
                     .default,
                 })
               : require('../TechnicalRequirementsPost').default,
@@ -127,7 +127,7 @@ const routes = [
               ? _dvaDynamic({
                   component: () =>
                     import(/* webpackChunkName: "p__TechnicalAchievementOne" */ '../TechnicalAchievementOne'),
-                  LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+                  LoadingComponent: require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/components/PageLoading/index')
                     .default,
                 })
               : require('../TechnicalAchievementOne').default,
@@ -142,7 +142,7 @@ const routes = [
               ? _dvaDynamic({
                   component: () =>
                     import(/* webpackChunkName: "p__TechnicalRequirementOne" */ '../TechnicalRequirementOne'),
-                  LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+                  LoadingComponent: require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/components/PageLoading/index')
                     .default,
                 })
               : require('../TechnicalRequirementOne').default,
@@ -157,7 +157,7 @@ const routes = [
               ? _dvaDynamic({
                   app: require('@tmp/dva').getApp(),
                   models: () => [
-                    import(/* webpackChunkName: 'p__ListSearchProjects__model.js' */ 'F:/Workspace/React/zb-ant/src/pages/ListSearchProjects/model.js').then(
+                    import(/* webpackChunkName: 'p__ListSearchProjects__model.js' */ 'C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/pages/ListSearchProjects/model.js').then(
                       m => {
                         return { namespace: 'model', ...m.default };
                       },
@@ -165,7 +165,7 @@ const routes = [
                   ],
                   component: () =>
                     import(/* webpackChunkName: "p__ListSearchProjects" */ '../ListSearchProjects'),
-                  LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+                  LoadingComponent: require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/components/PageLoading/index')
                     .default,
                 })
               : require('../ListSearchProjects').default,
@@ -179,7 +179,7 @@ const routes = [
               ? _dvaDynamic({
                   component: () =>
                     import(/* webpackChunkName: "p__TechnicalRequirementsListPage" */ '../TechnicalRequirementsListPage'),
-                  LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+                  LoadingComponent: require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/components/PageLoading/index')
                     .default,
                 })
               : require('../TechnicalRequirementsListPage').default,
@@ -193,7 +193,7 @@ const routes = [
               ? _dvaDynamic({
                   app: require('@tmp/dva').getApp(),
                   models: () => [
-                    import(/* webpackChunkName: 'p__user__DashboardWorkplace__model.js' */ 'F:/Workspace/React/zb-ant/src/pages/user/DashboardWorkplace/model.js').then(
+                    import(/* webpackChunkName: 'p__user__DashboardWorkplace__model.js' */ 'C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/pages/user/DashboardWorkplace/model.js').then(
                       m => {
                         return { namespace: 'model', ...m.default };
                       },
@@ -201,7 +201,7 @@ const routes = [
                   ],
                   component: () =>
                     import(/* webpackChunkName: "p__user__DashboardWorkplace" */ '../user/DashboardWorkplace'),
-                  LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+                  LoadingComponent: require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/components/PageLoading/index')
                     .default,
                 })
               : require('../user/DashboardWorkplace').default,
@@ -222,7 +222,7 @@ const routes = [
                   ? _dvaDynamic({
                       app: require('@tmp/dva').getApp(),
                       models: () => [
-                        import(/* webpackChunkName: 'p__user__AccountSettings__model.js' */ 'F:/Workspace/React/zb-ant/src/pages/user/AccountSettings/model.js').then(
+                        import(/* webpackChunkName: 'p__user__AccountSettings__model.js' */ 'C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/pages/user/AccountSettings/model.js').then(
                           m => {
                             return { namespace: 'model', ...m.default };
                           },
@@ -230,7 +230,7 @@ const routes = [
                       ],
                       component: () =>
                         import(/* webpackChunkName: "layouts__BasicLayout" */ '../user/AccountSettings'),
-                      LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+                      LoadingComponent: require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/components/PageLoading/index')
                         .default,
                     })
                   : require('../user/AccountSettings').default,
@@ -245,7 +245,7 @@ const routes = [
                   ? _dvaDynamic({
                       app: require('@tmp/dva').getApp(),
                       models: () => [
-                        import(/* webpackChunkName: 'p__user__AlipayStep__model.js' */ 'F:/Workspace/React/zb-ant/src/pages/user/AlipayStep/model.js').then(
+                        import(/* webpackChunkName: 'p__user__AlipayStep__model.js' */ 'C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/pages/user/AlipayStep/model.js').then(
                           m => {
                             return { namespace: 'model', ...m.default };
                           },
@@ -253,7 +253,7 @@ const routes = [
                       ],
                       component: () =>
                         import(/* webpackChunkName: "layouts__BasicLayout" */ '../user/AlipayStep'),
-                      LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+                      LoadingComponent: require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/components/PageLoading/index')
                         .default,
                     })
                   : require('../user/AlipayStep').default,
@@ -262,7 +262,7 @@ const routes = [
               {
                 component: () =>
                   React.createElement(
-                    require('F:/Workspace/React/zb-ant/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+                    require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
                       .default,
                     { pagesPath: 'src/pages', hasRoutesInConfig: true },
                   ),
@@ -277,7 +277,7 @@ const routes = [
               ? _dvaDynamic({
                   component: () =>
                     import(/* webpackChunkName: "p__Admin" */ '../Admin'),
-                  LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+                  LoadingComponent: require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/components/PageLoading/index')
                     .default,
                 })
               : require('../Admin').default,
@@ -291,7 +291,7 @@ const routes = [
                   ? _dvaDynamic({
                       component: () =>
                         import(/* webpackChunkName: "p__Admin" */ '../Welcome'),
-                      LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+                      LoadingComponent: require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/components/PageLoading/index')
                         .default,
                     })
                   : require('../Welcome').default,
@@ -301,7 +301,7 @@ const routes = [
               {
                 component: () =>
                   React.createElement(
-                    require('F:/Workspace/React/zb-ant/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+                    require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
                       .default,
                     { pagesPath: 'src/pages', hasRoutesInConfig: true },
                   ),
@@ -313,7 +313,7 @@ const routes = [
               ? _dvaDynamic({
                   component: () =>
                     import(/* webpackChunkName: "p__404" */ '../404'),
-                  LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+                  LoadingComponent: require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/components/PageLoading/index')
                     .default,
                 })
               : require('../404').default,
@@ -322,7 +322,7 @@ const routes = [
           {
             component: () =>
               React.createElement(
-                require('F:/Workspace/React/zb-ant/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+                require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
                   .default,
                 { pagesPath: 'src/pages', hasRoutesInConfig: true },
               ),
@@ -334,7 +334,7 @@ const routes = [
           ? _dvaDynamic({
               component: () =>
                 import(/* webpackChunkName: "p__404" */ '../404'),
-              LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+              LoadingComponent: require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/components/PageLoading/index')
                 .default,
             })
           : require('../404').default,
@@ -343,7 +343,7 @@ const routes = [
       {
         component: () =>
           React.createElement(
-            require('F:/Workspace/React/zb-ant/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+            require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
               .default,
             { pagesPath: 'src/pages', hasRoutesInConfig: true },
           ),
@@ -354,7 +354,7 @@ const routes = [
     component: __IS_BROWSER
       ? _dvaDynamic({
           component: () => import(/* webpackChunkName: "p__404" */ '../404'),
-          LoadingComponent: require('F:/Workspace/React/zb-ant/src/components/PageLoading/index')
+          LoadingComponent: require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/components/PageLoading/index')
             .default,
         })
       : require('../404').default,
@@ -363,7 +363,7 @@ const routes = [
   {
     component: () =>
       React.createElement(
-        require('F:/Workspace/React/zb-ant/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+        require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
           .default,
         { pagesPath: 'src/pages', hasRoutesInConfig: true },
       ),
