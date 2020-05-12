@@ -25,6 +25,7 @@ const Model = {
           type: 'changeLoginStatus',
           payload: response2,
         }); // Login
+        setAuthority(response2.objects);
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         let {redirect} = params;
@@ -98,7 +99,7 @@ const Model = {
   },
   reducers: {
     changeLoginStatus(state, {payload}) {
-      console.log('setAuthority(payload.objects)',payload.objects)
+      console.log('setAuthority(payload.objects)', payload.objects)
       setAuthority(payload.objects);
       return {...state, status: payload.status, type: payload.type};
     },

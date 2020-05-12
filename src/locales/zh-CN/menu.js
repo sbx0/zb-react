@@ -8,7 +8,7 @@ export default {
   'menu.achievements': '成果市场',
   'menu.my': '个人中心',
   'menu.my.index': '个人首页',
-  'menu.my.alipay': '支付宝',
+  'menu.alipay': '支付宝',
   'menu.welcome': '欢迎',
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',

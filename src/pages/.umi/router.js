@@ -208,66 +208,26 @@ const routes = [
             exact: true,
           },
           {
-            name: 'my',
+            name: 'alipay',
             icon: 'smile',
-            path: '/my',
-            authority: ['initial'],
-            routes: [
-              {
-                name: 'setting',
-                icon: 'smile',
-                path: '/my/setting',
-                authority: ['initial'],
-                component: __IS_BROWSER
-                  ? _dvaDynamic({
-                      app: require('@tmp/dva').getApp(),
-                      models: () => [
-                        import(/* webpackChunkName: 'p__user__AccountSettings__model.js' */ 'C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/pages/user/AccountSettings/model.js').then(
-                          m => {
-                            return { namespace: 'model', ...m.default };
-                          },
-                        ),
-                      ],
-                      component: () =>
-                        import(/* webpackChunkName: "layouts__BasicLayout" */ '../user/AccountSettings'),
-                      LoadingComponent: require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/components/PageLoading/index')
-                        .default,
-                    })
-                  : require('../user/AccountSettings').default,
-                exact: true,
-              },
-              {
-                name: 'alipay',
-                icon: 'smile',
-                path: '/my/alipay',
-                authority: ['initial'],
-                component: __IS_BROWSER
-                  ? _dvaDynamic({
-                      app: require('@tmp/dva').getApp(),
-                      models: () => [
-                        import(/* webpackChunkName: 'p__user__AlipayStep__model.js' */ 'C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/pages/user/AlipayStep/model.js').then(
-                          m => {
-                            return { namespace: 'model', ...m.default };
-                          },
-                        ),
-                      ],
-                      component: () =>
-                        import(/* webpackChunkName: "layouts__BasicLayout" */ '../user/AlipayStep'),
-                      LoadingComponent: require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/components/PageLoading/index')
-                        .default,
-                    })
-                  : require('../user/AlipayStep').default,
-                exact: true,
-              },
-              {
-                component: () =>
-                  React.createElement(
-                    require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
-                      .default,
-                    { pagesPath: 'src/pages', hasRoutesInConfig: true },
-                  ),
-              },
-            ],
+            path: '/alipay',
+            component: __IS_BROWSER
+              ? _dvaDynamic({
+                  app: require('@tmp/dva').getApp(),
+                  models: () => [
+                    import(/* webpackChunkName: 'p__user__AlipayStep__model.js' */ 'C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/pages/user/AlipayStep/model.js').then(
+                      m => {
+                        return { namespace: 'model', ...m.default };
+                      },
+                    ),
+                  ],
+                  component: () =>
+                    import(/* webpackChunkName: "p__user__AlipayStep" */ '../user/AlipayStep'),
+                  LoadingComponent: require('C:/Users/sbx0/Workspace/NewWorkspace/zb-ant/src/components/PageLoading/index')
+                    .default,
+                })
+              : require('../user/AlipayStep').default,
+            exact: true,
           },
           {
             path: '/admin',
@@ -281,7 +241,7 @@ const routes = [
                     .default,
                 })
               : require('../Admin').default,
-            authority: ['admin'],
+            authority: ['admin', 'webSiteOwner'],
             routes: [
               {
                 path: '/admin/sub-page',
@@ -295,7 +255,7 @@ const routes = [
                         .default,
                     })
                   : require('../Welcome').default,
-                authority: ['admin'],
+                authority: ['admin', 'webSiteOwner'],
                 exact: true,
               },
               {

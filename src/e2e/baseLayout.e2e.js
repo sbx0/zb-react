@@ -21,9 +21,6 @@ function formatter(routes, parentPath = '') {
 
 beforeAll(async () => {
   await page.goto(`${BASE_URL}`);
-  await page.evaluate(() => {
-    localStorage.setItem('antd-pro-authority', '["admin"]');
-  });
 });
 
 describe('Ant Design Pro E2E test', () => {
