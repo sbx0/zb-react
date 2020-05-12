@@ -203,7 +203,7 @@ const TechnicalAchievementOne = ({
                 <Paragraph style={{
                   fontSize: 15,
                 }}>
-                  只有申请被接受付款才会生效，否则将会在7天后退回您的账户。
+                  只有申请被接受付款才会生效。
                 </Paragraph>
                 <Paragraph style={{
                   fontSize: 15,
